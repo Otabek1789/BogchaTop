@@ -16,6 +16,8 @@ import { KindergartenProvider } from './context/KindergartenContext';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import MyApplications from './pages/MyApplications';
+import AIChatbot from './components/AIChatbot';
+import MapPage from './pages/MapPage';
 
 function Layout() {
   const location = useLocation();
@@ -30,6 +32,7 @@ function Layout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/kindergartens" element={<Kindergartens />} />
+            <Route path="/map" element={<MapPage />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/profile" element={
               <ProtectedRoute>
@@ -57,6 +60,7 @@ function Layout() {
         </div>
       </div>
       {!isAdmin && !isAuthPage && <Footer />}
+      {!isAdmin && !isAuthPage && <AIChatbot />}
     </div>
   );
 }
