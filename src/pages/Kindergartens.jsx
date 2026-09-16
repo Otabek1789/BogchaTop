@@ -36,7 +36,7 @@ export default function Kindergartens() {
     const priceNum = parseInt(priceStr.replace(/\D/g, ''), 10) || 0;
 
     const matchSearch = k.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                        k.address[lang].toLowerCase().includes(searchTerm.toLowerCase());
+                        (k.address[lang] || k.address['uz'] || '').toLowerCase().includes(searchTerm.toLowerCase());
     const matchDistrict = districtFilter ? k.district === districtFilter : true;
     const matchLang = langFilter ? (k.languages[lang] || []).includes(langFilter) || (k.languages['uz'] || []).includes(langFilter) : true;
     const matchPrice = priceNum <= priceFilter;
@@ -73,24 +73,24 @@ export default function Kindergartens() {
         {/* Filters Panel */}
         <div style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', background: 'var(--surface-warm)', padding: '24px', borderRadius: '16px', border: '1px solid var(--neutral-200)' }}>
           <div style={{ flex: '1 1 200px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>Tuman</label>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>{t('kgFilters.district')}</label>
             <CustomSelect 
               value={districtFilter} 
               onChange={setDistrictFilter}
               options={[
-                { value: '', label: 'Barchasi' },
+                { value: '', label: t('kgFilters.all') },
                 ...uniqueDistricts.map(d => ({ value: d, label: d }))
               ]}
               style={{ background: 'var(--surface)' }}
             />
           </div>
           <div style={{ flex: '1 1 200px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>Ta'lim tili</label>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>{t('kgFilters.language')}</label>
             <CustomSelect 
               value={langFilter} 
               onChange={setLangFilter}
               options={[
-                { value: '', label: 'Barchasi' },
+                { value: '', label: t('kgFilters.all') },
                 ...uniqueLangs.map(l => ({ value: l, label: l }))
               ]}
               style={{ background: 'var(--surface)' }}
@@ -98,7 +98,7 @@ export default function Kindergartens() {
           </div>
           <div style={{ flex: '1 1 200px' }}>
             <label style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>
-              <span>Narx (gacha)</span>
+              <span>{t('kgFilters.priceUpTo')}</span>
               <span style={{ color: 'var(--brand-600)', fontWeight: 600 }}>{priceFilter.toLocaleString()} UZS</span>
             </label>
             <input 
@@ -122,13 +122,13 @@ export default function Kindergartens() {
                 onClick={() => setIsMapView(false)}
                 style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', border: 'none', background: !isMapView ? 'var(--surface-warm)' : 'transparent', borderRadius: '6px', cursor: 'pointer', boxShadow: !isMapView ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', fontWeight: !isMapView ? '600' : '400', color: !isMapView ? 'var(--brand-600)' : 'var(--neutral-600)', transition: 'all 0.2s' }}
               >
-                <List size={18} /> Ro'yxat
+                <List size={18} /> {t('kgFilters.listView')}
               </button>
               <button 
                 onClick={() => setIsMapView(true)}
                 style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', border: 'none', background: isMapView ? 'var(--surface-warm)' : 'transparent', borderRadius: '6px', cursor: 'pointer', boxShadow: isMapView ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', fontWeight: isMapView ? '600' : '400', color: isMapView ? 'var(--brand-600)' : 'var(--neutral-600)', transition: 'all 0.2s' }}
               >
-                <MapIcon size={18} /> Xarita
+                <MapIcon size={18} /> {t('kgFilters.mapView')}
               </button>
             </div>
           </div>
@@ -146,9 +146,9 @@ export default function Kindergartens() {
                   <Popup>
                     <div style={{ textAlign: 'center' }}>
                       <h4 style={{ margin: '0 0 8px 0', fontSize: '14px' }}>{kg.name}</h4>
-                      <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#666' }}>{kg.address[lang]}</p>
+                      <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#666' }}>{kg.address[lang] || kg.address['uz']}</p>
                       <a href={`/bogcha/${kg.id}`} style={{ display: 'inline-block', background: 'var(--brand-500)', color: 'white', padding: '4px 12px', borderRadius: '4px', textDecoration: 'none', fontSize: '12px' }}>
-                        Batafsil
+                        {t('kgFilters.details')}
                       </a>
                     </div>
                   </Popup>

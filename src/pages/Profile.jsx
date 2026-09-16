@@ -34,13 +34,13 @@ export default function Profile() {
     e.preventDefault();
     updateUser({ displayName: formData.name, email: formData.email, avatar });
     setIsEditing(false);
-    alert("Profil ma'lumotlari muvaffaqiyatli saqlandi!");
+    alert(t('profile.saveSuccess'));
     navigate('/');
   };
 
   return (
     <div className="container animate-fade-in-up" style={{ padding: '60px 1.5rem', maxWidth: '800px', minHeight: 'calc(100vh - 80px)' }}>
-      <h1 className="text-display" style={{ marginBottom: '32px' }}>Mening Profilim</h1>
+      <h1 className="text-display" style={{ marginBottom: '32px' }}>{t('profile.pageTitle')}</h1>
 
       <div className="card" style={{ padding: '32px', background: 'var(--surface-warm)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '32px', paddingBottom: '32px', borderBottom: '1px solid var(--neutral-200)' }}>
@@ -59,14 +59,14 @@ export default function Profile() {
           </div>
           <div>
             <h2 className="text-h2" style={{ marginBottom: '4px' }}>{formData.name}</h2>
-            <p style={{ color: 'var(--neutral-500)' }}>Platforma foydalanuvchisi</p>
+            <p style={{ color: 'var(--neutral-500)' }}>{t('profile.platformUser')}</p>
           </div>
         </div>
 
         <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
             <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>F.I.SH</label>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>{t('profile.fullName')}</label>
               <div style={{ position: 'relative' }}>
                 <User size={20} color="var(--neutral-400)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
@@ -80,7 +80,7 @@ export default function Profile() {
             </div>
 
             <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>Email manzil</label>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>{t('profile.emailLabel')}</label>
               <div style={{ position: 'relative' }}>
                 <Mail size={20} color="var(--neutral-400)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
@@ -94,7 +94,7 @@ export default function Profile() {
             </div>
 
             <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>Telefon raqam</label>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>{t('profile.phoneLabel')}</label>
               <div style={{ position: 'relative' }}>
                 <Phone size={20} color="var(--neutral-400)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
@@ -108,7 +108,7 @@ export default function Profile() {
             </div>
 
             <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>Yashash manzili</label>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: 'var(--neutral-700)' }}>{t('profile.addressLabel')}</label>
               <div style={{ position: 'relative' }}>
                 <MapPin size={20} color="var(--neutral-400)" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
@@ -125,13 +125,13 @@ export default function Profile() {
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px', marginTop: '16px' }}>
             {isEditing ? (
               <>
-                <button type="button" onClick={() => setIsEditing(false)} className="btn btn-outline">Bekor qilish</button>
+                <button type="button" onClick={() => setIsEditing(false)} className="btn btn-outline">{t('profile.cancel')}</button>
                 <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Save size={18} /> Saqlash
+                  <Save size={18} /> {t('profile.save')}
                 </button>
               </>
             ) : (
-              <button type="button" onClick={() => setIsEditing(true)} className="btn btn-primary">Ma'lumotlarni tahrirlash</button>
+              <button type="button" onClick={() => setIsEditing(true)} className="btn btn-primary">{t('profile.editProfile')}</button>
             )}
           </div>
         </form>

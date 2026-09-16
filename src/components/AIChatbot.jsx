@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { MessageSquare, X, Send, Bot, User, Loader, Sparkles } from 'lucide-react';
 import { useKindergartens } from '../context/KindergartenContext';
+import { useLanguage } from '../context/LanguageContext';
 import './AIChatbot.css';
 
 export default function AIChatbot() {
@@ -12,8 +13,8 @@ export default function AIChatbot() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  
   const { data: kindergartens } = useKindergartens();
+  const { t } = useLanguage();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -127,7 +128,7 @@ Javoblaringiz aniq, samimiy va chiroyli (emojilar bilan) bo'lsin. Markdowndan fo
           <form className="ai-chatbot-input" onSubmit={handleSend}>
             <input 
               type="text" 
-              placeholder="Yunusoboddagi ingliz tili bog'chalari..." 
+              placeholder={t('misc.chatPlaceholder')} 
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}

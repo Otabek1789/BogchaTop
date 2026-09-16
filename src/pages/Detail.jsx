@@ -35,14 +35,14 @@ export default function Detail() {
     e.preventDefault();
     submitApplication({ kindergartenId: id, kindergartenName: data.name, ...appForm });
     setShowAppModal(false);
-    alert('Arizangiz muvaffaqiyatli yuborildi!');
+    alert(t('detailExtra.appSuccess'));
     setAppForm({ parentName: '', phone: '', childName: '', childAge: '' });
   };
 
   const handleReview = (e) => {
     e.preventDefault();
     addReview(id, reviewForm);
-    alert('Fikringiz muvaffaqiyatli yuborildi! U faqat bog\'cha ma\'muriyatiga ko\'rinadi.');
+    alert(t('detailExtra.reviewSuccess'));
     setReviewForm({ name: '', rating: 5, comment: '' });
   };
 
@@ -102,7 +102,7 @@ export default function Detail() {
         <div className="container detail-content">
           <div className="main-col">
             <section className="detail-section card" style={{ padding: '24px', background: 'var(--surface-warm)' }}>
-              <h2 className="text-h2" style={{ marginBottom: '24px' }}>Foto Galereya</h2>
+              <h2 className="text-h2" style={{ marginBottom: '24px' }}>{t('detailExtra.photoGallery')}</h2>
               <Gallery images={imagesToUse} />
             </section>
 
@@ -136,12 +136,12 @@ export default function Detail() {
 
             {/* Reviews Section */}
             <section className="detail-section card">
-              <h2 className="text-h2" style={{ marginBottom: '24px' }}>Fikr qoldirish</h2>
-              <p style={{ color: 'var(--neutral-500)', marginBottom: '16px' }}>Sizning fikringiz to'g'ridan-to'g'ri bog'cha ma'muriyatiga yuboriladi va ommaga ko'rsatilmaydi.</p>
+              <h2 className="text-h2" style={{ marginBottom: '24px' }}>{t('detailExtra.leaveReview')}</h2>
+              <p style={{ color: 'var(--neutral-500)', marginBottom: '16px' }}>{t('detailExtra.reviewNote')}</p>
 
               <form onSubmit={handleReview} style={{ background: 'var(--surface-warm)', padding: '24px', borderRadius: '16px', border: '1px solid var(--neutral-200)' }}>
                 <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
-                  <input required type="text" placeholder="Ismingiz" value={reviewForm.name} onChange={e => setReviewForm({...reviewForm, name: e.target.value})} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
+                  <input required type="text" placeholder={t('detailExtra.yourName')} value={reviewForm.name} onChange={e => setReviewForm({...reviewForm, name: e.target.value})} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
                   <div style={{ display: 'flex', gap: '4px', alignItems: 'center', padding: '0 16px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)' }}>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -158,9 +158,9 @@ export default function Detail() {
                     </span>
                   </div>
                 </div>
-                <textarea required placeholder="Fikringizni yozing..." value={reviewForm.comment} onChange={e => setReviewForm({...reviewForm, comment: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', minHeight: '100px', marginBottom: '16px', background: 'var(--surface)', color: 'var(--neutral-900)', resize: 'vertical' }}></textarea>
+                <textarea required placeholder={t('detailExtra.writeReview')} value={reviewForm.comment} onChange={e => setReviewForm({...reviewForm, comment: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', minHeight: '100px', marginBottom: '16px', background: 'var(--surface)', color: 'var(--neutral-900)', resize: 'vertical' }}></textarea>
                 <button type="submit" className="btn btn-primary" style={{ display: 'flex', gap: '8px' }}>
-                  <Send size={16} /> Yuborish
+                  <Send size={16} /> {t('detailExtra.send')}
                 </button>
               </form>
             </section>
@@ -195,7 +195,7 @@ export default function Detail() {
                 {t('detail.contact')}
               </button>
               <button onClick={() => setShowAppModal(true)} className="btn btn-outline" style={{ width: '100%', marginTop: '12px', fontWeight: 'bold' }}>
-                Ariza qoldirish
+                {t('detailExtra.applyBtn')}
               </button>
             </div>
           </div>
@@ -218,29 +218,29 @@ export default function Detail() {
             <button onClick={() => setShowAppModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--neutral-500)' }}>
               <X size={24} />
             </button>
-            <h2 className="text-h2" style={{ marginBottom: '8px', color: 'var(--neutral-900)' }}>Ariza yuborish</h2>
-            <p style={{ color: 'var(--neutral-500)', marginBottom: '24px' }}>{data.name} bog'chasiga qabul uchun ariza qoldiring</p>
+            <h2 className="text-h2" style={{ marginBottom: '8px', color: 'var(--neutral-900)' }}>{t('detailExtra.applyTitle')}</h2>
+            <p style={{ color: 'var(--neutral-500)', marginBottom: '24px' }}>{data.name} — {t('detailExtra.applyDesc')}</p>
             
             <form onSubmit={handleApply} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>Ota-onaning ismi</label>
-                <input required type="text" placeholder="Ismingiz" value={appForm.parentName} onChange={e => setAppForm({...appForm, parentName: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.parentName')}</label>
+                <input required type="text" placeholder={t('detailExtra.parentNamePh')} value={appForm.parentName} onChange={e => setAppForm({...appForm, parentName: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>Telefon raqam</label>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.phonePh')}</label>
                 <input required type="tel" placeholder="+998" value={appForm.phone} onChange={e => setAppForm({...appForm, phone: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
               </div>
               <div style={{ display: 'flex', gap: '16px' }}>
                 <div style={{ flex: 2 }}>
-                  <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>Farzandingiz ismi</label>
-                  <input required type="text" placeholder="Ism" value={appForm.childName} onChange={e => setAppForm({...appForm, childName: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
+                  <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.childName')}</label>
+                  <input required type="text" placeholder={t('detailExtra.childNamePh')} value={appForm.childName} onChange={e => setAppForm({...appForm, childName: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>Yoshi</label>
-                  <input required type="number" min="2" max="7" placeholder="Yosh" value={appForm.childAge} onChange={e => setAppForm({...appForm, childAge: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
+                  <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.childAge')}</label>
+                  <input required type="number" min="2" max="7" placeholder={t('detailExtra.childAgePh')} value={appForm.childAge} onChange={e => setAppForm({...appForm, childAge: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary" style={{ marginTop: '8px' }}>Ariza yuborish</button>
+              <button type="submit" className="btn btn-primary" style={{ marginTop: '8px' }}>{t('detailExtra.submitApp')}</button>
             </form>
           </div>
         </div>,

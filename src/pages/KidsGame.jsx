@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PartyPopper, RefreshCw, Star } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 import './KidsGame.css';
 
 const COLORS = [
@@ -14,15 +15,13 @@ const COLORS = [
 ];
 
 export default function KidsGame() {
-  const [lang, setLang] = useState('uz');
+  const { lang } = useLanguage();
   const [targetColor, setTargetColor] = useState(null);
   const [options, setOptions] = useState([]);
   const [score, setScore] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   
   useEffect(() => {
-    const savedLang = localStorage.getItem('appLang') || 'uz';
-    setLang(savedLang);
     startNewRound();
   }, []);
 

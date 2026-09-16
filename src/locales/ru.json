@@ -142,7 +142,20 @@
     "nameLabel": "Название",
     "addressLabel": "Адрес",
     "priceLabel": "Цена",
-    "saveBtn": "Сохранить"
+    "saveBtn": "Сохранить",
+    "allKindergartens": "Все Детские Сады",
+    "applications": "Заявки",
+    "reviews": "Отзывы",
+    "crmTitle": "CRM Детского Сада",
+    "dashboardDesc": "Панель управления",
+    "notifications": "Уведомления",
+    "newApp": "Новая заявка:",
+    "newAppDesc": "Получена заявка от Алишера М.",
+    "newReview": "Новый отзыв:",
+    "newReviewDesc": "\"Сад просто отличный...\" (5 звёзд)",
+    "backToSite": "Вернуться на сайт",
+    "confirmDelete": "Вы уверены, что хотите удалить?",
+    "groupNameExample": "Название группы (например: Лочин)"
   },
   "crm": {
     "dashboard": "Управление",
@@ -245,7 +258,11 @@
     "wait": "Подождите...",
     "checking": "Проверка...",
     "registrationHeading": "Регистрация",
-    "loginHeading": "Вход"
+    "loginHeading": "Вход",
+    "enterEmailFirst": "Для сброса пароля сначала введите вашу электронную почту.",
+    "socialNotReady": "вход пока не доступен",
+    "toggleLang": "Сменить язык",
+    "toggleTheme": "Сменить тему"
   },
   "adminExtra": {
     "stateKg": "Государственные сады",
@@ -261,5 +278,95 @@
     "incomeLabel": "Доход",
     "expenseLabel": "Расход",
     "sendReceipt": "Отправить квитанцию"
+  },
+  "favorites": {
+    "pageTitle": "Избранные сады",
+    "pageSubtitle": "Список сохранённых вами детских садов",
+    "emptyTitle": "Список избранного пуст",
+    "emptyDesc": "Вы пока не добавили ни одного детского сада в избранное.",
+    "viewKindergartens": "Посмотреть сады"
+  },
+  "profile": {
+    "pageTitle": "Мой Профиль",
+    "fullName": "Ф.И.О",
+    "emailLabel": "Email адрес",
+    "phoneLabel": "Номер телефона",
+    "addressLabel": "Адрес проживания",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "editProfile": "Редактировать данные",
+    "platformUser": "Пользователь платформы",
+    "saveSuccess": "Данные профиля успешно сохранены!"
+  },
+  "myApps": {
+    "pageTitle": "Мои Заявки и Ежедневник",
+    "noApps": "Заявок нет",
+    "noAppsDesc": "Вы ещё не отправляли заявки ни в один детский сад. Выберите понравившийся из списка и оставьте заявку.",
+    "viewKindergartens": "Посмотреть сады",
+    "approved": "Принято",
+    "rejected": "Отклонено",
+    "pending": "Ожидание",
+    "yourChild": "Ваш ребёнок",
+    "yourName": "Ваше имя",
+    "yourPhone": "Ваш телефон",
+    "yearsOld": "лет",
+    "dailySchedule": "Расписание вашего ребёнка на сегодня (Демо)",
+    "clickToView": "Нажмите, чтобы увидеть расписание ⬇️",
+    "arrival": "Прибытие",
+    "arrivedDesc": "Принят в детский сад",
+    "breakfast": "Завтрак 🥣",
+    "breakfastDesc": "Овсяная каша и хлеб с маслом",
+    "lessonTime": "Время уроков 📚",
+    "lessonDesc": "Английский алфавит (Отлично)",
+    "playTime": "Время игр ⚽",
+    "playDesc": "Игры на свежем воздухе",
+    "lunch": "Обед 🍲",
+    "lunchDesc": "Мастава и фруктовый компот",
+    "napTime": "Тихий час 😴",
+    "napDesc": "Спокойный отдых"
+  },
+  "detailExtra": {
+    "photoGallery": "Фото Галерея",
+    "leaveReview": "Оставить отзыв",
+    "reviewNote": "Ваш отзыв будет отправлен напрямую администрации детского сада и не будет опубликован.",
+    "yourName": "Ваше имя",
+    "writeReview": "Напишите ваш отзыв...",
+    "send": "Отправить",
+    "applyBtn": "Оставить заявку",
+    "applyTitle": "Отправить заявку",
+    "applyDesc": "Оставьте заявку на приём в детский сад",
+    "parentName": "Имя родителя",
+    "parentNamePh": "Ваше имя",
+    "phonePh": "Номер телефона",
+    "childName": "Имя ребёнка",
+    "childNamePh": "Имя",
+    "childAge": "Возраст",
+    "childAgePh": "Возраст",
+    "submitApp": "Отправить заявку",
+    "appSuccess": "Ваша заявка успешно отправлена!",
+    "reviewSuccess": "Ваш отзыв успешно отправлен! Он виден только администрации."
+  },
+  "kgFilters": {
+    "district": "Район",
+    "language": "Язык обучения",
+    "all": "Все",
+    "priceUpTo": "Цена (до)",
+    "listView": "Список",
+    "mapView": "Карта",
+    "details": "Подробнее"
+  },
+  "mapPage": {
+    "title": "Интерактивная Карта Детских Садов 🗺️",
+    "subtitle": "Найдите лучшие детские сады в удобном для вас районе",
+    "details": "Подробнее"
+  },
+  "heroExtra": {
+    "resultsFound": "результатов найдено",
+    "first5Shown": "Показаны первые 5",
+    "nothingFound": "Ничего не найдено"
+  },
+  "misc": {
+    "loading": "Загрузка...",
+    "chatPlaceholder": "Сады с английским в Юнусабаде..."
   }
 }

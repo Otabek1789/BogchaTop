@@ -129,11 +129,11 @@ export default function Hero({ onSearch }) {
             <div className="search-dropdown animate-fade-in-up" ref={dropdownRef}>
               <div className="search-dropdown-header">
                 <span className="search-dropdown-count">
-                  {liveResults.length} ta natija topildi
+                  {liveResults.length} {t('heroExtra.resultsFound')}
                 </span>
                 {liveResults.length > 5 && (
                   <span className="search-dropdown-hint">
-                    Birinchi 5 tasi ko'rsatilmoqda
+                    {t('heroExtra.first5Shown')}
                   </span>
                 )}
               </div>
@@ -172,7 +172,7 @@ export default function Hero({ onSearch }) {
               ) : (
                 <div className="search-dropdown-empty">
                   <Search size={24} color="var(--neutral-300)" />
-                  <span>Hech narsa topilmadi</span>
+                  <span>{t('heroExtra.nothingFound')}</span>
                 </div>
               )}
             </div>

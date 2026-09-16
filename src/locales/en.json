@@ -142,7 +142,20 @@
     "nameLabel": "Kindergarten name",
     "addressLabel": "Address",
     "priceLabel": "Price",
-    "saveBtn": "Save"
+    "saveBtn": "Save",
+    "allKindergartens": "All Kindergartens",
+    "applications": "Applications",
+    "reviews": "Reviews",
+    "crmTitle": "Kindergarten CRM",
+    "dashboardDesc": "Control Panel",
+    "notifications": "Notifications",
+    "newApp": "New application:",
+    "newAppDesc": "Application received from Alisher M.",
+    "newReview": "New review:",
+    "newReviewDesc": "\"Great kindergarten...\" (5 stars)",
+    "backToSite": "Back to Site",
+    "confirmDelete": "Are you sure you want to delete?",
+    "groupNameExample": "Group name (e.g.: Eagle)"
   },
   "crm": {
     "dashboard": "Dashboard",
@@ -245,7 +258,11 @@
     "wait": "Please wait...",
     "checking": "Checking...",
     "registrationHeading": "Registration",
-    "loginHeading": "Login"
+    "loginHeading": "Login",
+    "enterEmailFirst": "To reset your password, please enter your email first.",
+    "socialNotReady": "login is not available yet",
+    "toggleLang": "Change language",
+    "toggleTheme": "Change theme"
   },
   "adminExtra": {
     "stateKg": "State Kindergartens",
@@ -261,5 +278,95 @@
     "incomeLabel": "Income",
     "expenseLabel": "Expense",
     "sendReceipt": "Send Receipt"
+  },
+  "favorites": {
+    "pageTitle": "Favorite Kindergartens",
+    "pageSubtitle": "Your saved and liked kindergartens list",
+    "emptyTitle": "Favorites list is empty",
+    "emptyDesc": "You haven't added any kindergarten to your favorites yet.",
+    "viewKindergartens": "View Kindergartens"
+  },
+  "profile": {
+    "pageTitle": "My Profile",
+    "fullName": "Full Name",
+    "emailLabel": "Email Address",
+    "phoneLabel": "Phone Number",
+    "addressLabel": "Home Address",
+    "cancel": "Cancel",
+    "save": "Save",
+    "editProfile": "Edit Profile",
+    "platformUser": "Platform User",
+    "saveSuccess": "Profile data saved successfully!"
+  },
+  "myApps": {
+    "pageTitle": "My Applications & Daily Journal",
+    "noApps": "No applications yet",
+    "noAppsDesc": "You haven't submitted any application yet. Browse kindergartens and apply to one you like.",
+    "viewKindergartens": "View Kindergartens",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "pending": "Pending",
+    "yourChild": "Your child",
+    "yourName": "Your name",
+    "yourPhone": "Your phone",
+    "yearsOld": "years old",
+    "dailySchedule": "Your child's schedule for today (Demo)",
+    "clickToView": "Click to view the schedule ⬇️",
+    "arrival": "Arrival",
+    "arrivedDesc": "Accepted to kindergarten",
+    "breakfast": "Breakfast 🥣",
+    "breakfastDesc": "Oatmeal porridge and buttered bread",
+    "lessonTime": "Lesson Time 📚",
+    "lessonDesc": "English alphabet (Excellent)",
+    "playTime": "Play Time ⚽",
+    "playDesc": "Outdoor games",
+    "lunch": "Lunch 🍲",
+    "lunchDesc": "Soup and fruit compote",
+    "napTime": "Nap Time 😴",
+    "napDesc": "Quiet rest"
+  },
+  "detailExtra": {
+    "photoGallery": "Photo Gallery",
+    "leaveReview": "Leave a Review",
+    "reviewNote": "Your review will be sent directly to the kindergarten administration and will not be published publicly.",
+    "yourName": "Your Name",
+    "writeReview": "Write your review...",
+    "send": "Send",
+    "applyBtn": "Apply Now",
+    "applyTitle": "Submit Application",
+    "applyDesc": "Apply for admission to the kindergarten",
+    "parentName": "Parent's Name",
+    "parentNamePh": "Your name",
+    "phonePh": "Phone number",
+    "childName": "Child's Name",
+    "childNamePh": "Name",
+    "childAge": "Age",
+    "childAgePh": "Age",
+    "submitApp": "Submit Application",
+    "appSuccess": "Your application has been submitted successfully!",
+    "reviewSuccess": "Your review has been submitted! It is only visible to the administration."
+  },
+  "kgFilters": {
+    "district": "District",
+    "language": "Language",
+    "all": "All",
+    "priceUpTo": "Price (up to)",
+    "listView": "List",
+    "mapView": "Map",
+    "details": "Details"
+  },
+  "mapPage": {
+    "title": "Interactive Kindergarten Map 🗺️",
+    "subtitle": "Find the best kindergartens in your preferred area",
+    "details": "View Details"
+  },
+  "heroExtra": {
+    "resultsFound": "results found",
+    "first5Shown": "Showing first 5",
+    "nothingFound": "Nothing found"
+  },
+  "misc": {
+    "loading": "Loading...",
+    "chatPlaceholder": "English-speaking kindergartens in Yunusabad..."
   }
 }

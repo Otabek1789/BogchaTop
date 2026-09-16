@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useKindergartens } from '../context/KindergartenContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Link } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -24,6 +25,7 @@ const customIcon = L.divIcon({
 
 export default function MapPage() {
   const { data: kindergartens } = useKindergartens();
+  const { t, lang } = useLanguage();
 
   // Toshkent markazi koordinatalari
   const center = [41.311081, 69.240562];
@@ -42,8 +44,8 @@ export default function MapPage() {
   return (
     <div className="map-page-wrapper">
       <div className="map-header">
-        <h1>Interaktiv Bog'chalar Xaritasi 🗺️</h1>
-        <p>O'zingizga qulay hududdagi eng yaxshi bog'chalarni toping</p>
+        <h1>{t('mapPage.title')}</h1>
+        <p>{t('mapPage.subtitle')}</p>
       </div>
       
       <div className="map-container-box">
@@ -63,9 +65,9 @@ export default function MapPage() {
                   <p className="popup-district">{kg.district}</p>
                   <div className="popup-meta">
                     <span className="popup-rating">⭐ {kg.rating}</span>
-                    <span className="popup-price">{kg.price} so'm/oy</span>
+                    <span className="popup-price">{typeof kg.price === 'object' ? (kg.price[lang] || kg.price['uz'] || '') : kg.price}</span>
                   </div>
-                  <Link to={`/kindergarten/${kg.id}`} className="popup-btn">Batafsil ko'rish</Link>
+                  <Link to={`/bogcha/${kg.id}`} className="popup-btn">{t('mapPage.details')}</Link>
                 </div>
               </Popup>
             </Marker>
