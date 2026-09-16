@@ -4,12 +4,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 // TODO: Replace with your actual Firebase config
 // Go to https://console.firebase.google.com/ to create a project
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456"
+  apiKey: "AIzaSyDQ54Jr0ueFqPi1viqVOwNT1sIx-WsT_GU",
+  authDomain: "bogchatop.firebaseapp.com",
+  projectId: "bogchatop",
+  storageBucket: "bogchatop.firebasestorage.app",
+  messagingSenderId: "244857974110",
+  appId: "1:244857974110:web:4c34adca8949a5a9ac73cf",
+  measurementId: "G-4294CT4XRY"
 };
 
 // Only initialize if we have a real config, otherwise we'll mock auth for demonstration

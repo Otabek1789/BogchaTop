@@ -7,7 +7,7 @@ import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User, ShieldC
 import './Auth.css';
 
 export default function Login({ defaultRegister = false }) {
-  const { sendOTP, verifyOTP } = useAuth();
+  const { sendOTP, verifyOTP, signInWithGoogle } = useAuth();
   const { t, lang, setLang } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -94,8 +94,21 @@ export default function Login({ defaultRegister = false }) {
     setLoading(false);
   };
 
-  const handleSocialMock = (provider) => {
-    alert(`${provider} orqali kirish hozircha tayyor emas`);
+  const handleSocialMock = async (platform) => {
+    if (platform === 'Google' && signInWithGoogle) {
+      setLoading(true);
+      setError('');
+      const res = await signInWithGoogle();
+      if (res.success) {
+        navigate(res.isAdmin ? '/admin' : '/');
+      } else {
+        setError(res.error || t('auth.error'));
+      }
+      setLoading(false);
+      return;
+    }
+    
+    alert(`${platform} orqali kirish hozircha tayyor emas`);
   };
 
   return (

@@ -63,6 +63,31 @@ export function AuthProvider({ children }) {
     return { success: true, isAdmin };
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      const { auth, provider, isConfigured } = await import('../firebase');
+      if (!isConfigured) {
+        return { success: false, error: "Firebase kalitlari topilmadi." };
+      }
+      
+      const { signInWithPopup } = await import('firebase/auth');
+      const result = await signInWithPopup(auth, provider);
+      
+      const email = result.user.email;
+      const isAdmin = email.toLowerCase() === ADMIN_EMAIL;
+      const displayName = result.user.displayName || (isAdmin ? "Yahyo" : email.split('@')[0]);
+      
+      const userObj = { email, displayName, isAdmin, photoURL: result.user.photoURL };
+      localStorage.setItem('authUser', JSON.stringify(userObj));
+      setUser(userObj);
+      
+      return { success: true, isAdmin, user: userObj };
+    } catch (error) {
+      console.error("Google orqali kirishda xatolik:", error);
+      return { success: false, error: error.message || "Google orqali kirish bekor qilindi yoki xatolik yuz berdi." };
+    }
+  };
+
   const updateUser = (newInfo) => {
     const updatedUser = { ...user, ...newInfo };
     localStorage.setItem('authUser', JSON.stringify(updatedUser));
@@ -75,7 +100,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, sendOTP, verifyOTP, mockLogin, logout, loading, updateUser }}>
+    <AuthContext.Provider value={{ user, sendOTP, verifyOTP, mockLogin, signInWithGoogle, logout, loading, updateUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );
