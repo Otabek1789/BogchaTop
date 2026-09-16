@@ -49,6 +49,9 @@ export default function Header({ isAdmin }) {
           <Link to="/map" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             Xarita 🗺️
           </Link>
+          <Link to="/kids" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            Bolajonlar 🎮
+          </Link>
           <Link to="/favorites" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {t('header.favorites')}
             {favorites.length > 0 && (
@@ -73,6 +76,12 @@ export default function Header({ isAdmin }) {
               onClick={() => setLang('ru')}
             >
               RU
+            </button>
+            <button 
+              className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
+              onClick={() => setLang('en')}
+            >
+              EN
             </button>
           </div>
           

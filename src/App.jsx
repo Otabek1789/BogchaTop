@@ -18,6 +18,7 @@ import Profile from './pages/Profile';
 import MyApplications from './pages/MyApplications';
 import AIChatbot from './components/AIChatbot';
 import MapPage from './pages/MapPage';
+import KidsGame from './pages/KidsGame';
 
 function Layout() {
   const location = useLocation();
@@ -33,6 +34,7 @@ function Layout() {
             <Route path="/" element={<Home />} />
             <Route path="/kindergartens" element={<Kindergartens />} />
             <Route path="/map" element={<MapPage />} />
+            <Route path="/kids" element={<KidsGame />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/profile" element={
               <ProtectedRoute>

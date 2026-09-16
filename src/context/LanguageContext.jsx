@@ -1,10 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import uz from '../locales/uz.json';
 import ru from '../locales/ru.json';
+import en from '../locales/en.json';
 
 const LanguageContext = createContext();
 
-export const translations = { uz, ru };
+export const translations = { uz, ru, en };
 
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() => {
