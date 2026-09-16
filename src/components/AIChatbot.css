@@ -31,11 +31,11 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(var(--primary-500-rgb), 0.3);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +45,7 @@
 
 .ai-chatbot-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(var(--primary-500-rgb), 0.4);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
 }
 
 .sparkle-icon {
@@ -82,7 +82,7 @@
 
 .ai-chatbot-header {
   padding: 16px;
-  background: var(--primary-500);
+  background: var(--brand-500);
   color: white;
   display: flex;
   align-items: center;
@@ -142,13 +142,13 @@
   align-items: center;
   justify-content: center;
   background: var(--ai-bg);
-  color: var(--primary-500);
+  color: var(--brand-500);
   flex-shrink: 0;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .ai-message.user .ai-message-icon {
-  background: var(--primary-500);
+  background: var(--brand-500);
   color: white;
 }
 
@@ -161,7 +161,7 @@
 }
 
 .ai-message.user .ai-message-content {
-  background: var(--primary-500);
+  background: var(--brand-500);
   color: white;
   border-top-right-radius: 4px;
 }
@@ -208,14 +208,14 @@
 }
 
 .ai-chatbot-input input:focus {
-  border-color: var(--primary-500);
+  border-color: var(--brand-500);
 }
 
 .ai-chatbot-input button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--primary-500);
+  background: var(--brand-500);
   color: white;
   border: none;
   display: flex;
