@@ -158,6 +158,9 @@
   font-size: 14px;
   line-height: 1.5;
   color: var(--ai-text);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .ai-message.user .ai-message-content {
