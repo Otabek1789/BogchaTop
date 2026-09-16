@@ -39,7 +39,7 @@ export default function AIChatbot() {
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
 
       // Create context string from kindergarten data
       const kgContext = kindergartens.map(kg => 
