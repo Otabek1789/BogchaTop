@@ -246,5 +246,20 @@
     "checking": "Checking...",
     "registrationHeading": "Registration",
     "loginHeading": "Login"
+  },
+  "adminExtra": {
+    "stateKg": "State Kindergartens",
+    "privateKg": "Private Kindergartens",
+    "englishKg": "English Specialized",
+    "sportKg": "Sports Specialized",
+    "kgTypeAnalytics": "Kindergarten Type Analytics",
+    "incomeDynamics": "Income Dynamics",
+    "newAppYashnobod": "New App: Yashnobod",
+    "newAppYashnobodDesc": "3 new parents applied to the Yashnobod branch. Check now.",
+    "income": "Income",
+    "financeDynamics": "Finance Dynamics (Income and Expense)",
+    "incomeLabel": "Income",
+    "expenseLabel": "Expense",
+    "sendReceipt": "Send Receipt"
   }
 }

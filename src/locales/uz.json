@@ -246,5 +246,20 @@
     "checking": "Tekshirilmoqda...",
     "registrationHeading": "Ro'yxatdan o'tish",
     "loginHeading": "Kirish"
+  },
+  "adminExtra": {
+    "stateKg": "Davlat bog'chalari",
+    "privateKg": "Xususiy bog'chalar",
+    "englishKg": "Ingliz tiliga ixtisoslashgan",
+    "sportKg": "Sportga ixtisoslashgan",
+    "kgTypeAnalytics": "Bog'chalar Turlari Bo'yicha Analitika",
+    "incomeDynamics": "Tushum dinamikasi",
+    "newAppYashnobod": "Yangi Ariza: Yashnobod",
+    "newAppYashnobodDesc": "Yashnoboddagi bog'cha filialiga 3 ta yangi ota-ona ariza qoldirdi. Hozir tekshiring.",
+    "income": "Tushum",
+    "financeDynamics": "Moliya dinamikasi (Kirim va Chiqim)",
+    "incomeLabel": "Kirim",
+    "expenseLabel": "Chiqim",
+    "sendReceipt": "Kvitansiya yuborish"
   }
 }

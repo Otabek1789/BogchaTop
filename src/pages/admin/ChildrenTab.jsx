@@ -52,7 +52,7 @@ export default function ChildrenTab() {
   };
 
   const handleDelete = (id) => {
-    if(window.confirm("Haqiqatan ham o'chirmoqchimisiz?")) {
+    if(window.confirm(t('crm.confirmDelete'))) {
       setChildren(children.filter(c => c.id !== id));
     }
   };
@@ -91,7 +91,7 @@ export default function ChildrenTab() {
                 { value: '', label: t('crm.allGroups') },
                 { value: 'lochin', label: t('crm.eagleGroup') },
                 { value: 'kichiktoy', label: t('crm.kidGroup') },
-                { value: 'quyoshcha', label: 'Quyoshcha' }
+                { value: 'quyoshcha', label: t('crm.sunGroup') }
               ]}
             />
           </div>
@@ -135,13 +135,13 @@ export default function ChildrenTab() {
       {showModal && createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 }}>
           <div style={{ background: 'var(--surface-warm)', padding: '32px', borderRadius: '16px', width: '400px', animation: 'fadeInUp 0.2s ease', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px', color: 'var(--neutral-900)' }}>{editingId ? t('crm.addChild') + " (Tahrirlash)" : t('crm.addChild')}</h3>
+            <h3 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px', color: 'var(--neutral-900)' }}>{editingId ? t('crm.addChild') + " (" + t('crm.edit') + ")" : t('crm.addChild')}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Ism Familiya" style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
-              <input type="text" value={formData.group} onChange={e => setFormData({...formData, group: e.target.value})} placeholder="Guruh nomi (masalan: Lochin)" style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
-              <input type="number" value={formData.age} onChange={e => setFormData({...formData, age: e.target.value})} placeholder="Yoshi" style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
-              <input type="text" value={formData.parent} onChange={e => setFormData({...formData, parent: e.target.value})} placeholder="Ota-ona F.I.O" style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
-              <input type="text" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} placeholder="Telefon raqam" style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
+              <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder=t('crm.fullName') style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
+              <input type="text" value={formData.group} onChange={e => setFormData({...formData, group: e.target.value})} placeholder=t('crm.groupNameExample') style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
+              <input type="number" value={formData.age} onChange={e => setFormData({...formData, age: e.target.value})} placeholder=t('crm.age') style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
+              <input type="text" value={formData.parent} onChange={e => setFormData({...formData, parent: e.target.value})} placeholder=t('crm.parent') style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
+              <input type="text" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} placeholder=t('crm.phone') style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'transparent', color: 'var(--neutral-900)', outline: 'none' }} />
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
                 <button onClick={closeModal} className="btn btn-outline">{t('crm.cancel')}</button>
                 <button onClick={handleSave} className="btn btn-primary">{t('crm.save')}</button>

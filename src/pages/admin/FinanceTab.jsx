@@ -75,7 +75,7 @@ export default function FinanceTab() {
       </div>
 
       <div style={{ background: 'var(--surface-warm)', borderRadius: '16px', border: '1px solid var(--neutral-200)', padding: '24px', marginBottom: '40px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-900)', marginBottom: '24px' }}>Moliya dinamikasi (Kirim va Chiqim)</h3>
+        <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-900)', marginBottom: '24px' }}>{t('adminExtra.financeDynamics')}</h3>
         <div style={{ height: '300px', width: '100%' }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
@@ -90,8 +90,8 @@ export default function FinanceTab() {
                 cursor={{ fill: 'var(--neutral-100)' }}
               />
               <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
-              <Bar dataKey="kirim" name="Kirim" fill="#10B981" radius={[4, 4, 0, 0]} barSize={24} />
-              <Bar dataKey="chiqim" name="Chiqim" fill="#EF4444" radius={[4, 4, 0, 0]} barSize={24} />
+              <Bar dataKey="kirim" name={t("adminExtra.incomeLabel")} fill="#10B981" radius={[4, 4, 0, 0]} barSize={24} />
+              <Bar dataKey="chiqim" name={t("adminExtra.expenseLabel")} fill="#EF4444" radius={[4, 4, 0, 0]} barSize={24} />
             </BarChart>
           </ResponsiveContainer>
         </div>

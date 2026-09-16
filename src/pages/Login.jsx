@@ -37,7 +37,7 @@ export default function Login({ defaultRegister = false }) {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      setError("Iltimos, elektron pochta va parolni to'liq kiriting");
+      setError(t('auth.fillEmailPass') || "Iltimos, elektron pochta va parolni to'liq kiriting");
       return;
     }
     setError('');
@@ -56,7 +56,7 @@ export default function Login({ defaultRegister = false }) {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
-        setError("Barcha maydonlarni to'ldiring");
+        setError(t('auth.fillAllFields') || "Barcha maydonlarni to'ldiring");
         return;
     }
     setError('');
@@ -75,7 +75,7 @@ export default function Login({ defaultRegister = false }) {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     if (!email) {
-      setError("Parolni tiklash uchun avval elektron pochtangizni kiriting.");
+      setError(t('auth.enterEmailFirst') || "Parolni tiklash uchun avval elektron pochtangizni kiriting.");
       return;
     }
     setError('');
@@ -104,7 +104,7 @@ export default function Login({ defaultRegister = false }) {
       return;
     }
     
-    alert(`${platform} orqali kirish hozircha tayyor emas`);
+    alert(`${platform} ` + (t('auth.socialNotReady') || 'orqali kirish hozircha tayyor emas'));
   };
 
   return (
@@ -112,16 +112,16 @@ export default function Login({ defaultRegister = false }) {
       
       {/* Absolute Header Controls */}
       <div className="auth-back-action">
-        <Link to="/" className="auth-icon-btn" title="Ortga">
+        <Link to="/" className="auth-icon-btn" title={t('auth.goBack') || "Ortga"}>
           <ArrowLeft size={20} />
         </Link>
       </div>
       
       <div className="auth-header-actions">
-        <button className="auth-icon-btn" onClick={() => setLang(lang === 'uz' ? 'ru' : 'uz')} title={lang === 'uz' ? 'Сменить язык' : 'Tilni o\'zgartirish'}>
+        <button className="auth-icon-btn" onClick={() => setLang(lang === 'uz' ? 'ru' : lang === 'ru' ? 'en' : 'uz')} title={t('auth.toggleLang') || "Tilni o'zgartirish"}>
           <Globe size={18} />
         </button>
-        <button className="auth-icon-btn" onClick={toggleTheme} title="Mavzuni o'zgartirish">
+        <button className="auth-icon-btn" onClick={toggleTheme} title={t('auth.toggleTheme') || "Mavzuni o'zgartirish"}>
           {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
         </button>
       </div>

@@ -32,9 +32,9 @@ export default function Admin() {
 
   const menuItems = [
     { id: 'dashboard', label: t('crm.dashboard'), icon: <LayoutDashboard size={20} /> },
-    { id: 'kindergartens', label: 'Barcha Bog\'chalar', icon: <Globe size={20} /> },
-    { id: 'applications', label: 'Arizalar', icon: <MessageSquare size={20} /> },
-    { id: 'reviews', label: 'Izohlar', icon: <MessageSquare size={20} /> },
+    { id: 'kindergartens', label: t('admin.allKindergartens') || 'Barcha Bog\'chalar', icon: <Globe size={20} /> },
+    { id: 'applications', label: t('admin.applications') || 'Arizalar', icon: <MessageSquare size={20} /> },
+    { id: 'reviews', label: t('admin.reviews') || 'Izohlar', icon: <MessageSquare size={20} /> },
     { id: 'children', label: t('crm.childrenAndGroups'), icon: <Users size={20} /> },
     { id: 'attendance', label: t('crm.attendance'), icon: <UserCheck size={20} /> },
     { id: 'finance', label: t('crm.financeAndPayments'), icon: <DollarSign size={20} /> },
@@ -49,8 +49,8 @@ export default function Admin() {
       <aside style={{ width: '320px', background: 'var(--surface-warm)', borderRight: '1px solid var(--neutral-200)', padding: '24px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
-            <h3 className="text-h3" style={{ color: 'var(--neutral-900)' }}>Bog'cha CRM</h3>
-            <p style={{ color: 'var(--neutral-500)', fontSize: '14px' }}>Boshqaruv paneli</p>
+            <h3 className="text-h3" style={{ color: 'var(--neutral-900)' }}>{t('admin.crmTitle') || "Bog'cha CRM"}</h3>
+            <p style={{ color: 'var(--neutral-500)', fontSize: '14px' }}>{t('admin.dashboardDesc') || "Boshqaruv paneli"}</p>
           </div>
           <div style={{ position: 'relative' }}>
             <button 
@@ -63,15 +63,15 @@ export default function Admin() {
             
             {showNotifs && (
               <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', width: '280px', background: 'var(--surface)', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.1)', border: '1px solid var(--neutral-200)', zIndex: 100, overflow: 'hidden' }}>
-                <div style={{ padding: '16px', borderBottom: '1px solid var(--neutral-100)', fontWeight: 600, color: 'var(--neutral-900)' }}>Bildirishnomalar</div>
+                <div style={{ padding: '16px', borderBottom: '1px solid var(--neutral-100)', fontWeight: 600, color: 'var(--neutral-900)' }}>{t('admin.notifications') || "Bildirishnomalar"}</div>
                 <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <div style={{ fontSize: '14px' }}>
-                    <strong style={{ color: 'var(--neutral-900)' }}>Yangi ariza:</strong>
-                    <div style={{ color: 'var(--neutral-600)', marginTop: '4px' }}>Alisher M. dan ariza tushdi.</div>
+                    <strong style={{ color: 'var(--neutral-900)' }}>{t('admin.newApp') || "Yangi ariza:"}</strong>
+                    <div style={{ color: 'var(--neutral-600)', marginTop: '4px' }}>{t('admin.newAppDesc') || "Alisher M. dan ariza tushdi."}</div>
                   </div>
                   <div style={{ fontSize: '14px' }}>
-                    <strong style={{ color: 'var(--neutral-900)' }}>Yangi izoh:</strong>
-                    <div style={{ color: 'var(--neutral-600)', marginTop: '4px' }}>"Bog'cha judayam zo'r..." (5 yulduz)</div>
+                    <strong style={{ color: 'var(--neutral-900)' }}>{t('admin.newReview') || "Yangi izoh:"}</strong>
+                    <div style={{ color: 'var(--neutral-600)', marginTop: '4px' }}>{t('admin.newReviewDesc') || "\"Bog'cha judayam zo'r...\" (5 yulduz)"}</div>
                   </div>
                 </div>
               </div>
@@ -106,7 +106,7 @@ export default function Admin() {
             justifyContent: 'center', transition: 'all 0.2s ease', marginTop: '16px'
           }}
         >
-          <Home size={20} /> Saytga qaytish
+          <Home size={20} /> {t('admin.backToSite') || "Saytga qaytish"}
         </button>
 
         {/* Toggles */}
@@ -118,7 +118,7 @@ export default function Admin() {
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
           <button 
-            onClick={() => setLang(lang === 'uz' ? 'ru' : 'uz')}
+            onClick={() => setLang(lang === 'uz' ? 'ru' : lang === 'ru' ? 'en' : 'uz')}
             style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', background: 'var(--neutral-100)', border: '1px solid var(--neutral-200)', borderRadius: '8px', color: 'var(--neutral-700)', cursor: 'pointer', fontWeight: 600 }}
           >
             <Globe size={18} /> {lang.toUpperCase()}

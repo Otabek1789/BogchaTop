@@ -55,15 +55,15 @@ export default function AttendanceTab() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid var(--neutral-200)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--neutral-700)' }}>
             <Calendar size={20} />
-            <span style={{ fontWeight: 600 }}>Bugun: {new Date().toLocaleDateString('uz-UZ')}</span>
+            <span style={{ fontWeight: 600 }}>{t('crm.today')} {new Date().toLocaleDateString('uz-UZ')}</span>
           </div>
           <div style={{ width: '200px' }}>
             <CustomSelect 
               value={filterGroup}
               onChange={setFilterGroup}
               options={[
-                { value: 'lochin', label: 'Lochin guruhi' },
-                { value: 'kichiktoy', label: 'Kichiktoy guruhi' }
+                { value: 'lochin', label: t('crm.eagleGroup') },
+                { value: 'kichiktoy', label: t('crm.kidGroup') }
               ]}
               style={{ fontSize: '14px' }}
             />

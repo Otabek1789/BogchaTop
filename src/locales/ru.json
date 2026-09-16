@@ -246,5 +246,20 @@
     "checking": "Проверка...",
     "registrationHeading": "Регистрация",
     "loginHeading": "Вход"
+  },
+  "adminExtra": {
+    "stateKg": "Государственные сады",
+    "privateKg": "Частные сады",
+    "englishKg": "Специализация: Английский",
+    "sportKg": "Специализация: Спорт",
+    "kgTypeAnalytics": "Аналитика по видам садов",
+    "incomeDynamics": "Динамика доходов",
+    "newAppYashnobod": "Новая заявка: Яшнабад",
+    "newAppYashnobodDesc": "3 новых родителя подали заявку в Яшнабадский филиал. Проверьте сейчас.",
+    "income": "Доход",
+    "financeDynamics": "Финансовая динамика (Доход и Расход)",
+    "incomeLabel": "Доход",
+    "expenseLabel": "Расход",
+    "sendReceipt": "Отправить квитанцию"
   }
 }
