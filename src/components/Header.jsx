@@ -47,10 +47,10 @@ export default function Header({ isAdmin }) {
           <Link to="/" className="nav-link">{t('header.home')}</Link>
           <Link to="/kindergartens" className="nav-link">{t('header.kindergartens')}</Link>
           <Link to="/map" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            Xarita 🗺️
+            {t('header.map')}
           </Link>
           <Link to="/kids" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            Bolajonlar 🎮
+            {t('header.kids')}
           </Link>
           <Link to="/favorites" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {t('header.favorites')}

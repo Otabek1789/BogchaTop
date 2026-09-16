@@ -156,7 +156,7 @@ export default function Hero({ onSearch }) {
                         <div className="search-dropdown-name">{kg.name}</div>
                         <div className="search-dropdown-address">
                           <MapPin size={12} />
-                          {kg.address[lang]}
+                          {kg.address[lang] || kg.address['uz']}
                         </div>
                       </div>
                       <div className="search-dropdown-meta">
@@ -164,7 +164,7 @@ export default function Hero({ onSearch }) {
                           <Star size={14} fill="var(--accent-500)" color="var(--accent-500)" />
                           <span>{kg.rating}</span>
                         </div>
-                        <div className="search-dropdown-price">{kg.price[lang]}</div>
+                        <div className="search-dropdown-price">{kg.price[lang] || kg.price['uz']}</div>
                       </div>
                     </Link>
                   ))}

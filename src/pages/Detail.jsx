@@ -89,7 +89,7 @@ export default function Detail() {
               <h1 className="text-display" style={{ color: 'white', marginBottom: '16px' }}>{data.name}</h1>
               <div className="meta-info">
                 <span className="meta-item">
-                  <MapPin size={18} /> {data.address[lang]}
+                  <MapPin size={18} /> {data.address[lang] || data.address['uz']}
                 </span>
                 <span className="meta-item">
                   <Star size={18} color="var(--accent-500)" fill="var(--accent-500)" /> {data.rating} ({data.reviews} {t('detail.reviews')})
@@ -108,7 +108,7 @@ export default function Detail() {
 
             <section className="detail-section card">
               <h2 className="text-h2">{t('detail.about')}</h2>
-              <p className="text-body-lg" style={{ marginTop: '16px' }}>{data.description[lang]}</p>
+              <p className="text-body-lg" style={{ marginTop: '16px' }}>{data.description[lang] || data.description['uz']}</p>
               <p className="text-body-lg" style={{ marginTop: '16px' }}>
                 {t('detail.aboutDesc')}
               </p>
@@ -117,7 +117,7 @@ export default function Detail() {
             <section className="detail-section card">
               <h2 className="text-h2">{t('detail.features')}</h2>
               <div className="features-grid">
-                {data.features[lang].map((feature, i) => (
+                {(data.features[lang] || data.features['uz']).map((feature, i) => (
                   <div key={i} className="feature-item">
                     <CheckCircle2 size={20} color="var(--brand-600)" />
                     <span>{feature}</span>
@@ -170,7 +170,7 @@ export default function Detail() {
             <div className="card sticky-sidebar">
               <div className="price-box">
                 <span className="price-label">{t('detail.monthlyFee')}</span>
-                <div className="price-value">{data.price[lang]}</div>
+                <div className="price-value">{data.price[lang] || data.price['uz']}</div>
               </div>
               
               <div className="sidebar-info-list">
@@ -178,7 +178,7 @@ export default function Detail() {
                   <div className="icon-box"><Users size={20} /></div>
                   <div>
                     <strong>{t('detail.langs')}</strong>
-                    <div>{data.languages[lang].join(", ")}</div>
+                    <div>{(data.languages[lang] || data.languages['uz']).join(", ")}</div>
                   </div>
                 </div>
                 <div className="sidebar-info-item">
