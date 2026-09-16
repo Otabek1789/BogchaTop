@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
-import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User, ShieldCheck } from 'lucide-react';
+import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User } from 'lucide-react';
 import './Auth.css';
 
 export default function Login({ defaultRegister = false }) {
-  const { sendOTP, verifyOTP, signInWithGoogle } = useAuth();
+  const { registerWithEmail, loginWithEmail, resetPassword, signInWithGoogle } = useAuth();
   const { t, lang, setLang } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -15,18 +15,12 @@ export default function Login({ defaultRegister = false }) {
   // UI States
   const [isRegister, setIsRegister] = useState(defaultRegister);
   
-  // Login States
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [loginStep, setLoginStep] = useState(1); // 1 = email/pass, 2 = code
-  const [loginCode, setLoginCode] = useState('');
+  // Form States
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   
-  // Register States
-  const [regName, setRegName] = useState('');
-  const [regEmail, setRegEmail] = useState('');
-  const [regPassword, setRegPassword] = useState('');
-  
-  // Common States
+  // Status
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,61 +29,63 @@ export default function Login({ defaultRegister = false }) {
     setIsRegister(toRegister);
     setError('');
     setMessage('');
-    setLoginStep(1);
+    setEmail('');
+    setPassword('');
+    setName('');
   };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if (loginStep === 1) {
-      if (!loginEmail || !loginPassword) {
-        setError("Iltimos, elektron pochta va parolni to'liq kiriting");
-        return;
-      }
-      setError('');
-      setLoading(true);
-      const result = await sendOTP(loginEmail);
-      if (result.success) {
-        setMessage(result.message);
-        setLoginStep(2);
-      } else {
-        setError(result.error || "Xatolik yuz berdi");
-      }
-      setLoading(false);
-    } else {
-      if (!loginCode) {
-        setError("Iltimos, kodni kiriting");
-        return;
-      }
-      setError('');
-      setMessage('');
-      setLoading(true);
-      const result = await verifyOTP(loginEmail, loginCode);
-      if (result.success) {
-        navigate('/admin');
-      } else {
-        setError(result.error);
-      }
-      setLoading(false);
+    if (!email || !password) {
+      setError("Iltimos, elektron pochta va parolni to'liq kiriting");
+      return;
     }
+    setError('');
+    setMessage('');
+    setLoading(true);
+    
+    const result = await loginWithEmail(email, password);
+    if (result.success) {
+      navigate(result.isAdmin ? '/admin' : '/');
+    } else {
+      setError(result.error);
+    }
+    setLoading(false);
   };
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    if (!regName || !regEmail || !regPassword) {
+    if (!name || !email || !password) {
         setError("Barcha maydonlarni to'ldiring");
         return;
     }
     setError('');
+    setMessage('');
     setLoading(true);
-    // Simulate register by sending OTP to the provided email
-    const result = await sendOTP(regEmail);
+    
+    const result = await registerWithEmail(name, email, password);
     if (result.success) {
-      setMessage("Ro'yxatdan o'tish kodi yuborildi. Iltimos tasdiqlang.");
-      setLoginEmail(regEmail); // switch to login context for code verify
-      setLoginStep(2);
-      setIsRegister(false); // Move to login panel to enter code
+      navigate(result.isAdmin ? '/admin' : '/');
     } else {
-      setError(result.error || "Xatolik yuz berdi");
+      setError(result.error);
+    }
+    setLoading(false);
+  };
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      setError("Parolni tiklash uchun avval elektron pochtangizni kiriting.");
+      return;
+    }
+    setError('');
+    setMessage('');
+    setLoading(true);
+    const result = await resetPassword(email);
+    if (result.success) {
+      setMessage(result.message);
+    } else {
+      setError(result.error);
     }
     setLoading(false);
   };
@@ -137,71 +133,53 @@ export default function Login({ defaultRegister = false }) {
           <form onSubmit={handleLoginSubmit}>
             <h1>{t('auth.loginHeading')}</h1>
             
-            {error && (
+            {error && !isRegister && (
               <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', padding: '10px', borderRadius: '8px', margin: '15px 0', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
                 <AlertCircle size={16} /> {error}
               </div>
             )}
             
-            {message && (
+            {message && !isRegister && (
               <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', padding: '10px', borderRadius: '8px', margin: '15px 0', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
                 <AlertCircle size={16} /> {message}
               </div>
             )}
 
-            {loginStep === 1 ? (
-              <>
-                <div className="auth-input-box">
-                  <input type="email" placeholder={t('auth.email')} required value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
-                  <Mail size={20} />
-                </div>
-                <div className="auth-input-box">
-                  <input type="password" placeholder={t('auth.password')} required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
-                  <KeyRound size={20} />
-                </div>
-                <div className="auth-forgot-link">
-                  <a href="#" onClick={(e) => { e.preventDefault(); alert("Parolni tiklash sahifasi hozircha tayyor emas"); }}>{t('auth.forgotPassword')}</a>
-                </div>
-                <button type="submit" className="auth-btn" disabled={loading}>
-                  {loading ? t('auth.wait') : t('auth.loginBtn')}
-                </button>
-                <p>{t('auth.orLoginSocial')}</p>
-                <div className="auth-social-icons">
-                  <button type="button" onClick={() => handleSocialMock('Google')}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                  </button>
-                  <button type="button" onClick={() => handleSocialMock('Facebook')}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{color: '#1877F2'}}>
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                  </button>
-                  <button type="button" onClick={() => handleSocialMock('Apple')}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.126 3.805 3.052 1.527-.074 2.124-.984 3.96-.984 1.815 0 2.383.984 3.96.958 1.628-.027 2.65-1.524 3.633-2.983 1.144-1.674 1.616-3.298 1.637-3.385-.037-.015-3.176-1.216-3.21-4.858-.029-3.045 2.492-4.508 2.607-4.577-1.428-2.086-3.627-2.37-4.437-2.417-2.032-.128-4.047 1.13-5.078 1.13zm1.186-5.834c.813-.984 1.36-2.355 1.21-3.712-1.155.047-2.585.77-3.419 1.74-.666.772-1.32 2.164-1.144 3.498 1.295.101 2.544-.537 3.353-1.526z"/>
-                    </svg>
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p style={{ marginBottom: '20px' }}>{t('auth.codeSent')}</p>
-                <div className="auth-input-box">
-                  <input type="text" placeholder={t('auth.verifyCode')} required value={loginCode} onChange={e => setLoginCode(e.target.value)} style={{ letterSpacing: '4px', textAlign: 'center', fontWeight: 'bold' }} />
-                  <ShieldCheck size={20} />
-                </div>
-                <button type="submit" className="auth-btn" disabled={loading}>
-                  {loading ? t('auth.checking') : t('auth.verifyBtn')}
-                </button>
-                <button type="button" onClick={() => setLoginStep(1)} style={{ background: 'none', border: 'none', color: 'var(--neutral-500)', marginTop: '20px', cursor: 'pointer' }}>
-                  ← {t('auth.goBack')}
-                </button>
-              </>
-            )}
+            <div className="auth-input-box">
+              <input type="email" placeholder={t('auth.email')} required value={email} onChange={e => setEmail(e.target.value)} />
+              <Mail size={20} />
+            </div>
+            <div className="auth-input-box">
+              <input type="password" placeholder={t('auth.password')} required value={password} onChange={e => setPassword(e.target.value)} />
+              <KeyRound size={20} />
+            </div>
+            <div className="auth-forgot-link">
+              <a href="#" onClick={handleForgotPassword}>{t('auth.forgotPassword')}</a>
+            </div>
+            <button type="submit" className="auth-btn" disabled={loading}>
+              {loading ? t('auth.wait') : t('auth.loginBtn')}
+            </button>
+            <p>{t('auth.orLoginSocial')}</p>
+            <div className="auth-social-icons">
+              <button type="button" onClick={() => handleSocialMock('Google')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+              </button>
+              <button type="button" onClick={() => handleSocialMock('Facebook')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{color: '#1877F2'}}>
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </button>
+              <button type="button" onClick={() => handleSocialMock('Apple')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.126 3.805 3.052 1.527-.074 2.124-.984 3.96-.984 1.815 0 2.383.984 3.96.958 1.628-.027 2.65-1.524 3.633-2.983 1.144-1.674 1.616-3.298 1.637-3.385-.037-.015-3.176-1.216-3.21-4.858-.029-3.045 2.492-4.508 2.607-4.577-1.428-2.086-3.627-2.37-4.437-2.417-2.032-.128-4.047 1.13-5.078 1.13zm1.186-5.834c.813-.984 1.36-2.355 1.21-3.712-1.155.047-2.585.77-3.419 1.74-.666.772-1.32 2.164-1.144 3.498 1.295.101 2.544-.537 3.353-1.526z"/>
+                </svg>
+              </button>
+            </div>
           </form>
         </div>
 
@@ -217,15 +195,15 @@ export default function Login({ defaultRegister = false }) {
             )}
 
             <div className="auth-input-box">
-              <input type="text" placeholder={t('auth.username')} required value={regName} onChange={e => setRegName(e.target.value)} />
+              <input type="text" placeholder={t('auth.username')} required value={name} onChange={e => setName(e.target.value)} />
               <User size={20} />
             </div>
             <div className="auth-input-box">
-              <input type="email" placeholder={t('auth.email')} required value={regEmail} onChange={e => setRegEmail(e.target.value)} />
+              <input type="email" placeholder={t('auth.email')} required value={email} onChange={e => setEmail(e.target.value)} />
               <Mail size={20} />
             </div>
             <div className="auth-input-box">
-              <input type="password" placeholder={t('auth.password')} required value={regPassword} onChange={e => setRegPassword(e.target.value)} />
+              <input type="password" placeholder={t('auth.password')} required value={password} onChange={e => setPassword(e.target.value)} />
               <KeyRound size={20} />
             </div>
             <button type="submit" className="auth-btn" disabled={loading}>
