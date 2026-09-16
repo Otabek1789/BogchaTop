@@ -1,11 +1,11 @@
 .ai-chatbot-container {
-  /* Default: Invert to DARK mode when site is Light Mode */
-  --ai-bg: #1e293b;
-  --ai-text: #f8fafc;
-  --ai-border: #334155;
-  --ai-msg-bg: #0f172a;
-  --ai-input-bg: #0f172a;
-  --ai-msg-text: #cbd5e1;
+  /* Default: LIGHT mode */
+  --ai-bg: #ffffff;
+  --ai-text: #0f172a;
+  --ai-border: #e2e8f0;
+  --ai-msg-bg: #f8fafc;
+  --ai-input-bg: #f8fafc;
+  --ai-msg-text: #475569;
 
   position: fixed;
   bottom: 24px;
@@ -16,15 +16,15 @@
   align-items: flex-end;
 }
 
-/* Invert to LIGHT mode when site is Dark Mode */
+/* DARK mode */
 :global([data-theme="dark"]) .ai-chatbot-container,
 [data-theme="dark"] .ai-chatbot-container {
-  --ai-bg: #ffffff;
-  --ai-text: #0f172a;
-  --ai-border: #e2e8f0;
-  --ai-msg-bg: #f8fafc;
-  --ai-input-bg: #f8fafc;
-  --ai-msg-text: #475569;
+  --ai-bg: #1e293b;
+  --ai-text: #f8fafc;
+  --ai-border: #334155;
+  --ai-msg-bg: #0f172a;
+  --ai-input-bg: #0f172a;
+  --ai-msg-text: #cbd5e1;
 }
 
 .ai-chatbot-toggle {
