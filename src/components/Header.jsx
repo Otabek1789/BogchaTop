@@ -34,7 +34,7 @@ export default function Header({ isAdmin }) {
   };
 
   return (
-    <header className="header glass">
+    <header className="header">
       <div className={`header-content ${isAdmin ? 'admin-header-container' : 'container'}`} style={isAdmin ? { position: 'relative' } : {}}>
         <Link to="/" className="logo-link" style={isAdmin ? { width: '280px' } : {}}>
           <div className="logo-icon">
