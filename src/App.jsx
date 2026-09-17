@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -72,6 +73,34 @@ export default function App() {
       <KindergartenProvider>
         <FavoritesProvider>
           <BrowserRouter>
+            <Toaster 
+              position="top-center"
+              toastOptions={{
+                duration: 5000,
+                style: {
+                  background: 'var(--surface-warm, #fff)',
+                  color: 'var(--neutral-900, #333)',
+                  padding: '16px 24px',
+                  borderRadius: '12px',
+                  boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+                  fontSize: '15px',
+                  fontWeight: 500,
+                  border: '1px solid var(--border-color, #eee)',
+                },
+                success: {
+                  iconTheme: {
+                    primary: 'var(--success-500, #10B981)',
+                    secondary: '#fff',
+                  },
+                },
+                error: {
+                  iconTheme: {
+                    primary: 'var(--danger-500, #EF4444)',
+                    secondary: '#fff',
+                  },
+                },
+              }}
+            />
             <ScrollToTop />
             <Layout />
           </BrowserRouter>

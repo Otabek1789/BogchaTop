@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import toast from 'react-hot-toast';
 import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User } from 'lucide-react';
 import './Auth.css';
 
@@ -104,7 +105,7 @@ export default function Login({ defaultRegister = false }) {
       return;
     }
     
-    alert(`${platform} ` + (t('auth.socialNotReady') || 'orqali kirish hozircha tayyor emas'));
+    toast.error(`${platform} ` + (t('auth.socialNotReady') || 'orqali kirish hozircha tayyor emas'));
   };
 
   return (

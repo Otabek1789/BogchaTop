@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Send, HelpCircle } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import toast from 'react-hot-toast';
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -22,7 +23,7 @@ export default function Contact() {
           
           <div className="card" style={{ padding: '40px' }}>
             <h2 className="text-h2" style={{ marginBottom: '32px' }}>{t('contact.sendMessage')}</h2>
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '20px' }} onSubmit={e => { e.preventDefault(); alert(t('contact.successMessage')); }}>
+            <form style={{ display: 'flex', flexDirection: 'column', gap: '20px' }} onSubmit={e => { e.preventDefault(); toast.success(t('contact.successMessage')); }}>
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, color: 'var(--neutral-700)' }}>{t('contact.yourName')}</label>
                 <input type="text" required style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)', outline: 'none' }} />

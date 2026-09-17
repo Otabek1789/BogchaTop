@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, Star, CheckCircle2, Phone, ArrowLeft, Users, Clock, X, Send } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useLanguage } from '../context/LanguageContext';
 import { useKindergartens } from '../context/KindergartenContext';
 import KindergartenCard from '../components/KindergartenCard';
@@ -35,14 +36,14 @@ export default function Detail() {
     e.preventDefault();
     submitApplication({ kindergartenId: id, kindergartenName: data.name, ...appForm });
     setShowAppModal(false);
-    alert(t('detailExtra.appSuccess'));
+    toast.success(t('detailExtra.appSuccess'));
     setAppForm({ parentName: '', phone: '', childName: '', childAge: '' });
   };
 
   const handleReview = (e) => {
     e.preventDefault();
     addReview(id, reviewForm);
-    alert(t('detailExtra.reviewSuccess'));
+    toast.success(t('detailExtra.reviewSuccess'));
     setReviewForm({ name: '', rating: 5, comment: '' });
   };
 
@@ -190,7 +191,7 @@ export default function Detail() {
                 </div>
               </div>
 
-              <button onClick={() => alert(t('detail.contact') + ': ' + (data.phone || '+998 90 123 45 67'))} className="btn btn-primary" style={{ width: '100%', marginTop: '24px' }}>
+              <button onClick={() => toast(t('detail.contact') + ': ' + (data.phone || '+998 90 123 45 67'), { icon: '📞' })} className="btn btn-primary" style={{ width: '100%', marginTop: '24px' }}>
                 <Phone size={18} />
                 {t('detail.contact')}
               </button>

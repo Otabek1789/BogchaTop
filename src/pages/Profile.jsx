@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, Mail, Phone, MapPin, Save, Camera } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import toast from 'react-hot-toast';
 
 export default function Profile() {
   const { user, updateUser } = useAuth();
@@ -34,7 +35,7 @@ export default function Profile() {
     e.preventDefault();
     updateUser({ displayName: formData.name, email: formData.email, avatar });
     setIsEditing(false);
-    alert(t('profile.saveSuccess'));
+    toast.success(t('profile.saveSuccess'));
     navigate('/');
   };
 
