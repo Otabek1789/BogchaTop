@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const verifyOTP = async (email, code) => {
+  const verifyOTP = async (email, code, displayName = '') => {
     try {
       const response = await fetch(`${API_URL}/verify-code`, {
         method: 'POST',
@@ -57,7 +57,7 @@ export function AuthProvider({ children }) {
       const data = await response.json();
       
       if (data.success) {
-        return _saveUser(email, email.split('@')[0]);
+        return _saveUser(email, displayName || email.split('@')[0]);
       }
       return data;
     } catch (error) {

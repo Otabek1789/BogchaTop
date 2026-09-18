@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -8,7 +8,7 @@ import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User, ShieldC
 import './Auth.css';
 
 export default function Login({ defaultRegister = false }) {
-  const { registerWithEmail, loginWithEmail, sendOTP, verifyOTP, resetPassword, signInWithGoogle } = useAuth();
+  const { loginWithEmail, sendOTP, verifyOTP, signInWithGoogle } = useAuth();
   const { t, lang, setLang } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -35,6 +35,21 @@ export default function Login({ defaultRegister = false }) {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setIsRegister(defaultRegister);
+    setIsForgotPassword(false);
+    setError('');
+    setMessage('');
+  }, [defaultRegister]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setIsRegister(window.location.pathname === '/register');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const togglePanel = (toRegister) => {
     setIsRegister(toRegister);
     setIsForgotPassword(false);
@@ -44,6 +59,9 @@ export default function Login({ defaultRegister = false }) {
     setMessage('');
     setLoginStep(1);
     setLoginCode('');
+    try {
+      window.history.replaceState(null, '', toRegister ? '/register' : '/login');
+    } catch (_) {}
   };
 
   const handleLoginSubmit = async (e) => {
@@ -84,7 +102,7 @@ export default function Login({ defaultRegister = false }) {
       setMessage('');
       setLoading(true);
       
-      const result = await verifyOTP(email, loginCode);
+      const result = await verifyOTP(email, loginCode, name);
       if (result.success) {
         toast.success("Muvaffaqiyatli kirdingiz!");
         navigate(result.isAdmin ? '/admin' : '/');
@@ -378,6 +396,12 @@ export default function Login({ defaultRegister = false }) {
             {error && isRegister && (
               <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', padding: '10px', borderRadius: '8px', margin: '15px 0', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
                 <AlertCircle size={16} /> {error}
+              </div>
+            )}
+
+            {message && isRegister && (
+              <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', padding: '10px', borderRadius: '8px', margin: '15px 0', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
+                <AlertCircle size={16} /> {message}
               </div>
             )}
 
