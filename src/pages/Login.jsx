@@ -4,11 +4,11 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import toast from 'react-hot-toast';
-import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User } from 'lucide-react';
+import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User, ShieldCheck } from 'lucide-react';
 import './Auth.css';
 
 export default function Login({ defaultRegister = false }) {
-  const { registerWithEmail, loginWithEmail, resetPassword, signInWithGoogle } = useAuth();
+  const { registerWithEmail, loginWithEmail, sendOTP, verifyOTP, resetPassword, signInWithGoogle } = useAuth();
   const { t, lang, setLang } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -21,6 +21,10 @@ export default function Login({ defaultRegister = false }) {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   
+  // OTP States
+  const [loginStep, setLoginStep] = useState(1); // 1 = email, 2 = code verification
+  const [loginCode, setLoginCode] = useState('');
+
   // Status
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -30,33 +34,62 @@ export default function Login({ defaultRegister = false }) {
     setIsRegister(toRegister);
     setError('');
     setMessage('');
-    setEmail('');
-    setPassword('');
-    setName('');
+    setLoginStep(1);
+    setLoginCode('');
   };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError(t('auth.fillEmailPass') || "Iltimos, elektron pochta va parolni to'liq kiriting");
-      return;
-    }
-    setError('');
-    setMessage('');
-    setLoading(true);
-    
-    const result = await loginWithEmail(email, password);
-    if (result.success) {
-      navigate(result.isAdmin ? '/admin' : '/');
+    if (loginStep === 1) {
+      if (!email) {
+        setError(t('auth.fillEmailPass') || "Iltimos, elektron pochtangizni kiriting");
+        return;
+      }
+      setError('');
+      setMessage('');
+      setLoading(true);
+      
+      const result = await sendOTP(email);
+      if (result.success) {
+        toast.success(result.message || "Tasdiqlash kodi pochtangizga yuborildi!");
+        setMessage(result.message || t('auth.codeSent'));
+        setLoginStep(2);
+      } else {
+        // If port 5000 backend has error and user provided password, fallback to direct login
+        if (password) {
+          const directResult = await loginWithEmail(email, password);
+          if (directResult.success) {
+            navigate(directResult.isAdmin ? '/admin' : '/');
+            setLoading(false);
+            return;
+          }
+        }
+        setError(result.error || "Kod yuborishda xatolik yuz berdi");
+      }
+      setLoading(false);
     } else {
-      setError(result.error);
+      if (!loginCode) {
+        setError(t('auth.enterCode') || "Iltimos, tasdiqlash kodini kiriting");
+        return;
+      }
+      setError('');
+      setMessage('');
+      setLoading(true);
+      
+      const result = await verifyOTP(email, loginCode);
+      if (result.success) {
+        toast.success("Muvaffaqiyatli kirdingiz!");
+        navigate(result.isAdmin ? '/admin' : '/');
+      } else {
+        setError(result.error || "Kod noto'g'ri. Qaytadan tekshiring.");
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password) {
+    if (!name || !email) {
         setError(t('auth.fillAllFields') || "Barcha maydonlarni to'ldiring");
         return;
     }
@@ -64,11 +97,14 @@ export default function Login({ defaultRegister = false }) {
     setMessage('');
     setLoading(true);
     
-    const result = await registerWithEmail(name, email, password);
+    const result = await sendOTP(email);
     if (result.success) {
-      navigate(result.isAdmin ? '/admin' : '/');
+      toast.success("Tasdiqlash kodi pochtangizga yuborildi!");
+      setMessage("Ro'yxatdan o'tish tasdiqlash kodi pochtangizga yuborildi. Iltimos kodni kiriting.");
+      setLoginStep(2);
+      setIsRegister(false);
     } else {
-      setError(result.error);
+      setError(result.error || "Xatolik yuz berdi");
     }
     setLoading(false);
   };
@@ -146,20 +182,54 @@ export default function Login({ defaultRegister = false }) {
               </div>
             )}
 
-            <div className="auth-input-box">
-              <input type="email" placeholder={t('auth.email')} required value={email} onChange={e => setEmail(e.target.value)} />
-              <Mail size={20} />
-            </div>
-            <div className="auth-input-box">
-              <input type="password" placeholder={t('auth.password')} required value={password} onChange={e => setPassword(e.target.value)} />
-              <KeyRound size={20} />
-            </div>
-            <div className="auth-forgot-link">
-              <a href="#" onClick={handleForgotPassword}>{t('auth.forgotPassword')}</a>
-            </div>
-            <button type="submit" className="auth-btn" disabled={loading}>
-              {loading ? t('auth.wait') : t('auth.loginBtn')}
-            </button>
+            {loginStep === 1 ? (
+              <>
+                <div className="auth-input-box">
+                  <input type="email" placeholder={t('auth.email')} required value={email} onChange={e => setEmail(e.target.value)} />
+                  <Mail size={20} />
+                </div>
+                <div className="auth-input-box">
+                  <input type="password" placeholder={t('auth.password')} value={password} onChange={e => setPassword(e.target.value)} />
+                  <KeyRound size={20} />
+                </div>
+                <div className="auth-forgot-link">
+                  <a href="#" onClick={handleForgotPassword}>{t('auth.forgotPassword')}</a>
+                </div>
+                <button type="submit" className="auth-btn" disabled={loading}>
+                  {loading ? (t('auth.wait') || 'Yuborilmoqda...') : (t('auth.loginBtn') || 'Tizimga kirish')}
+                </button>
+              </>
+            ) : (
+              <>
+                <p style={{ marginBottom: '16px', color: 'var(--neutral-600)', fontSize: '14px', lineHeight: '1.4' }}>
+                  {t('auth.codeSent') || "Email pochtangizga tasdiqlash kodi yuborildi:"} <br />
+                  <strong style={{ color: 'var(--neutral-900)' }}>{email}</strong>
+                </p>
+                <div className="auth-input-box">
+                  <input 
+                    type="text" 
+                    placeholder={t('auth.verifyCode') || "Tasdiqlash kodi"} 
+                    required 
+                    maxLength={6}
+                    value={loginCode} 
+                    onChange={e => setLoginCode(e.target.value)} 
+                    style={{ letterSpacing: '4px', textAlign: 'center', fontWeight: 'bold', fontSize: '18px' }} 
+                    autoFocus
+                  />
+                  <ShieldCheck size={20} />
+                </div>
+                <button type="submit" className="auth-btn" disabled={loading}>
+                  {loading ? (t('auth.checking') || 'Tekshirilmoqda...') : (t('auth.verifyBtn') || 'Tasdiqlash')}
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => { setLoginStep(1); setLoginCode(''); setError(''); setMessage(''); }} 
+                  style={{ background: 'none', border: 'none', color: 'var(--neutral-500)', marginTop: '16px', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline' }}
+                >
+                  ← {t('auth.goBack') || "Ortga qaytish"}
+                </button>
+              </>
+            )}
             <p>{t('auth.orLoginSocial')}</p>
             <div className="auth-social-icons">
               <button type="button" onClick={() => handleSocialMock('Google')}>

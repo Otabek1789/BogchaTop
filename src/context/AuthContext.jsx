@@ -30,6 +30,42 @@ export function AuthProvider({ children }) {
     return { success: true, isAdmin, user: userObj };
   };
 
+  const API_URL = 'http://localhost:5000/api';
+
+  const sendOTP = async (email) => {
+    try {
+      const response = await fetch(`${API_URL}/send-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("sendOTP error:", error);
+      return { success: false, error: "Server bilan ulanishda xatolik. Backend (port 5000) ishlayotganiga ishonch hosil qiling." };
+    }
+  };
+
+  const verifyOTP = async (email, code) => {
+    try {
+      const response = await fetch(`${API_URL}/verify-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code })
+      });
+      const data = await response.json();
+      
+      if (data.success) {
+        return _saveUser(email, email.split('@')[0]);
+      }
+      return data;
+    } catch (error) {
+      console.error("verifyOTP error:", error);
+      return { success: false, error: "Server bilan ulanishda xatolik." };
+    }
+  };
+
   const registerWithEmail = async (name, email, password) => {
     try {
       const { auth, isConfigured } = await import('../firebase');
@@ -123,7 +159,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, registerWithEmail, loginWithEmail, resetPassword, signInWithGoogle, logout, loading, updateUser }}>
+    <AuthContext.Provider value={{ user, registerWithEmail, loginWithEmail, sendOTP, verifyOTP, resetPassword, signInWithGoogle, logout, loading, updateUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );
