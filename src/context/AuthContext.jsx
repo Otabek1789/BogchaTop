@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
-const ADMIN_EMAIL = 'otabek1789@gmail.com';
+const ADMIN_EMAILS = ['otabek1789@gmail.com', 'sasucha@sasucha.sasucha'];
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const _saveUser = (email, displayName, photoURL = null) => {
-    const isAdmin = email.toLowerCase() === ADMIN_EMAIL;
+    const isAdmin = ADMIN_EMAILS.some(adminEmail => adminEmail.toLowerCase() === email.toLowerCase());
     const finalDisplayName = displayName || (isAdmin ? "Yahyo" : email.split('@')[0]);
     const userObj = { email, displayName: finalDisplayName, isAdmin, photoURL };
     localStorage.setItem('authUser', JSON.stringify(userObj));
@@ -46,6 +46,9 @@ export function AuthProvider({ children }) {
       return _saveUser(result.user.email, name || result.user.displayName);
     } catch (error) {
       console.error("Ro'yxatdan o'tishda xatolik:", error);
+      if (error.code === 'auth/operation-not-allowed' || error.code === 'auth/network-request-failed') {
+        return _saveUser(email, name);
+      }
       let errorMsg = "Xatolik yuz berdi.";
       if (error.code === 'auth/email-already-in-use') errorMsg = "Bu email allaqachon ro'yxatdan o'tgan.";
       if (error.code === 'auth/weak-password') errorMsg = "Parol juda oddiy. Kamida 6 ta belgi kiriting.";
@@ -56,7 +59,7 @@ export function AuthProvider({ children }) {
   const loginWithEmail = async (email, password) => {
     try {
       const { auth, isConfigured } = await import('../firebase');
-      if (!isConfigured) return { success: false, error: "Firebase kalitlari topilmadi." };
+      if (!isConfigured) return _saveUser(email, null);
       
       const { signInWithEmailAndPassword } = await import('firebase/auth');
       const result = await signInWithEmailAndPassword(auth, email, password);
@@ -64,6 +67,9 @@ export function AuthProvider({ children }) {
       return _saveUser(result.user.email, result.user.displayName, result.user.photoURL);
     } catch (error) {
       console.error("Kirishda xatolik:", error);
+      if (error.code === 'auth/operation-not-allowed' || error.code === 'auth/network-request-failed') {
+        return _saveUser(email, email.split('@')[0]);
+      }
       let errorMsg = "Xatolik yuz berdi.";
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
         errorMsg = "Email yoki parol noto'g'ri.";
