@@ -9,13 +9,22 @@ export function KindergartenProvider({ children }) {
   });
 
   const [reviews, setReviews] = useState(() => {
-    const saved = localStorage.getItem('bogchatop_reviews');
-    return saved ? JSON.parse(saved) : {};
+    try {
+      const saved = localStorage.getItem('bogchatop_reviews');
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      return {};
+    }
   });
 
   const [applications, setApplications] = useState(() => {
-    const saved = localStorage.getItem('bogchatop_applications');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('bogchatop_applications');
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
   });
 
   useEffect(() => {

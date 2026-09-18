@@ -8,11 +8,17 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('authUser');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    try {
+      const savedUser = localStorage.getItem('authUser');
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+    } catch (e) {
+      console.error("Auth localStorage parse error:", e);
+      try { localStorage.removeItem('authUser'); } catch (_) {}
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   const _saveUser = (email, displayName, photoURL = null) => {

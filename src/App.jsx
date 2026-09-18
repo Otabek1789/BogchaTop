@@ -22,6 +22,7 @@ import MapPage from './pages/MapPage';
 import KidsGame from './pages/KidsGame';
 
 function Layout() {
+  const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 

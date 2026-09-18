@@ -4,8 +4,13 @@ const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState(() => {
-    const saved = localStorage.getItem('bogchatop_favorites');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('bogchatop_favorites');
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
   });
 
   useEffect(() => {

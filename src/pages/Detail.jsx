@@ -47,15 +47,6 @@ export default function Detail() {
     setReviewForm({ name: '', rating: 5, comment: '' });
   };
 
-  if (!data) {
-    return (
-      <div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>
-        <h2>{t('detail.notFound')}</h2>
-        <Link to="/" className="btn btn-outline" style={{ marginTop: '20px' }}>{t('detail.backHome')}</Link>
-      </div>
-    );
-  }
-
   // Pick 3 random recommendations (memoized to avoid re-shuffle on re-render)
   const recommendations = useMemo(() => 
     kindergartens
@@ -64,6 +55,15 @@ export default function Detail() {
       .slice(0, 3),
     [id, kindergartens]
   );
+
+  if (!data) {
+    return (
+      <div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>
+        <h2>{t('detail.notFound')}</h2>
+        <Link to="/" className="btn btn-outline" style={{ marginTop: '20px' }}>{t('detail.backHome')}</Link>
+      </div>
+    );
+  }
 
   const defaultGallery = [
     data.image,
