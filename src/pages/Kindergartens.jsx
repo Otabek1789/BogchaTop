@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useKindergartens } from '../context/KindergartenContext';
 import KindergartenCard from '../components/KindergartenCard';
 import CustomSelect from '../components/CustomSelect';
+import { getLocalizedLanguages, getLocalizedAddress } from '../utils/kindergartenLocalization';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -29,16 +30,17 @@ export default function Kindergartens() {
 
   // Extract unique districts and languages for filter dropdowns
   const uniqueDistricts = [...new Set(kindergartens.map(k => k.district))];
-  const uniqueLangs = [...new Set(kindergartens.flatMap(k => k.languages[lang] || k.languages['uz']))];
+  const uniqueLangs = [...new Set(kindergartens.flatMap(k => getLocalizedLanguages(k, lang)))];
 
   const filtered = kindergartens.filter(k => {
     const priceStr = typeof k.price === 'object' ? (k.price.uz || '') : (k.price || '');
     const priceNum = parseInt(priceStr.replace(/\D/g, ''), 10) || 0;
 
     const matchSearch = k.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                        (k.address[lang] || k.address['uz'] || '').toLowerCase().includes(searchTerm.toLowerCase());
+                        getLocalizedAddress(k, lang).toLowerCase().includes(searchTerm.toLowerCase());
     const matchDistrict = districtFilter ? k.district === districtFilter : true;
-    const matchLang = langFilter ? (k.languages[lang] || []).includes(langFilter) || (k.languages['uz'] || []).includes(langFilter) : true;
+    const kgLangs = getLocalizedLanguages(k, lang);
+    const matchLang = langFilter ? kgLangs.includes(langFilter) || (k.languages['uz'] || []).includes(langFilter) : true;
     const matchPrice = priceNum <= priceFilter;
 
     return matchSearch && matchDistrict && matchLang && matchPrice;
@@ -146,7 +148,7 @@ export default function Kindergartens() {
                   <Popup>
                     <div style={{ textAlign: 'center' }}>
                       <h4 style={{ margin: '0 0 8px 0', fontSize: '14px' }}>{kg.name}</h4>
-                      <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#666' }}>{kg.address[lang] || kg.address['uz']}</p>
+                      <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#666' }}>{getLocalizedAddress(kg, lang)}</p>
                       <a href={`/bogcha/${kg.id}`} style={{ display: 'inline-block', background: 'var(--brand-500)', color: 'white', padding: '4px 12px', borderRadius: '4px', textDecoration: 'none', fontSize: '12px' }}>
                         {t('kgFilters.details')}
                       </a>

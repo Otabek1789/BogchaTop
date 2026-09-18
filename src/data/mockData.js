@@ -5,12 +5,14 @@ export const kindergartens = [
     "reviews": 124,
     "address": {
       "uz": "Chilonzor tumani, 12-mavze, 45-uy",
-      "ru": "Чиланзарский район, 12-квартал, дом 45"
+      "ru": "Чиланзарский район, 12-квартал, дом 45",
+      "en": "Chilanzar district, block 12, house 45"
     },
     "district": "Chilonzor",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -22,6 +24,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -36,11 +43,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "1",
     "image": "/happy-kids-academy.jpg",
@@ -55,12 +69,14 @@ export const kindergartens = [
     "reviews": 89,
     "address": {
       "uz": "Mirobod tumani, Nukus ko'chasi, 22-uy",
-      "ru": "Мирабадский район, улица Нукус, дом 22"
+      "ru": "Мирабадский район, улица Нукус, дом 22",
+      "en": "Mirabad district, Nukus street, house 22"
     },
     "district": "Mirobod",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -70,6 +86,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -84,11 +104,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "2",
     "image": "/erkatoy.jpg",
@@ -103,12 +130,14 @@ export const kindergartens = [
     "reviews": 56,
     "address": {
       "uz": "Yunusobod tumani, 4-mavze",
-      "ru": "Юнусабадский район, 4-й квартал"
+      "ru": "Юнусабадский район, 4-й квартал",
+      "en": "Yunusabad district, block 4"
     },
     "district": "Yunusobod",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -118,6 +147,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -132,11 +165,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "3",
     "image": "/miracle-baby.jpg",
@@ -151,12 +191,14 @@ export const kindergartens = [
     "reviews": 210,
     "address": {
       "uz": "Yakkasaroy tumani, Rakat mahallasi",
-      "ru": "Яккасарайский район, махалля Ракат"
+      "ru": "Яккасарайский район, махалля Ракат",
+      "en": "Yakkasaray district, Rakat neighborhood"
     },
     "district": "Yakkasaroy",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -164,6 +206,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -178,11 +223,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "4",
     "image": "/little-einsteins.jpg",
@@ -197,12 +249,14 @@ export const kindergartens = [
     "reviews": 42,
     "address": {
       "uz": "Olmazor tumani, Qoraqamish 2/4",
-      "ru": "Алмазарский район, Каракамыш 2/4"
+      "ru": "Алмазарский район, Каракамыш 2/4",
+      "en": "Almazar district, Qoraqamish 2/4"
     },
     "district": "Olmazor",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -210,6 +264,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -222,11 +279,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "5",
     "image": "/blackstone.jpg",
@@ -241,12 +304,14 @@ export const kindergartens = [
     "reviews": 178,
     "address": {
       "uz": "Mirzo Ulug'bek tumani, TTZ",
-      "ru": "Мирзо-Улугбекский район, ТТЗ"
+      "ru": "Мирзо-Улугбекский район, ТТЗ",
+      "en": "Mirzo Ulugbek district, TTZ"
     },
     "district": "Mirzo Ulug'bek",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -258,6 +323,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -272,11 +342,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "6",
     "image": "/yosh-oriflar.jpg",
@@ -291,12 +368,14 @@ export const kindergartens = [
     "reviews": 121,
     "address": {
       "uz": "Mirzo Ulug'bek tumani, 11-mavze",
-      "ru": "Mirzo Ulug'bek район, 20-й квартал"
+      "ru": "Mirzo Ulug'bek район, 20-й квартал",
+      "en": "Mirzo Ulugbek district, block 11"
     },
     "district": "Mirzo Ulug'bek",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -306,6 +385,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -320,11 +403,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "7",
     "image": "/kamalak.jpg",
@@ -339,12 +429,14 @@ export const kindergartens = [
     "reviews": 217,
     "address": {
       "uz": "Yunusobod tumani, 11-mavze",
-      "ru": "Yunusobod район, 17-й квартал"
+      "ru": "Yunusobod район, 17-й квартал",
+      "en": "Yunusabad district, block 11"
     },
     "district": "Yunusobod",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -354,6 +446,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -368,11 +464,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "8",
     "image": "/ai-1.jpg",
@@ -387,12 +490,14 @@ export const kindergartens = [
     "reviews": 167,
     "address": {
       "uz": "Mirobod tumani, 7-mavze",
-      "ru": "Mirobod район, 9-й квартал"
+      "ru": "Mirobod район, 9-й квартал",
+      "en": "Mirabad district, block 7"
     },
     "district": "Mirobod",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -400,6 +505,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -414,11 +522,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "9",
     "image": "/ai-2.jpg",
@@ -433,12 +548,14 @@ export const kindergartens = [
     "reviews": 34,
     "address": {
       "uz": "Bektemir tumani, 5-mavze",
-      "ru": "Bektemir район, 4-й квартал"
+      "ru": "Bektemir район, 4-й квартал",
+      "en": "Bektemir district, block 5"
     },
     "district": "Bektemir",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -446,6 +563,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -458,11 +578,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "10",
     "image": "/ai-3.jpg",
@@ -477,12 +603,14 @@ export const kindergartens = [
     "reviews": 165,
     "address": {
       "uz": "Sergeli tumani, 20-mavze",
-      "ru": "Sergeli район, 18-й квартал"
+      "ru": "Sergeli район, 18-й квартал",
+      "en": "Sergeli district, block 20"
     },
     "district": "Sergeli",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -494,6 +622,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -508,11 +641,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "11",
     "image": "/ai-4.jpg",
@@ -527,12 +667,14 @@ export const kindergartens = [
     "reviews": 219,
     "address": {
       "uz": "Shayxontohur tumani, 2-mavze",
-      "ru": "Shayxontohur район, 17-й квартал"
+      "ru": "Shayxontohur район, 17-й квартал",
+      "en": "Shaykhontohur district, block 2"
     },
     "district": "Shayxontohur",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -544,6 +686,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -558,11 +705,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "12",
     "image": "/ai-5.jpg",
@@ -577,12 +731,14 @@ export const kindergartens = [
     "reviews": 200,
     "address": {
       "uz": "Mirobod tumani, 12-mavze",
-      "ru": "Mirobod район, 15-й квартал"
+      "ru": "Mirobod район, 15-й квартал",
+      "en": "Mirabad district, block 12"
     },
     "district": "Mirobod",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -592,6 +748,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -606,11 +766,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "13",
     "image": "/happy-kids-academy.jpg",
@@ -625,12 +792,14 @@ export const kindergartens = [
     "reviews": 187,
     "address": {
       "uz": "Mirzo Ulug'bek tumani, 2-mavze",
-      "ru": "Mirzo Ulug'bek район, 11-й квартал"
+      "ru": "Mirzo Ulug'bek район, 11-й квартал",
+      "en": "Mirzo Ulugbek district, block 2"
     },
     "district": "Mirzo Ulug'bek",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -640,6 +809,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -654,11 +827,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "14",
     "image": "/erkatoy.jpg",
@@ -673,12 +853,14 @@ export const kindergartens = [
     "reviews": 25,
     "address": {
       "uz": "Shayxontohur tumani, 15-mavze",
-      "ru": "Shayxontohur район, 9-й квартал"
+      "ru": "Shayxontohur район, 9-й квартал",
+      "en": "Shaykhontohur district, block 15"
     },
     "district": "Shayxontohur",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -686,6 +868,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -700,11 +885,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "15",
     "image": "/miracle-baby.jpg",
@@ -719,12 +911,14 @@ export const kindergartens = [
     "reviews": 166,
     "address": {
       "uz": "Yunusobod tumani, 7-mavze",
-      "ru": "Yunusobod район, 2-й квартал"
+      "ru": "Yunusobod район, 2-й квартал",
+      "en": "Yunusabad district, block 7"
     },
     "district": "Yunusobod",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -732,6 +926,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -744,11 +941,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "16",
     "image": "/little-einsteins.jpg",
@@ -763,12 +966,14 @@ export const kindergartens = [
     "reviews": 91,
     "address": {
       "uz": "Sergeli tumani, 20-mavze",
-      "ru": "Sergeli район, 20-й квартал"
+      "ru": "Sergeli район, 20-й квартал",
+      "en": "Sergeli district, block 20"
     },
     "district": "Sergeli",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -780,6 +985,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -794,11 +1004,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "17",
     "image": "/blackstone.jpg",
@@ -813,12 +1030,14 @@ export const kindergartens = [
     "reviews": 140,
     "address": {
       "uz": "Yangihayot tumani, 2-mavze",
-      "ru": "Yangihayot район, 7-й квартал"
+      "ru": "Yangihayot район, 7-й квартал",
+      "en": "Yangihayot tumani, block 2"
     },
     "district": "Yangihayot",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -830,6 +1049,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -844,11 +1068,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "18",
     "image": "/yosh-oriflar.jpg",
@@ -863,12 +1094,14 @@ export const kindergartens = [
     "reviews": 98,
     "address": {
       "uz": "Yashnobod tumani, 20-mavze",
-      "ru": "Yashnobod район, 14-й квартал"
+      "ru": "Yashnobod район, 14-й квартал",
+      "en": "Yashnabad district, block 20"
     },
     "district": "Yashnobod",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -878,6 +1111,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -892,11 +1129,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "19",
     "image": "/kamalak.jpg",
@@ -911,12 +1155,14 @@ export const kindergartens = [
     "reviews": 163,
     "address": {
       "uz": "Shayxontohur tumani, 20-mavze",
-      "ru": "Shayxontohur район, 18-й квартал"
+      "ru": "Shayxontohur район, 18-й квартал",
+      "en": "Shaykhontohur district, block 20"
     },
     "district": "Shayxontohur",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -926,6 +1172,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -940,11 +1190,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "20",
     "image": "/ai-1.jpg",
@@ -959,12 +1216,14 @@ export const kindergartens = [
     "reviews": 37,
     "address": {
       "uz": "Mirzo Ulug'bek tumani, 12-mavze",
-      "ru": "Mirzo Ulug'bek район, 4-й квартал"
+      "ru": "Mirzo Ulug'bek район, 4-й квартал",
+      "en": "Mirzo Ulugbek district, block 12"
     },
     "district": "Mirzo Ulug'bek",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -972,6 +1231,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -986,11 +1248,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "21",
     "image": "/ai-2.jpg",
@@ -1005,12 +1274,14 @@ export const kindergartens = [
     "reviews": 166,
     "address": {
       "uz": "Mirobod tumani, 17-mavze",
-      "ru": "Mirobod район, 17-й квартал"
+      "ru": "Mirobod район, 17-й квартал",
+      "en": "Mirabad district, block 17"
     },
     "district": "Mirobod",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1018,6 +1289,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -1030,11 +1304,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "22",
     "image": "/ai-3.jpg",
@@ -1049,12 +1329,14 @@ export const kindergartens = [
     "reviews": 165,
     "address": {
       "uz": "Shayxontohur tumani, 8-mavze",
-      "ru": "Shayxontohur район, 6-й квартал"
+      "ru": "Shayxontohur район, 6-й квартал",
+      "en": "Shaykhontohur district, block 8"
     },
     "district": "Shayxontohur",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1066,6 +1348,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -1080,11 +1367,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "23",
     "image": "/ai-4.jpg",
@@ -1099,12 +1393,14 @@ export const kindergartens = [
     "reviews": 133,
     "address": {
       "uz": "Yunusobod tumani, 9-mavze",
-      "ru": "Yunusobod район, 15-й квартал"
+      "ru": "Yunusobod район, 15-й квартал",
+      "en": "Yunusabad district, block 9"
     },
     "district": "Yunusobod",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1116,6 +1412,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -1130,11 +1431,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "24",
     "image": "/ai-5.jpg",
@@ -1149,12 +1457,14 @@ export const kindergartens = [
     "reviews": 98,
     "address": {
       "uz": "Mirobod tumani, 18-mavze",
-      "ru": "Mirobod район, 17-й квартал"
+      "ru": "Mirobod район, 17-й квартал",
+      "en": "Mirabad district, block 18"
     },
     "district": "Mirobod",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1164,6 +1474,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -1178,11 +1492,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "25",
     "image": "/happy-kids-academy.jpg",
@@ -1197,12 +1518,14 @@ export const kindergartens = [
     "reviews": 96,
     "address": {
       "uz": "Chilonzor tumani, 7-mavze",
-      "ru": "Chilonzor район, 6-й квартал"
+      "ru": "Chilonzor район, 6-й квартал",
+      "en": "Chilanzar district, block 7"
     },
     "district": "Chilonzor",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1212,6 +1535,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -1226,11 +1553,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "26",
     "image": "/erkatoy.jpg",
@@ -1245,12 +1579,14 @@ export const kindergartens = [
     "reviews": 54,
     "address": {
       "uz": "Yakkasaroy tumani, 11-mavze",
-      "ru": "Yakkasaroy район, 9-й квартал"
+      "ru": "Yakkasaroy район, 9-й квартал",
+      "en": "Yakkasaray district, block 11"
     },
     "district": "Yakkasaroy",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1258,6 +1594,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -1272,11 +1611,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "27",
     "image": "/miracle-baby.jpg",
@@ -1291,12 +1637,14 @@ export const kindergartens = [
     "reviews": 214,
     "address": {
       "uz": "Yashnobod tumani, 2-mavze",
-      "ru": "Yashnobod район, 2-й квартал"
+      "ru": "Yashnobod район, 2-й квартал",
+      "en": "Yashnabad district, block 2"
     },
     "district": "Yashnobod",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1304,6 +1652,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -1316,11 +1667,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "28",
     "image": "/little-einsteins.jpg",
@@ -1335,12 +1692,14 @@ export const kindergartens = [
     "reviews": 101,
     "address": {
       "uz": "Yunusobod tumani, 20-mavze",
-      "ru": "Yunusobod район, 2-й квартал"
+      "ru": "Yunusobod район, 2-й квартал",
+      "en": "Yunusabad district, block 20"
     },
     "district": "Yunusobod",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1352,6 +1711,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -1366,11 +1730,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "29",
     "image": "/blackstone.jpg",
@@ -1385,12 +1756,14 @@ export const kindergartens = [
     "reviews": 136,
     "address": {
       "uz": "Yunusobod tumani, 3-mavze",
-      "ru": "Yunusobod район, 5-й квартал"
+      "ru": "Yunusobod район, 5-й квартал",
+      "en": "Yunusabad district, block 3"
     },
     "district": "Yunusobod",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1402,6 +1775,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -1416,11 +1794,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "30",
     "image": "/yosh-oriflar.jpg",
@@ -1435,12 +1820,14 @@ export const kindergartens = [
     "reviews": 59,
     "address": {
       "uz": "Yakkasaroy tumani, 14-mavze",
-      "ru": "Yakkasaroy район, 5-й квартал"
+      "ru": "Yakkasaroy район, 5-й квартал",
+      "en": "Yakkasaray district, block 14"
     },
     "district": "Yakkasaroy",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1450,6 +1837,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -1464,11 +1855,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "31",
     "image": "/kamalak.jpg",
@@ -1483,12 +1881,14 @@ export const kindergartens = [
     "reviews": 98,
     "address": {
       "uz": "Yangihayot tumani, 1-mavze",
-      "ru": "Yangihayot район, 3-й квартал"
+      "ru": "Yangihayot район, 3-й квартал",
+      "en": "Yangihayot tumani, block 1"
     },
     "district": "Yangihayot",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1498,6 +1898,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -1512,11 +1916,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "32",
     "image": "/ai-1.jpg",
@@ -1531,12 +1942,14 @@ export const kindergartens = [
     "reviews": 61,
     "address": {
       "uz": "Mirobod tumani, 10-mavze",
-      "ru": "Mirobod район, 13-й квартал"
+      "ru": "Mirobod район, 13-й квартал",
+      "en": "Mirabad district, block 10"
     },
     "district": "Mirobod",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1544,6 +1957,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -1558,11 +1974,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "33",
     "image": "/ai-2.jpg",
@@ -1577,12 +2000,14 @@ export const kindergartens = [
     "reviews": 196,
     "address": {
       "uz": "Yashnobod tumani, 1-mavze",
-      "ru": "Yashnobod район, 3-й квартал"
+      "ru": "Yashnobod район, 3-й квартал",
+      "en": "Yashnabad district, block 1"
     },
     "district": "Yashnobod",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1590,6 +2015,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -1602,11 +2030,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "34",
     "image": "/ai-3.jpg",
@@ -1621,12 +2055,14 @@ export const kindergartens = [
     "reviews": 185,
     "address": {
       "uz": "Bektemir tumani, 18-mavze",
-      "ru": "Bektemir район, 13-й квартал"
+      "ru": "Bektemir район, 13-й квартал",
+      "en": "Bektemir district, block 18"
     },
     "district": "Bektemir",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1638,6 +2074,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -1652,11 +2093,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "35",
     "image": "/ai-4.jpg",
@@ -1671,12 +2119,14 @@ export const kindergartens = [
     "reviews": 190,
     "address": {
       "uz": "Uchtepa tumani, 13-mavze",
-      "ru": "Uchtepa район, 2-й квартал"
+      "ru": "Uchtepa район, 2-й квартал",
+      "en": "Uchtepa district, block 13"
     },
     "district": "Uchtepa",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1688,6 +2138,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -1702,11 +2157,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "36",
     "image": "/ai-5.jpg",
@@ -1721,12 +2183,14 @@ export const kindergartens = [
     "reviews": 78,
     "address": {
       "uz": "Yakkasaroy tumani, 1-mavze",
-      "ru": "Yakkasaroy район, 5-й квартал"
+      "ru": "Yakkasaroy район, 5-й квартал",
+      "en": "Yakkasaray district, block 1"
     },
     "district": "Yakkasaroy",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1736,6 +2200,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -1750,11 +2218,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "37",
     "image": "/happy-kids-academy.jpg",
@@ -1769,12 +2244,14 @@ export const kindergartens = [
     "reviews": 22,
     "address": {
       "uz": "Mirzo Ulug'bek tumani, 9-mavze",
-      "ru": "Mirzo Ulug'bek район, 4-й квартал"
+      "ru": "Mirzo Ulug'bek район, 4-й квартал",
+      "en": "Mirzo Ulugbek district, block 9"
     },
     "district": "Mirzo Ulug'bek",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1784,6 +2261,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -1798,11 +2279,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "38",
     "image": "/erkatoy.jpg",
@@ -1817,12 +2305,14 @@ export const kindergartens = [
     "reviews": 98,
     "address": {
       "uz": "Uchtepa tumani, 1-mavze",
-      "ru": "Uchtepa район, 2-й квартал"
+      "ru": "Uchtepa район, 2-й квартал",
+      "en": "Uchtepa district, block 1"
     },
     "district": "Uchtepa",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1830,6 +2320,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -1844,11 +2337,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "39",
     "image": "/miracle-baby.jpg",
@@ -1863,12 +2363,14 @@ export const kindergartens = [
     "reviews": 169,
     "address": {
       "uz": "Yunusobod tumani, 6-mavze",
-      "ru": "Yunusobod район, 5-й квартал"
+      "ru": "Yunusobod район, 5-й квартал",
+      "en": "Yunusabad district, block 6"
     },
     "district": "Yunusobod",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1876,6 +2378,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -1888,11 +2393,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "40",
     "image": "/little-einsteins.jpg",
@@ -1907,12 +2418,14 @@ export const kindergartens = [
     "reviews": 171,
     "address": {
       "uz": "Yangihayot tumani, 18-mavze",
-      "ru": "Yangihayot район, 11-й квартал"
+      "ru": "Yangihayot район, 11-й квартал",
+      "en": "Yangihayot tumani, block 18"
     },
     "district": "Yangihayot",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1924,6 +2437,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -1938,11 +2456,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "41",
     "image": "/blackstone.jpg",
@@ -1957,12 +2482,14 @@ export const kindergartens = [
     "reviews": 62,
     "address": {
       "uz": "Mirobod tumani, 3-mavze",
-      "ru": "Mirobod район, 15-й квартал"
+      "ru": "Mirobod район, 15-й квартал",
+      "en": "Mirabad district, block 3"
     },
     "district": "Mirobod",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -1974,6 +2501,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -1988,11 +2520,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "42",
     "image": "/yosh-oriflar.jpg",
@@ -2007,12 +2546,14 @@ export const kindergartens = [
     "reviews": 100,
     "address": {
       "uz": "Yashnobod tumani, 1-mavze",
-      "ru": "Yashnobod район, 10-й квартал"
+      "ru": "Yashnobod район, 10-й квартал",
+      "en": "Yashnabad district, block 1"
     },
     "district": "Yashnobod",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2022,6 +2563,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -2036,11 +2581,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "43",
     "image": "/kamalak.jpg",
@@ -2055,12 +2607,14 @@ export const kindergartens = [
     "reviews": 48,
     "address": {
       "uz": "Yashnobod tumani, 20-mavze",
-      "ru": "Yashnobod район, 7-й квартал"
+      "ru": "Yashnobod район, 7-й квартал",
+      "en": "Yashnabad district, block 20"
     },
     "district": "Yashnobod",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2070,6 +2624,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -2084,11 +2642,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "44",
     "image": "/ai-1.jpg",
@@ -2103,12 +2668,14 @@ export const kindergartens = [
     "reviews": 48,
     "address": {
       "uz": "Yakkasaroy tumani, 2-mavze",
-      "ru": "Yakkasaroy район, 17-й квартал"
+      "ru": "Yakkasaroy район, 17-й квартал",
+      "en": "Yakkasaray district, block 2"
     },
     "district": "Yakkasaroy",
     "price": {
       "uz": "4 000 000 UZS/oy",
-      "ru": "4 000 000 сум/мес"
+      "ru": "4 000 000 сум/мес",
+      "en": "4 000 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2116,6 +2683,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Английский"
+      ],
+      "en": [
+        "English"
       ]
     },
     "features": {
@@ -2130,11 +2700,18 @@ export const kindergartens = [
         "Носитель языка",
         "Робототехника",
         "Арт студия"
+      ],
+      "en": [
+        "International curriculum",
+        "Native speaker",
+        "Robotics",
+        "Art studio"
       ]
     },
     "description": {
       "uz": "Xalqaro standartlar asosida ta'lim beruvchi premium klassdagi bolalar bog'chasi.",
-      "ru": "Детский сад премиум класса, обучающий по международным стандартам."
+      "ru": "Детский сад премиум класса, обучающий по международным стандартам.",
+      "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "45",
     "image": "/ai-2.jpg",
@@ -2149,12 +2726,14 @@ export const kindergartens = [
     "reviews": 148,
     "address": {
       "uz": "Chilonzor tumani, 8-mavze",
-      "ru": "Chilonzor район, 3-й квартал"
+      "ru": "Chilonzor район, 3-й квартал",
+      "en": "Chilanzar district, block 8"
     },
     "district": "Chilonzor",
     "price": {
       "uz": "1 500 000 UZS/oy",
-      "ru": "1 500 000 сум/мес"
+      "ru": "1 500 000 сум/мес",
+      "en": "1 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2162,6 +2741,9 @@ export const kindergartens = [
       ],
       "ru": [
         "Узбекский"
+      ],
+      "en": [
+        "Uzbek"
       ]
     },
     "features": {
@@ -2174,11 +2756,17 @@ export const kindergartens = [
         "Национальные традиции",
         "Борьба",
         "4-разовое питание"
+      ],
+      "en": [
+        "National traditions",
+        "Wrestling",
+        "4 meals a day"
       ]
     },
     "description": {
       "uz": "Milliy qadriyatlarimiz asosida farzandlarimizni tarbiyalaydigan shinam makon.",
-      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей."
+      "ru": "Уютное место, где мы воспитываем наших детей на основе национальных ценностей.",
+      "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "46",
     "image": "/ai-3.jpg",
@@ -2193,12 +2781,14 @@ export const kindergartens = [
     "reviews": 108,
     "address": {
       "uz": "Mirzo Ulug'bek tumani, 1-mavze",
-      "ru": "Mirzo Ulug'bek район, 14-й квартал"
+      "ru": "Mirzo Ulug'bek район, 14-й квартал",
+      "en": "Mirzo Ulugbek district, block 1"
     },
     "district": "Mirzo Ulug'bek",
     "price": {
       "uz": "2 200 000 UZS/oy",
-      "ru": "2 200 000 сум/мес"
+      "ru": "2 200 000 сум/мес",
+      "en": "2 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2210,6 +2800,11 @@ export const kindergartens = [
         "Русский",
         "Узбекский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "Uzbek",
+        "English"
       ]
     },
     "features": {
@@ -2224,11 +2819,18 @@ export const kindergartens = [
         "Бассейн",
         "Психолог",
         "Музыка"
+      ],
+      "en": [
+        "Spacious playground",
+        "Swimming pool",
+        "Psychologist",
+        "Music"
       ]
     },
     "description": {
       "uz": "Katta yashil hududga ega bolalar uchun ajoyib dam olish va o'qish markazi.",
-      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией."
+      "ru": "Отличный центр отдыха и обучения для детей с большой зеленой территорией.",
+      "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "47",
     "image": "/ai-4.jpg",
@@ -2243,12 +2845,14 @@ export const kindergartens = [
     "reviews": 86,
     "address": {
       "uz": "Yashnobod tumani, 11-mavze",
-      "ru": "Yashnobod район, 20-й квартал"
+      "ru": "Yashnobod район, 20-й квартал",
+      "en": "Yashnabad district, block 11"
     },
     "district": "Yashnobod",
     "price": {
       "uz": "2 500 000 UZS/oy",
-      "ru": "2 500 000 сум/мес"
+      "ru": "2 500 000 сум/мес",
+      "en": "2 500 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2260,6 +2864,11 @@ export const kindergartens = [
         "Узбекский",
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -2274,11 +2883,18 @@ export const kindergartens = [
         "5-разовое питание",
         "Интенсивный английский",
         "Гимнастика"
+      ],
+      "en": [
+        "Swimming pool",
+        "5 meals a day",
+        "Intensive English",
+        "Gymnastics"
       ]
     },
     "description": {
       "uz": "Happy Kids Academy - bu bolangizning har tomonlama rivojlanishi uchun yaratilgan zamonaviy maktabgacha ta'lim muassasasi.",
-      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение."
+      "ru": "Happy Kids Academy - современное дошкольное образовательное учреждение.",
+      "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "48",
     "image": "/ai-5.jpg",
@@ -2293,12 +2909,14 @@ export const kindergartens = [
     "reviews": 170,
     "address": {
       "uz": "Mirobod tumani, 9-mavze",
-      "ru": "Mirobod район, 14-й квартал"
+      "ru": "Mirobod район, 14-й квартал",
+      "en": "Mirabad district, block 9"
     },
     "district": "Mirobod",
     "price": {
       "uz": "3 200 000 UZS/oy",
-      "ru": "3 200 000 сум/мес"
+      "ru": "3 200 000 сум/мес",
+      "en": "3 200 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2308,6 +2926,10 @@ export const kindergartens = [
       "ru": [
         "Русский",
         "Английский"
+      ],
+      "en": [
+        "Russian",
+        "English"
       ]
     },
     "features": {
@@ -2322,11 +2944,18 @@ export const kindergartens = [
         "Ментальная арифметика",
         "Шахматы",
         "Видеонаблюдение"
+      ],
+      "en": [
+        "Eco environment",
+        "Mental arithmetic",
+        "Chess",
+        "24/7 CCTV"
       ]
     },
     "description": {
       "uz": "Erkatoy bog'chasi bolalarga zamonaviy bilim berish bilan bir qatorda, ularning ijodiy qobiliyatlarini rivojlantirishga qaratilgan.",
-      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей."
+      "ru": "Детский сад Erkatoy направлен на развитие творческих способностей детей.",
+      "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "49",
     "image": "/happy-kids-academy.jpg",
@@ -2341,12 +2970,14 @@ export const kindergartens = [
     "reviews": 140,
     "address": {
       "uz": "Chilonzor tumani, 2-mavze",
-      "ru": "Chilonzor район, 11-й квартал"
+      "ru": "Chilonzor район, 11-й квартал",
+      "en": "Chilanzar district, block 2"
     },
     "district": "Chilonzor",
     "price": {
       "uz": "1 800 000 UZS/oy",
-      "ru": "1 800 000 сум/мес"
+      "ru": "1 800 000 сум/мес",
+      "en": "1 800 000 UZS/month"
     },
     "languages": {
       "uz": [
@@ -2356,6 +2987,10 @@ export const kindergartens = [
       "ru": [
         "Узбекский",
         "Русский"
+      ],
+      "en": [
+        "Uzbek",
+        "Russian"
       ]
     },
     "features": {
@@ -2370,11 +3005,18 @@ export const kindergartens = [
         "Танцы",
         "Логопед",
         "Lego room"
+      ],
+      "en": [
+        "4 meals a day",
+        "Dance",
+        "Speech therapist",
+        "Lego room"
       ]
     },
     "description": {
       "uz": "Sifatli ta'lim, hamyonbop narxlar. Miracle baby - kelajak avlod uchun to'g'ri tanlov.",
-      "ru": "Качественное образование, доступные цены."
+      "ru": "Качественное образование, доступные цены.",
+      "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "50",
     "image": "/erkatoy.jpg",

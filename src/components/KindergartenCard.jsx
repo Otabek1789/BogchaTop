@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import { MapPin, Star, Users, CheckCircle2, Heart } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { 
+  getLocalizedLanguages, 
+  getLocalizedFeatures, 
+  getLocalizedAddress, 
+  getLocalizedPrice 
+} from '../utils/kindergartenLocalization';
 import './KindergartenCard.css';
 
 export default function KindergartenCard({ data }) {
@@ -59,11 +65,11 @@ export default function KindergartenCard({ data }) {
         
         <div className="kg-info-row">
           <MapPin size={16} color="var(--neutral-500)" />
-          <span>{data.address[lang] || data.address['uz']}</span>
+          <span>{getLocalizedAddress(data, lang)}</span>
         </div>
         
         <div className="kg-features">
-          {(data.features[lang] || data.features['uz']).slice(0, 3).map((feature, i) => (
+          {getLocalizedFeatures(data, lang).slice(0, 3).map((feature, i) => (
             <span key={i} className="feature-tag">
               <CheckCircle2 size={12} color="var(--brand-500)" />
               {feature}
@@ -73,11 +79,11 @@ export default function KindergartenCard({ data }) {
         
         <div className="kg-card-footer">
           <div className="kg-price">
-            <span className="price-val">{data.price[lang] || data.price['uz']}</span>
+            <span className="price-val">{getLocalizedPrice(data, lang)}</span>
           </div>
           <div className="kg-languages">
             <Users size={16} color="var(--neutral-500)" />
-            <span>{(data.languages[lang] || data.languages['uz']).join(", ")}</span>
+            <span>{getLocalizedLanguages(data, lang).join(", ")}</span>
           </div>
         </div>
       </div>
