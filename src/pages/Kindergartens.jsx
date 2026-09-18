@@ -146,10 +146,23 @@ export default function Kindergartens() {
               {filtered.map(kg => kg.coordinates && (
                 <Marker key={kg.id} position={kg.coordinates}>
                   <Popup>
-                    <div style={{ textAlign: 'center' }}>
-                      <h4 style={{ margin: '0 0 8px 0', fontSize: '14px' }}>{kg.name}</h4>
-                      <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#666' }}>{getLocalizedAddress(kg, lang)}</p>
-                      <a href={`/bogcha/${kg.id}`} style={{ display: 'inline-block', background: 'var(--brand-500)', color: 'white', padding: '4px 12px', borderRadius: '4px', textDecoration: 'none', fontSize: '12px' }}>
+                    <div style={{ textAlign: 'center', padding: '16px 14px', minWidth: '180px' }}>
+                      <h4 style={{ margin: '0 0 6px 0', fontSize: '15px', fontWeight: '600', color: '#ffffff' }}>{kg.name}</h4>
+                      <p style={{ margin: '0 0 12px 0', fontSize: '13px', color: '#cbd5e1', lineHeight: '1.4' }}>{getLocalizedAddress(kg, lang)}</p>
+                      <a 
+                        href={`/bogcha/${kg.id}`} 
+                        style={{ 
+                          display: 'inline-block', 
+                          background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', 
+                          color: '#ffffff', 
+                          padding: '6px 18px', 
+                          borderRadius: '8px', 
+                          textDecoration: 'none', 
+                          fontSize: '13px', 
+                          fontWeight: '600',
+                          boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)'
+                        }}
+                      >
                         {t('kgFilters.details')}
                       </a>
                     </div>

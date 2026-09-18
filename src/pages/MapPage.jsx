@@ -108,6 +108,9 @@ export default function MapPage() {
                     <span className="popup-rating">⭐ {kg.rating}</span>
                     <span className="popup-price">{typeof kg.price === 'object' ? kg.price[lang] || kg.price['uz'] || '' : kg.price}</span>
                   </div>
+                  <a href={`/bogcha/${kg.id}`} className="popup-btn">
+                    {t('kgFilters.details') || "Batafsil"}
+                  </a>
                 </div>
               </Popup>
             </Marker>
