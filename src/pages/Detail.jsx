@@ -72,13 +72,14 @@ export default function Detail() {
     );
   }
 
+  const numId = parseInt(data.id) || 1;
   const defaultGallery = [
     data.image,
-    "/ai-1.jpg",
-    "/ai-2.jpg",
-    "/ai-3.jpg",
-    "/ai-4.jpg"
-  ];
+    `/ai-${((numId * 3 + 1) % 50) + 1}.jpg`,
+    `/ai-${((numId * 3 + 7) % 50) + 1}.jpg`,
+    `/ai-${((numId * 3 + 13) % 50) + 1}.jpg`,
+    `/ai-${((numId * 3 + 19) % 50) + 1}.jpg`
+  ].filter((img, idx, self) => self.indexOf(img) === idx);
   const imagesToUse = data.images || defaultGallery;
 
   return (
