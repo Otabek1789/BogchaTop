@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -18,7 +18,6 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import MyApplications from './pages/MyApplications';
 import AIChatbot from './components/AIChatbot';
-import MapPage from './pages/MapPage';
 import KidsGame from './pages/KidsGame';
 
 function Layout() {
@@ -34,7 +33,7 @@ function Layout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/kindergartens" element={<Kindergartens />} />
-            <Route path="/map" element={<MapPage />} />
+            <Route path="/map" element={<Navigate to="/kindergartens" replace />} />
             <Route path="/kids" element={<KidsGame />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/profile" element={
