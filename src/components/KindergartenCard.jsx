@@ -49,7 +49,15 @@ export default function KindergartenCard({ data }) {
       </button>
 
       <div className="kg-card-img-wrapper">
-        <img src={data.image} alt={data.name} className="kg-card-img" />
+        <img 
+          src={data.image} 
+          alt={data.name} 
+          className="kg-card-img" 
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/happy-kids-academy.jpg';
+          }}
+        />
         <div className="kg-card-badge">{t('detail.verifiedBadge')}</div>
       </div>
       

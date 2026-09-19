@@ -22,6 +22,10 @@ export default function Gallery({ images }) {
           src={images[currentIndex]} 
           alt="Gallery" 
           style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'all 0.3s ease' }} 
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/happy-kids-academy.jpg';
+          }}
         />
         
         {images.length > 1 && (
@@ -61,7 +65,15 @@ export default function Gallery({ images }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              <img src={img} alt={`Thumbnail ${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img 
+                src={img} 
+                alt={`Thumbnail ${idx}`} 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/happy-kids-academy.jpg';
+                }}
+              />
             </div>
           ))}
         </div>

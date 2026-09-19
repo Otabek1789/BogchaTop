@@ -75,10 +75,10 @@ export default function Detail() {
   const numId = parseInt(data.id) || 1;
   const defaultGallery = [
     data.image,
-    `/ai-${((numId * 3 + 1) % 50) + 1}.jpg`,
-    `/ai-${((numId * 3 + 7) % 50) + 1}.jpg`,
-    `/ai-${((numId * 3 + 13) % 50) + 1}.jpg`,
-    `/ai-${((numId * 3 + 19) % 50) + 1}.jpg`
+    `/ai-${((numId * 3 + 1) % 44) + 1}.jpg`,
+    `/ai-${((numId * 3 + 7) % 44) + 1}.jpg`,
+    `/ai-${((numId * 3 + 13) % 44) + 1}.jpg`,
+    `/ai-${((numId * 3 + 19) % 44) + 1}.jpg`
   ].filter((img, idx, self) => self.indexOf(img) === idx);
   const imagesToUse = data.images || defaultGallery;
 
@@ -86,7 +86,15 @@ export default function Detail() {
     <>
       <div className="detail-page animate-fade-in-up">
         <div className="detail-header-bg">
-          <img src={data.image} alt={data.name} className="detail-hero-img" />
+          <img 
+            src={data.image} 
+            alt={data.name} 
+            className="detail-hero-img" 
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/happy-kids-academy.jpg';
+            }}
+          />
           <div className="overlay"></div>
           <div className="container header-content-wrapper">
             <Link to="/" className="back-btn">
