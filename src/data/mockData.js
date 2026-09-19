@@ -780,7 +780,7 @@ export const kindergartens = [
       "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "13",
-    "image": "/happy-kids-academy.jpg",
+    "image": "/ai-6.jpg",
     "coordinates": [
       41.267349,
       69.279095
@@ -841,7 +841,7 @@ export const kindergartens = [
       "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "14",
-    "image": "/erkatoy.jpg",
+    "image": "/ai-7.jpg",
     "coordinates": [
       41.233576,
       69.275054
@@ -899,7 +899,7 @@ export const kindergartens = [
       "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "15",
-    "image": "/miracle-baby.jpg",
+    "image": "/ai-8.jpg",
     "coordinates": [
       41.257425,
       69.239942
@@ -954,7 +954,7 @@ export const kindergartens = [
       "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "16",
-    "image": "/little-einsteins.jpg",
+    "image": "/ai-9.jpg",
     "coordinates": [
       41.289505,
       69.328617
@@ -1018,7 +1018,7 @@ export const kindergartens = [
       "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "17",
-    "image": "/blackstone.jpg",
+    "image": "/ai-10.jpg",
     "coordinates": [
       41.295378,
       69.333035
@@ -1082,7 +1082,7 @@ export const kindergartens = [
       "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "18",
-    "image": "/yosh-oriflar.jpg",
+    "image": "/ai-11.jpg",
     "coordinates": [
       41.316217,
       69.202713
@@ -1143,7 +1143,7 @@ export const kindergartens = [
       "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "19",
-    "image": "/kamalak.jpg",
+    "image": "/ai-12.jpg",
     "coordinates": [
       41.277435,
       69.198829
@@ -1204,7 +1204,7 @@ export const kindergartens = [
       "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "20",
-    "image": "/ai-1.jpg",
+    "image": "/ai-13.jpg",
     "coordinates": [
       41.233172,
       69.201334
@@ -1262,7 +1262,7 @@ export const kindergartens = [
       "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "21",
-    "image": "/ai-2.jpg",
+    "image": "/ai-14.jpg",
     "coordinates": [
       41.257342,
       69.319101
@@ -1317,7 +1317,7 @@ export const kindergartens = [
       "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "22",
-    "image": "/ai-3.jpg",
+    "image": "/ai-15.jpg",
     "coordinates": [
       41.22849,
       69.312278
@@ -1381,7 +1381,7 @@ export const kindergartens = [
       "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "23",
-    "image": "/ai-4.jpg",
+    "image": "/ai-16.jpg",
     "coordinates": [
       41.313216,
       69.3293
@@ -1445,7 +1445,7 @@ export const kindergartens = [
       "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "24",
-    "image": "/ai-5.jpg",
+    "image": "/ai-17.jpg",
     "coordinates": [
       41.239056,
       69.321154
@@ -1506,7 +1506,7 @@ export const kindergartens = [
       "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "25",
-    "image": "/happy-kids-academy.jpg",
+    "image": "/ai-18.jpg",
     "coordinates": [
       41.372281,
       69.326842
@@ -1567,7 +1567,7 @@ export const kindergartens = [
       "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "26",
-    "image": "/erkatoy.jpg",
+    "image": "/ai-19.jpg",
     "coordinates": [
       41.373337,
       69.289657
@@ -1625,7 +1625,7 @@ export const kindergartens = [
       "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "27",
-    "image": "/miracle-baby.jpg",
+    "image": "/ai-20.jpg",
     "coordinates": [
       41.297794,
       69.323122
@@ -1680,7 +1680,7 @@ export const kindergartens = [
       "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "28",
-    "image": "/little-einsteins.jpg",
+    "image": "/ai-21.jpg",
     "coordinates": [
       41.282637,
       69.243512
@@ -1744,7 +1744,7 @@ export const kindergartens = [
       "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "29",
-    "image": "/blackstone.jpg",
+    "image": "/ai-22.jpg",
     "coordinates": [
       41.283465,
       69.266623
@@ -1808,7 +1808,7 @@ export const kindergartens = [
       "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "30",
-    "image": "/yosh-oriflar.jpg",
+    "image": "/ai-23.jpg",
     "coordinates": [
       41.329674,
       69.348541
@@ -1869,7 +1869,7 @@ export const kindergartens = [
       "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "31",
-    "image": "/kamalak.jpg",
+    "image": "/ai-24.jpg",
     "coordinates": [
       41.273758,
       69.328662
@@ -1930,7 +1930,7 @@ export const kindergartens = [
       "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "32",
-    "image": "/ai-1.jpg",
+    "image": "/ai-25.jpg",
     "coordinates": [
       41.369403,
       69.345083
@@ -1988,7 +1988,7 @@ export const kindergartens = [
       "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "33",
-    "image": "/ai-2.jpg",
+    "image": "/ai-26.jpg",
     "coordinates": [
       41.256119,
       69.319699
@@ -2043,7 +2043,7 @@ export const kindergartens = [
       "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "34",
-    "image": "/ai-3.jpg",
+    "image": "/ai-27.jpg",
     "coordinates": [
       41.272569,
       69.257818
@@ -2107,7 +2107,7 @@ export const kindergartens = [
       "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "35",
-    "image": "/ai-4.jpg",
+    "image": "/ai-28.jpg",
     "coordinates": [
       41.273182,
       69.229837
@@ -2171,7 +2171,7 @@ export const kindergartens = [
       "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "36",
-    "image": "/ai-5.jpg",
+    "image": "/ai-29.jpg",
     "coordinates": [
       41.332357,
       69.294372
@@ -2232,7 +2232,7 @@ export const kindergartens = [
       "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "37",
-    "image": "/happy-kids-academy.jpg",
+    "image": "/ai-30.jpg",
     "coordinates": [
       41.336923,
       69.247874
@@ -2293,7 +2293,7 @@ export const kindergartens = [
       "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "38",
-    "image": "/erkatoy.jpg",
+    "image": "/ai-31.jpg",
     "coordinates": [
       41.244344,
       69.240714
@@ -2351,7 +2351,7 @@ export const kindergartens = [
       "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "39",
-    "image": "/miracle-baby.jpg",
+    "image": "/ai-32.jpg",
     "coordinates": [
       41.233335,
       69.186866
@@ -2406,7 +2406,7 @@ export const kindergartens = [
       "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "40",
-    "image": "/little-einsteins.jpg",
+    "image": "/ai-33.jpg",
     "coordinates": [
       41.369582,
       69.245585
@@ -2470,7 +2470,7 @@ export const kindergartens = [
       "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "41",
-    "image": "/blackstone.jpg",
+    "image": "/ai-34.jpg",
     "coordinates": [
       41.355789,
       69.340716
@@ -2534,7 +2534,7 @@ export const kindergartens = [
       "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "42",
-    "image": "/yosh-oriflar.jpg",
+    "image": "/ai-35.jpg",
     "coordinates": [
       41.258563,
       69.251482
@@ -2595,7 +2595,7 @@ export const kindergartens = [
       "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "43",
-    "image": "/kamalak.jpg",
+    "image": "/ai-36.jpg",
     "coordinates": [
       41.372262,
       69.308703
@@ -2656,7 +2656,7 @@ export const kindergartens = [
       "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "44",
-    "image": "/ai-1.jpg",
+    "image": "/ai-37.jpg",
     "coordinates": [
       41.290453,
       69.274305
@@ -2714,7 +2714,7 @@ export const kindergartens = [
       "en": "A premium-class kindergarten providing world-class education based on international standards."
     },
     "id": "45",
-    "image": "/ai-2.jpg",
+    "image": "/ai-38.jpg",
     "coordinates": [
       41.224231,
       69.284093
@@ -2769,7 +2769,7 @@ export const kindergartens = [
       "en": "A cozy haven that fosters our children based on time-honored values and modern care."
     },
     "id": "46",
-    "image": "/ai-3.jpg",
+    "image": "/ai-39.jpg",
     "coordinates": [
       41.272922,
       69.292792
@@ -2833,7 +2833,7 @@ export const kindergartens = [
       "en": "A wonderful learning and recreational center for children featuring a large green territory."
     },
     "id": "47",
-    "image": "/ai-4.jpg",
+    "image": "/ai-40.jpg",
     "coordinates": [
       41.351054,
       69.227061
@@ -2897,7 +2897,7 @@ export const kindergartens = [
       "en": "Happy Kids Academy is a modern pre-school education institution designed for the comprehensive development of your child."
     },
     "id": "48",
-    "image": "/ai-5.jpg",
+    "image": "/ai-41.jpg",
     "coordinates": [
       41.37522,
       69.333734
@@ -2958,7 +2958,7 @@ export const kindergartens = [
       "en": "Erkatoy kindergarten provides modern education while fostering children's creative and practical abilities."
     },
     "id": "49",
-    "image": "/happy-kids-academy.jpg",
+    "image": "/ai-42.jpg",
     "coordinates": [
       41.234756,
       69.265158
@@ -3019,7 +3019,7 @@ export const kindergartens = [
       "en": "Quality education at affordable prices. Miracle Baby is the right choice for the future generation."
     },
     "id": "50",
-    "image": "/erkatoy.jpg",
+    "image": "/ai-43.jpg",
     "coordinates": [
       41.244473,
       69.199931

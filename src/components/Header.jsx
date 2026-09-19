@@ -46,9 +46,6 @@ export default function Header({ isAdmin }) {
         <nav className="nav-desktop" style={isAdmin ? { position: 'absolute', left: '50%', transform: 'translateX(-50%)' } : {}}>
           <Link to="/" className="nav-link">{t('header.home')}</Link>
           <Link to="/kindergartens" className="nav-link">{t('header.kindergartens')}</Link>
-          <Link to="/map" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            {t('header.map')}
-          </Link>
           <Link to="/kids" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {t('header.kids')}
           </Link>
