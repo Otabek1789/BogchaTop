@@ -9,6 +9,7 @@ import {
 import { pcBuilderCategories, pcComponents, calculateBenchmarkFPS } from '../data/pcBuilderData';
 import { useCart } from '../context/CartContext';
 import { useGamer } from '../context/GamerContext';
+import { useLanguage } from '../context/LanguageContext';
 import { soundFX } from '../utils/soundFX';
 import toast from 'react-hot-toast';
 import './PCBuilder.css';
@@ -16,6 +17,7 @@ import './PCBuilder.css';
 export default function PCBuilder() {
   const { addToCart, setIsCartOpen } = useCart();
   const { addXP, unlockBadge } = useGamer();
+  const { t } = useLanguage();
 
   // State of selected parts: { cpu: item, gpu: item, ... }
   const [selectedParts, setSelectedParts] = useState(() => {
@@ -193,23 +195,23 @@ export default function PCBuilder() {
         <div className="builder-hero-content">
           <div className="builder-badge">
             <Sparkles size={15} />
-            <span>INTERAKTIV PC KONFIGURATOR 2025</span>
+            <span>{t('builder.badge')}</span>
           </div>
           <h1 className="builder-title">
-            ORZUYINGIZDAGI <span className="neon-gradient-text">GAMING KOMPYUTERNI</span> YIG'ING
+            {t('builder.title1')} <span className="neon-gradient-text">{t('builder.titleAccent')}</span> {t('builder.title2')}
           </h1>
           <p className="builder-subtitle">
-            Har bir detalning o'zaro mosligini real-vaqtda tekshiring, quvvat (Watt) sarfini hisoblang va o'yinlardagi jonli FPS ko'rsatkichlarini sinovdan o'tkazing.
+            {t('builder.subtitle')}
           </p>
 
           <div className="builder-quick-actions">
             <button className="builder-preset-btn" onClick={handleLoadRecommended}>
               <Flame size={16} color="#fbbf24" />
-              <span>Flagman RTX 4090 Yig'ilmani Yuklash</span>
+              <span>{t('builder.loadRecommended')}</span>
             </button>
             <button className="builder-reset-btn" onClick={handleReset}>
               <RotateCcw size={15} />
-              <span>Tozalash</span>
+              <span>{t('builder.reset')}</span>
             </button>
           </div>
         </div>
@@ -220,8 +222,8 @@ export default function PCBuilder() {
         {/* Left Column: Slots Grid */}
         <div className="builder-slots-col">
           <div className="slots-header">
-            <h2>Komponentlar ({Object.values(selectedParts).filter(Boolean).length}/8)</h2>
-            <span className="slots-hint">Qismni o'zgartirish yoki tanlash uchun katak ustiga bosing</span>
+            <h2>{t('builder.components')} ({Object.values(selectedParts).filter(Boolean).length}/8)</h2>
+            <span className="slots-hint">{t('builder.slotsHint')}</span>
           </div>
 
           <div className="slots-grid">
@@ -253,18 +255,18 @@ export default function PCBuilder() {
                         </div>
                       </>
                     ) : (
-                      <p className="slot-empty-text">Ushbu qism tanlanmagan. Tanlash uchun bosing.</p>
+                      <p className="slot-empty-text">{t('builder.emptySlot')}</p>
                     )}
                   </div>
 
                   <div className="slot-action-box">
                     {part ? (
                       <div className="slot-price-actions">
-                        <span className="slot-price">{part.price.toLocaleString()} so'm</span>
+                        <span className="slot-price">{part.price.toLocaleString()} {t('misc.sum')}</span>
                         <button 
                           className="slot-remove-btn" 
                           onClick={(e) => handleRemovePart(cat.id, e)}
-                          title="Olib tashlash"
+                          title="Remove"
                         >
                           <Trash2 size={15} />
                         </button>
@@ -272,7 +274,7 @@ export default function PCBuilder() {
                     ) : (
                       <button className="slot-add-btn">
                         <Plus size={16} />
-                        <span>Tanlash</span>
+                        <span>{t('arsenal.select')}</span>
                       </button>
                     )}
                   </div>
@@ -287,11 +289,11 @@ export default function PCBuilder() {
           {/* Total Price Card */}
           <div className="telemetry-card total-card glass">
             <div className="total-header">
-              <span>Umumiy To'plam Narxi</span>
+              <span>{t('builder.totalPrice')}</span>
               <span className="total-currency">UZS</span>
             </div>
             <div className="total-price-display">
-              {totalPrice.toLocaleString()} <span className="so-m">so'm</span>
+              {totalPrice.toLocaleString()} <span className="so-m">{t('misc.sum')}</span>
             </div>
 
             {/* Compatibility status */}
@@ -300,15 +302,14 @@ export default function PCBuilder() {
                 <>
                   <CheckCircle2 size={18} color="#10b981" />
                   <div>
-                    <strong>100% Mos keladi</strong>
-                    <p>Barcha soketlar, quvvat va interfeyslar to'liq mos keladi.</p>
+                    <strong>{t('builder.compatOk')}</strong>
                   </div>
                 </>
               ) : (
                 <>
                   <AlertTriangle size={20} color="#ef4444" />
                   <div>
-                    <strong>Moslikda Ogohlantirish!</strong>
+                    <strong>{t('builder.compatWarning')}</strong>
                     {compatibilityIssues.map((issue, idx) => (
                       <p key={idx}>{issue}</p>
                     ))}
@@ -320,8 +321,8 @@ export default function PCBuilder() {
             {/* Power Wattage Gauge */}
             <div className="wattage-box">
               <div className="wattage-labels">
-                <span>Quvvat Sarfi (TDP):</span>
-                <strong>~{totalTDP}W / {psuWattage ? `${psuWattage}W` : 'PSU yo\'q'}</strong>
+                <span>{t('builder.estWattage')}</span>
+                <strong>~{totalTDP}W / {psuWattage ? `${psuWattage}W` : 'PSU —'}</strong>
               </div>
               <div className="wattage-progress-bar">
                 <div 
@@ -332,7 +333,7 @@ export default function PCBuilder() {
                   }}
                 />
               </div>
-              <small className="wattage-hint">Tavsiya etiladigan quvvat manbai: kamida {minRecommendedPSU}W</small>
+              <small className="wattage-hint">PSU: ≥ {minRecommendedPSU}W</small>
             </div>
 
             {/* Add to Cart Button */}
@@ -342,7 +343,7 @@ export default function PCBuilder() {
               disabled={!isCompatible || Object.values(selectedParts).filter(Boolean).length === 0}
             >
               <ShoppingCart size={18} />
-              <span>Yig'ilgan PCni Savatga Qo'shish</span>
+              <span>{t('builder.addBuildToCart')}</span>
               <ArrowRight size={18} />
             </button>
           </div>
@@ -351,7 +352,7 @@ export default function PCBuilder() {
           <div className="telemetry-card benchmarks-card glass">
             <div className="benchmark-title-box">
               <Activity size={18} color="#00f0ff" />
-              <h3>Jonli O'yinlar FPS Bashorati</h3>
+              <h3>{t('builder.benchmarkTitle')}</h3>
             </div>
             <div className="verdict-banner">
               {benchmarks.verdict}
@@ -425,7 +426,7 @@ export default function PCBuilder() {
             <div className="modal-header">
               <div className="modal-title-box">
                 {getIcon(activeCategory)}
-                <h3>{pcBuilderCategories.find(c => c.id === activeCategory)?.name} Tanlash</h3>
+                <h3>{pcBuilderCategories.find(c => c.id === activeCategory)?.name} - {t('builder.selectPartModalTitle')}</h3>
               </div>
               <button className="modal-close-btn" onClick={() => setActiveCategory(null)}>✕</button>
             </div>

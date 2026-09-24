@@ -122,21 +122,21 @@ export default function Header({ isAdmin }) {
                 <div className="weapon-dropdown-header">
                   <div className="weapon-header-title">
                     <Crosshair size={16} color="#00f0ff" />
-                    <span>QUROLLAR ARSENALI</span>
+                    <span>{t('arsenal.title')}</span>
                   </div>
                   <button 
                     type="button"
                     className={`weapon-mute-toggle ${soundOn ? 'sound-active' : 'sound-muted'}`}
                     onClick={handleToggleSound}
-                    title={soundOn ? "Ovozni o'chirish (Mute)" : "Ovozni yoqish"}
+                    title={soundOn ? "Mute" : "Unmute"}
                   >
                     {soundOn ? <Volume2 size={14} /> : <VolumeX size={14} />}
-                    <span>{soundOn ? "Ovoz Yoqiq" : "O'chiq"}</span>
+                    <span>{soundOn ? t('arsenal.soundOn') : t('arsenal.soundOff')}</span>
                   </button>
                 </div>
 
                 <p className="weapon-dropdown-subtitle">
-                  Saytdagi har bir klik uchun jangovar qurol ovozini tanlang:
+                  {t('arsenal.subtitle')}
                 </p>
 
                 <div className="weapons-grid-list">
@@ -144,13 +144,13 @@ export default function Header({ isAdmin }) {
                     const isSelected = currentWeapon === weapon.id && soundOn;
                     return (
                       <div 
-                        key={weapon.id}
+                        key={weapon.id} 
                         className={`weapon-card-item ${isSelected ? 'selected' : ''}`}
                         onClick={() => {
                           soundFX.setWeapon(weapon.id);
                           setCurrentWeapon(weapon.id);
                           setSoundOn(true);
-                          toast.success(`Qurol o'rnatildi: ${weapon.name} 💥`, {
+                          toast.success(`${t('arsenal.equippedToast')} ${weapon.name} 💥`, {
                             duration: 2000,
                             style: {
                               background: '#090d16',
@@ -173,10 +173,10 @@ export default function Header({ isAdmin }) {
                           <span className="weapon-desc-text">{weapon.desc}</span>
                           {isSelected ? (
                             <span className="weapon-equipped-badge">
-                              <Check size={12} /> Faol
+                              <Check size={12} /> {t('arsenal.active')}
                             </span>
                           ) : (
-                            <span className="weapon-select-hint">Tanlash</span>
+                            <span className="weapon-select-hint">{t('arsenal.select')}</span>
                           )}
                         </div>
                       </div>

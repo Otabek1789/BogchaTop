@@ -88,7 +88,7 @@ export default function MyApplications() {
                       onClick={() => handleCancelOrder(order.id)}
                       style={{ background: 'transparent', border: '1px solid rgba(239,68,68,0.4)', color: '#ef4444', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', cursor: 'pointer' }}
                     >
-                      Bekor qilish
+                      {t('orders.cancelBtn', 'Bekor qilish')}
                     </button>
                   )}
                 </div>
@@ -119,16 +119,16 @@ export default function MyApplications() {
               {/* Total & Payment Method */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--neutral-200)', paddingTop: '14px' }}>
                 <div style={{ fontSize: '0.85rem', color: 'var(--neutral-400)' }}>
-                  To'lov usuli: <strong style={{ color: 'var(--neutral-900)' }}>{order.paymentMethod}</strong>
+                  {t('orders.paymentMethod', "To'lov usuli:")} <strong style={{ color: 'var(--neutral-900)' }}>{order.paymentMethod}</strong>
                   {order.paymentStatus && (
                     <span style={{ marginLeft: '8px', padding: '2px 8px', borderRadius: '4px', fontSize: '0.72rem', background: order.paymentStatus === 'Paid' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)', color: order.paymentStatus === 'Paid' ? '#34d399' : '#fbbf24' }}>
-                      {order.paymentStatus === 'Paid' ? 'To\'langan' : 'Kutilmoqda'}
+                      {order.paymentStatus === 'Paid' ? t('orders.paid', 'To\'langan') : t('orders.pending', 'Kutilmoqda')}
                     </span>
                   )}
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ color: 'var(--neutral-400)', fontSize: '0.9rem' }}>Jami to'lov:</span>
+                  <span style={{ color: 'var(--neutral-400)', fontSize: '0.9rem' }}>{t('orders.totalPayment', "Jami to'lov:")}</span>
                   <span style={{ fontFamily: 'var(--font-gaming)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--neon-cyan)' }}>
                     {formatPrice(order.totalAmount)}
                   </span>

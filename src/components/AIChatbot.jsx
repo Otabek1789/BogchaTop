@@ -5,6 +5,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { initialProducts } from '../data/gamingData';
 import { useCart } from '../context/CartContext';
 import { useGamer } from '../context/GamerContext';
+import { useLanguage } from '../context/LanguageContext';
 import { soundFX } from '../utils/soundFX';
 import './AIChatbot.css';
 
@@ -19,6 +20,7 @@ if (geminiApiKey) {
 }
 
 export default function AIChatbot() {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState(() => {
     try {
@@ -61,12 +63,12 @@ export default function AIChatbot() {
   }, [messages, isOpen]);
 
   const quickPrompts = [
-    "🔥 Eng kuchli gaming noutbuk qaysi?",
-    "🎮 PS5 Pro va Xbox konsollari",
-    "⚡ CS2 uchun eng zo'r sichqoncha",
-    "🖥️ Orzudagi PCni yig'ish (Konfigurator)",
-    "🎁 Chegirmalar va promokodlar",
-    "🕹️ Yilning eng sara o'yinlari"
+    t('chatbot.quickPrompt1'),
+    t('chatbot.quickPrompt2'),
+    t('chatbot.quickPrompt3'),
+    t('chatbot.quickPrompt4'),
+    t('chatbot.quickPrompt5'),
+    t('chatbot.quickPrompt6')
   ];
 
   // Helper: Faqat foydalanuvchi aynan shu toifa tovarlarini so'ragandagina tavsiya qilish
@@ -216,9 +218,9 @@ Agar tovarlar haqida so'ralmasa, mahsulotlarni majburlab reklama qilmang.`
                 <Bot size={20} color="#000" />
               </div>
               <div>
-                <h3 className="ai-name">Nexus Cyber AI</h3>
+                <h3 className="ai-name">{t('chatbot.title')}</h3>
                 <span className="ai-status">
-                  <span className="online-dot"></span> Online • Gaming Maslahatchi
+                  <span className="online-dot"></span> {t('chatbot.subtitle')}
                 </span>
               </div>
             </div>
@@ -340,7 +342,7 @@ Agar tovarlar haqida so'ralmasa, mahsulotlarni majburlab reklama qilmang.`
               type="text" 
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Gaming yoki texnika haqida so'rang..."
+              placeholder={t('chatbot.placeholder')}
             />
             <button type="submit" className="ai-send-btn" disabled={!input.trim()}>
               <Send size={16} />

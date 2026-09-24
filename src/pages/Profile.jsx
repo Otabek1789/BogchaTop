@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useGamer } from '../context/GamerContext';
+import { useLanguage } from '../context/LanguageContext';
 import { soundFX } from '../utils/soundFX';
 import { 
   User, Mail, Phone, MapPin, Save, Camera, Shield, Package, Heart, 
@@ -11,6 +12,7 @@ import toast from 'react-hot-toast';
 
 export default function Profile() {
   const { user, updateUser } = useAuth();
+  const { t } = useLanguage();
   const { 
     xp, level, currentLevelXp, nextLevelXp, progressPercent, 
     rankTitle, rankBadge, discountPercent, unlockedBadges, allBadges, completedQuests 
@@ -41,7 +43,7 @@ export default function Profile() {
     e.preventDefault();
     soundFX.playClick();
     updateUser({ displayName: formData.name, email: formData.email, photoURL: avatar });
-    toast.success("Profil ma'lumotlari muvaffaqiyatli saqlandi! ✨");
+    toast.success(t('profile.saveSuccess'));
   };
 
   return (
@@ -49,7 +51,7 @@ export default function Profile() {
       {/* Title */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <h1 className="text-h1" style={{ color: 'var(--neutral-900)', fontFamily: 'var(--font-gaming)', margin: 0 }}>
-          GEYMER PASPORTI & PROFIL
+          {t('profile.title')}
         </h1>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link to="/builder" className="btn btn-outline" style={{ padding: '6px 14px', fontSize: '13px' }}>
@@ -138,7 +140,7 @@ export default function Profile() {
             padding: '12px 20px', 
             textAlign: 'right' 
           }}>
-            <span style={{ fontSize: '11px', color: 'var(--neutral-400)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>Umumiy Tajriba</span>
+            <span style={{ fontSize: '11px', color: 'var(--neutral-400)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>{t('profile.stats')}</span>
             <div style={{ fontSize: '24px', fontWeight: 900, color: '#00f0ff', fontFamily: 'var(--font-gaming)' }}>
               {xp} <span style={{ fontSize: '13px', color: 'var(--neutral-400)' }}>XP</span>
             </div>
@@ -148,8 +150,8 @@ export default function Profile() {
         {/* XP Progress Bar */}
         <div style={{ marginBottom: '16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: 'var(--neutral-400)', marginBottom: '6px', fontWeight: 600 }}>
-            <span>{level}-Daraja (Level {level})</span>
-            <span>Keyingi Levelgacha: <strong>{nextLevelXp - currentLevelXp} XP</strong> qoldi</span>
+            <span>{t('profile.level')} {level}</span>
+            <span>{t('profile.xpToNext')} <strong>{nextLevelXp - currentLevelXp} XP</strong></span>
           </div>
           <div style={{ height: '10px', background: 'rgba(255, 255, 255, 0.08)', borderRadius: '10px', overflow: 'hidden' }}>
             <div style={{ 
@@ -177,9 +179,8 @@ export default function Profile() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981', fontSize: '13.5px', fontWeight: 600 }}>
             <Sparkles size={16} />
-            <span>Sizning shaxsiy sodiqlik chegirmangiz: <strong>{discountPercent > 0 ? `${discountPercent}% chegirma aktiv` : '5-Levelda 5% ochiladi'}</strong></span>
+            <span>{t('profile.discount')} <strong>{discountPercent > 0 ? `${discountPercent}%` : '5% (Lvl 5)'}</strong></span>
           </div>
-          <span style={{ fontSize: '12px', color: '#6ee7b7' }}>Har qanday xariddan +XP beriladi!</span>
         </div>
       </div>
 
@@ -188,9 +189,8 @@ export default function Profile() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Award size={20} color="#fbbf24" />
-            <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0 }}>Geymer Yutuqlari ({unlockedBadges.length}/{allBadges.length})</h3>
+            <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0 }}>{t('profile.badgesTitle')} ({unlockedBadges.length}/{allBadges.length})</h3>
           </div>
-          <span style={{ fontSize: '12.5px', color: 'var(--neutral-400)' }}>Yutuqlar ochilganda +150 XP beriladi</span>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '14px' }}>
@@ -242,14 +242,14 @@ export default function Profile() {
       {/* EDIT PERSONAL INFO FORM */}
       <div className="card" style={{ padding: '28px', background: 'var(--surface-warm)', border: '1px solid var(--card-border)' }}>
         <h3 style={{ fontSize: '18px', fontWeight: 800, margin: '0 0 20px', color: 'var(--neutral-900)' }}>
-          Shaxsiy Ma'lumotlar & Manzil
+          {t('profile.personalInfo')}
         </h3>
 
         <form onSubmit={handleSave}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--neutral-400)', marginBottom: '6px' }}>
-                Gamer Taxallusi (Ism)
+                {t('profile.fullName')}
               </label>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--neutral-100)', border: '1px solid var(--neutral-200)', borderRadius: '10px', padding: '10px 14px' }}>
                 <User size={18} color="var(--neon-cyan)" />
@@ -264,7 +264,7 @@ export default function Profile() {
 
             <div>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--neutral-400)', marginBottom: '6px' }}>
-                Elektron pochta
+                {t('auth.email')}
               </label>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--neutral-100)', border: '1px solid var(--neutral-200)', borderRadius: '10px', padding: '10px 14px' }}>
                 <Mail size={18} color="var(--neon-cyan)" />
@@ -279,7 +279,7 @@ export default function Profile() {
 
             <div>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--neutral-400)', marginBottom: '6px' }}>
-                Telefon raqam
+                {t('profile.phone')}
               </label>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--neutral-100)', border: '1px solid var(--neutral-200)', borderRadius: '10px', padding: '10px 14px' }}>
                 <Phone size={18} color="var(--neon-cyan)" />
@@ -294,7 +294,7 @@ export default function Profile() {
 
             <div>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--neutral-400)', marginBottom: '6px' }}>
-                Yetkazib berish manzili
+                {t('profile.deliveryAddress')}
               </label>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--neutral-100)', border: '1px solid var(--neutral-200)', borderRadius: '10px', padding: '10px 14px' }}>
                 <MapPin size={18} color="var(--neon-cyan)" />
@@ -311,20 +311,20 @@ export default function Profile() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
             <div style={{ display: 'flex', gap: '8px' }}>
               <Link to="/orders" className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '13px' }}>
-                <Package size={14} /> Buyurtmalarim
+                <Package size={14} /> {t('nav.orders')}
               </Link>
               <Link to="/favorites" className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '13px' }}>
-                <Heart size={14} /> Sevimlilar
+                <Heart size={14} /> {t('nav.favorites')}
               </Link>
               {user?.isAdmin && (
                 <Link to="/admin" className="btn btn-cyber" style={{ padding: '8px 16px', fontSize: '13px' }}>
-                  <Shield size={14} /> Admin Panel
+                  <Shield size={14} /> {t('nav.admin')}
                 </Link>
               )}
             </div>
 
             <button type="submit" className="btn btn-primary" style={{ padding: '10px 24px' }}>
-              <Save size={16} /> Saqlash
+              <Save size={16} /> {t('profile.save')}
             </button>
           </div>
         </form>

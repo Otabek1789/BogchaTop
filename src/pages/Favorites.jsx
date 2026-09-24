@@ -21,7 +21,7 @@ export default function Favorites() {
       addToCart(prod, 1);
     });
     setIsCartOpen(true);
-    toast.success("Barcha sevimlilar savatga qo'shildi! 🎮");
+    toast.success(t('favorites.addedAllToast', "Barcha sevimlilar savatga qo'shildi! 🎮"));
   };
 
   return (
@@ -32,7 +32,7 @@ export default function Favorites() {
             {t('favorites.title')}
           </h1>
           <p style={{ color: 'var(--neutral-400)', marginTop: '4px' }}>
-            {t('favorites.subtitle')} ({favoriteProducts.length} ta mahsulot)
+            {t('favorites.subtitle')} ({favoriteProducts.length} {t('catalog.items', 'ta tovar')})
           </p>
         </div>
 

@@ -8,7 +8,7 @@ import { Mail, KeyRound, AlertCircle, ArrowLeft, Moon, Sun, Globe, User, ShieldC
 import './Auth.css';
 
 export default function Login({ defaultRegister = false }) {
-  const { loginWithEmail, sendOTP, verifyOTP, signInWithGoogle } = useAuth();
+  const { loginWithEmail, registerWithEmail, sendOTP, verifyOTP, signInWithGoogle } = useAuth();
   const { t, lang, setLang } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -21,14 +21,6 @@ export default function Login({ defaultRegister = false }) {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   
-  // OTP States
-  const [loginStep, setLoginStep] = useState(1); // 1 = email, 2 = code verification
-  const [loginCode, setLoginCode] = useState('');
-
-  // Register OTP States
-  const [registerStep, setRegisterStep] = useState(1); // 1 = fill form, 2 = enter verification code
-  const [registerCode, setRegisterCode] = useState('');
-
   // Forgot Password / OTP Direct Login States
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [forgotStep, setForgotStep] = useState(1); // 1 = enter email, 2 = enter code
@@ -42,10 +34,8 @@ export default function Login({ defaultRegister = false }) {
   useEffect(() => {
     setIsRegister(defaultRegister);
     setIsForgotPassword(false);
-    setRegisterStep(1);
-    setRegisterCode('');
-    setLoginStep(1);
-    setLoginCode('');
+    setForgotStep(1);
+    setForgotCode('');
     setError('');
     setMessage('');
   }, [defaultRegister]);
@@ -63,12 +53,8 @@ export default function Login({ defaultRegister = false }) {
     setIsForgotPassword(false);
     setForgotStep(1);
     setForgotCode('');
-    setRegisterStep(1);
-    setRegisterCode('');
     setError('');
     setMessage('');
-    setLoginStep(1);
-    setLoginCode('');
     try {
       window.history.replaceState(null, '', toRegister ? '/register' : '/login');
     } catch (_) {}
@@ -76,80 +62,52 @@ export default function Login({ defaultRegister = false }) {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if (loginStep === 1) {
-      if (!email || !password) {
-        setError(t('auth.fillEmailPass', "Iltimos, email va parolingizni kiriting"));
-        return;
-      }
-      setError('');
-      setMessage('');
-      setLoading(true);
-      
-      const result = await sendOTP(email);
-      if (result.success) {
-        toast.success(result.message || "Tasdiqlash kodi pochtangizga yuborildi!");
-        setMessage(result.message || t('auth.codeSent', "Email pochtangizga tasdiqlash kodi yuborildi:"));
-        setLoginStep(2);
-      } else {
-        setError(result.error || "Kod yuborishda xatolik yuz berdi. Pochtani tekshiring.");
-      }
-      setLoading(false);
-    } else {
-      if (!loginCode) {
-        setError(t('auth.enterCode', "Iltimos, tasdiqlash kodini kiriting"));
-        return;
-      }
-      setError('');
-      setMessage('');
-      setLoading(true);
-      
-      const result = await verifyOTP(email, loginCode, name);
-      if (result.success) {
-        toast.success("Muvaffaqiyatli kirdingiz!");
+    if (!email || !password) {
+      setError(t('auth.fillEmailPass', "Iltimos, email va parolingizni kiriting"));
+      return;
+    }
+    setError('');
+    setMessage('');
+    setLoading(true);
+    
+    try {
+      const result = await loginWithEmail(email, password);
+      if (result && result.success) {
+        toast.success(t('auth.loginSuccess', "Muvaffaqiyatli kirdingiz!"));
         navigate(result.isAdmin ? '/admin' : '/');
       } else {
-        setError(result.error || "Kod noto'g'ri. Qaytadan tekshiring.");
+        setError(result?.error || t('auth.invalidCredentials', "Email yoki parol noto'g'ri"));
       }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(t('auth.serverError', "Server bilan ulanishda xatolik."));
+    } finally {
       setLoading(false);
     }
   };
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    if (registerStep === 1) {
-      if (!name || !email) {
-        setError(t('auth.fillAllFields') || "Barcha maydonlarni to'ldiring");
-        return;
-      }
-      setError('');
-      setMessage('');
-      setLoading(true);
-      
-      const result = await sendOTP(email);
-      if (result.success) {
-        toast.success(result.message || "Tasdiqlash kodi pochtangizga yuborildi!");
-        setMessage("Ro'yxatdan o'tish tasdiqlash kodi pochtangizga yuborildi. Iltimos, kodni kiriting.");
-        setRegisterStep(2);
-      } else {
-        setError(result.error || "Xatolik yuz berdi");
-      }
-      setLoading(false);
-    } else {
-      if (!registerCode) {
-        setError(t('auth.enterCode') || "Iltimos, tasdiqlash kodini kiriting");
-        return;
-      }
-      setError('');
-      setMessage('');
-      setLoading(true);
-      
-      const result = await verifyOTP(email, registerCode, name);
-      if (result.success) {
-        toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
+    if (!name || !email || !password) {
+      setError(t('auth.fillAllFields', "Iltimos, barcha maydonlarni to'ldiring"));
+      return;
+    }
+    setError('');
+    setMessage('');
+    setLoading(true);
+
+    try {
+      const result = await registerWithEmail(name, email, password);
+      if (result && result.success) {
+        toast.success(t('auth.registerSuccess', "Muvaffaqiyatli ro'yxatdan o'tdingiz!"));
         navigate(result.isAdmin ? '/admin' : '/');
       } else {
-        setError(result.error || "Kod noto'g'ri. Qaytadan tekshiring.");
+        setError(result?.error || t('auth.invalidCredentials', "Ro'yxatdan o'tishda xatolik"));
       }
+    } catch (err) {
+      console.error("Register error:", err);
+      setError(t('auth.serverError', "Server bilan ulanishda xatolik."));
+    } finally {
       setLoading(false);
     }
   };
@@ -167,7 +125,7 @@ export default function Login({ defaultRegister = false }) {
     e.preventDefault();
     if (forgotStep === 1) {
       if (!email) {
-        setError(t('auth.enterEmailFirst') || "Iltimos, elektron pochtangizni kiriting");
+        setError(t('auth.enterEmailFirst', "Iltimos, elektron pochtangizni kiriting"));
         return;
       }
       setError('');
@@ -176,16 +134,16 @@ export default function Login({ defaultRegister = false }) {
 
       const result = await sendOTP(email);
       if (result.success) {
-        toast.success(result.message || "Tasdiqlash kodi pochtangizga yuborildi!");
-        setMessage(result.message || "Email pochtangizga tasdiqlash kodi yuborildi.");
+        toast.success(result.message || t('auth.codeSent', "Tasdiqlash kodi pochtangizga yuborildi!"));
+        setMessage(result.message || t('auth.codeSent', "Email pochtangizga tasdiqlash kodi yuborildi:"));
         setForgotStep(2);
       } else {
-        setError(result.error || "Kod yuborishda xatolik yuz berdi");
+        setError(result.error || t('auth.serverError', "Kod yuborishda xatolik yuz berdi"));
       }
       setLoading(false);
     } else {
       if (!forgotCode) {
-        setError(t('auth.enterCode') || "Iltimos, tasdiqlash kodini kiriting");
+        setError(t('auth.enterCode', "Iltimos, tasdiqlash kodini kiriting"));
         return;
       }
       setError('');
@@ -194,10 +152,10 @@ export default function Login({ defaultRegister = false }) {
 
       const result = await verifyOTP(email, forgotCode);
       if (result.success) {
-        toast.success("Muvaffaqiyatli kirdingiz!");
+        toast.success(t('auth.loginSuccess', "Muvaffaqiyatli kirdingiz!"));
         navigate(result.isAdmin ? '/admin' : '/');
       } else {
-        setError(result.error || "Kod noto'g'ri. Qaytadan tekshiring.");
+        setError(result.error || t('auth.invalidCredentials', "Kod noto'g'ri. Qaytadan tekshiring."));
       }
       setLoading(false);
     }
@@ -211,7 +169,7 @@ export default function Login({ defaultRegister = false }) {
       if (res.success) {
         navigate(res.isAdmin ? '/admin' : '/');
       } else {
-        setError(res.error || t('auth.error'));
+        setError(res.error || t('auth.serverError', "Xatolik yuz berdi"));
       }
       setLoading(false);
       return;
@@ -282,7 +240,7 @@ export default function Login({ defaultRegister = false }) {
               {forgotStep === 1 ? (
                 <>
                   <p style={{ margin: '15px 0 20px', color: 'var(--neutral-600)', fontSize: '14px', lineHeight: '1.5' }}>
-                    Gmail pochtangizni kiriting. Sizga 6 xonali tasdiqlash kodi yuboriladi va u orqali avtomatik saytga kirasiz.
+                    {t('auth.forgotDesc', "Gmail pochtangizni kiriting. Sizga 6 xonali tasdiqlash kodi yuboriladi va u orqali avtomatik saytga kirasiz.")}
                   </p>
                   <div className="auth-input-box">
                     <input 
@@ -296,20 +254,20 @@ export default function Login({ defaultRegister = false }) {
                     <Mail size={20} />
                   </div>
                   <button type="submit" className="auth-btn" disabled={loading} style={{ marginTop: '16px' }}>
-                    {loading ? t('auth.wait', 'Yuborilmoqda...') : "Kodni yuborish"}
+                    {loading ? t('auth.wait', 'Yuborilmoqda...') : t('auth.sendCodeBtn', "Kodni yuborish")}
                   </button>
                   <button 
                     type="button" 
                     onClick={() => { setIsForgotPassword(false); setError(''); setMessage(''); }} 
                     style={{ background: 'none', border: 'none', color: 'var(--brand-500)', marginTop: '20px', cursor: 'pointer', fontSize: '14px', fontWeight: 500 }}
                   >
-                    ← {t('auth.goBack', "Kirish sahifasiga qaytish")}
+                    ← {t('auth.backToLogin', "Kirish sahifasiga qaytish")}
                   </button>
                 </>
               ) : (
                 <>
                   <p style={{ margin: '15px 0 20px', color: 'var(--neutral-600)', fontSize: '14px', lineHeight: '1.5' }}>
-                    Tasdiqlash kodi quyidagi pochtaga yuborildi: <br />
+                    {t('auth.codeSentTo', "Tasdiqlash kodi quyidagi pochtaga yuborildi:")} <br />
                     <strong style={{ color: 'var(--neutral-900)' }}>{email}</strong>
                   </p>
                   <div className="auth-input-box">
@@ -326,14 +284,14 @@ export default function Login({ defaultRegister = false }) {
                     <ShieldCheck size={20} />
                   </div>
                   <button type="submit" className="auth-btn" disabled={loading} style={{ marginTop: '16px' }}>
-                    {loading ? t('auth.checking', 'Tekshirilmoqda...') : "Tasdiqlash va saytga kirish"}
+                    {loading ? t('auth.checking', 'Tekshirilmoqda...') : t('auth.verifyAndLoginBtn', "Tasdiqlash va saytga kirish")}
                   </button>
                   <button 
                     type="button" 
                     onClick={() => { setForgotStep(1); setForgotCode(''); setError(''); setMessage(''); }} 
                     style={{ background: 'none', border: 'none', color: 'var(--neutral-500)', marginTop: '20px', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline' }}
                   >
-                    ← Boshqa email kiritish
+                    ← {t('auth.changeEmail', "Boshqa email kiritish")}
                   </button>
                 </>
               )}
@@ -354,54 +312,20 @@ export default function Login({ defaultRegister = false }) {
                 </div>
               )}
 
-              {loginStep === 1 ? (
-                <>
-                  <div className="auth-input-box">
-                    <input type="email" placeholder={t('auth.email', "Email manzilingiz")} required value={email} onChange={e => setEmail(e.target.value)} />
-                    <Mail size={20} />
-                  </div>
-                  <div className="auth-input-box">
-                    <input type="password" placeholder={t('auth.password', "Parolingiz")} required value={password} onChange={e => setPassword(e.target.value)} />
-                    <KeyRound size={20} />
-                  </div>
-                  <div className="auth-forgot-link">
-                    <a href="#" onClick={openForgotPassword}>{t('auth.forgotPassword', "Parolni unutdingizmi?")}</a>
-                  </div>
-                  <button type="submit" className="auth-btn" disabled={loading}>
-                    {loading ? t('auth.wait', 'Yuborilmoqda...') : t('auth.loginBtn', 'Tizimga kirish')}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <p style={{ marginBottom: '16px', color: 'var(--neutral-600)', fontSize: '14px', lineHeight: '1.4' }}>
-                    {t('auth.codeSent', "Email pochtangizga tasdiqlash kodi yuborildi:")} <br />
-                    <strong style={{ color: 'var(--neutral-900)' }}>{email}</strong>
-                  </p>
-                  <div className="auth-input-box">
-                    <input 
-                      type="text" 
-                      placeholder={t('auth.verifyCode', "Tasdiqlash kodi")} 
-                      required 
-                      maxLength={6}
-                      value={loginCode} 
-                      onChange={e => setLoginCode(e.target.value)} 
-                      style={{ letterSpacing: '4px', textAlign: 'center', fontWeight: 'bold', fontSize: '18px' }} 
-                      autoFocus
-                    />
-                    <ShieldCheck size={20} />
-                  </div>
-                  <button type="submit" className="auth-btn" disabled={loading}>
-                    {loading ? t('auth.checking', 'Tekshirilmoqda...') : t('auth.verifyBtn', 'Tasdiqlash')}
-                  </button>
-                  <button 
-                    type="button" 
-                    onClick={() => { setLoginStep(1); setLoginCode(''); setError(''); setMessage(''); }} 
-                    style={{ background: 'none', border: 'none', color: 'var(--neutral-500)', marginTop: '16px', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline' }}
-                  >
-                    ← {t('auth.goBack', "Ortga qaytish")}
-                  </button>
-                </>
-              )}
+              <div className="auth-input-box">
+                <input type="email" placeholder={t('auth.email', "Email manzilingiz")} required value={email} onChange={e => setEmail(e.target.value)} />
+                <Mail size={20} />
+              </div>
+              <div className="auth-input-box">
+                <input type="password" placeholder={t('auth.password', "Parolingiz")} required value={password} onChange={e => setPassword(e.target.value)} />
+                <KeyRound size={20} />
+              </div>
+              <div className="auth-forgot-link">
+                <a href="#" onClick={openForgotPassword}>{t('auth.forgotPassword', "Parolni unutdingizmi?")}</a>
+              </div>
+              <button type="submit" className="auth-btn" disabled={loading}>
+                {loading ? t('auth.wait', 'Yuborilmoqda...') : t('auth.loginBtn', 'Tizimga kirish')}
+              </button>
               <p>{t('auth.orLoginSocial', "yoki ijtimoiy tarmoqlar orqali kiring")}</p>
               <div className="auth-social-icons">
                 <button type="button" onClick={() => handleSocialMock('Google')}>
@@ -444,76 +368,42 @@ export default function Login({ defaultRegister = false }) {
               </div>
             )}
 
-            {registerStep === 1 ? (
-              <>
-                <div className="auth-input-box">
-                  <input type="text" placeholder={t('auth.username', "Ismingiz")} required value={name} onChange={e => setName(e.target.value)} />
-                  <User size={20} />
-                </div>
-                <div className="auth-input-box">
-                  <input type="email" placeholder={t('auth.email', "Email manzilingiz")} required value={email} onChange={e => setEmail(e.target.value)} />
-                  <Mail size={20} />
-                </div>
-                <div className="auth-input-box">
-                  <input type="password" placeholder={t('auth.password', "Parolingiz")} required value={password} onChange={e => setPassword(e.target.value)} />
-                  <KeyRound size={20} />
-                </div>
-                <button type="submit" className="auth-btn" disabled={loading}>
-                  {loading ? t('auth.wait', 'Iltimos, kuting...') : t('auth.registerBtn', "Ro'yxatdan o'tish")}
-                </button>
-                <p>{t('auth.orRegisterSocial', "yoki quyidagilar orqali ro'yxatdan o'ting")}</p>
-                <div className="auth-social-icons">
-                  <button type="button" onClick={() => handleSocialMock('Google')}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                  </button>
-                  <button type="button" onClick={() => handleSocialMock('Facebook')}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{color: '#1877F2'}}>
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                  </button>
-                  <button type="button" onClick={() => handleSocialMock('Apple')}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.126 3.805 3.052 1.527-.074 2.124-.984 3.96-.984 1.815 0 2.383.984 3.96.958 1.628-.027 2.65-1.524 3.633-2.983 1.144-1.674 1.616-3.298 1.637-3.385-.037-.015-3.176-1.216-3.21-4.858-.029-3.045 2.492-4.508 2.607-4.577-1.428-2.086-3.627-2.37-4.437-2.417-2.032-.128-4.047 1.13-5.078 1.13zm1.186-5.834c.813-.984 1.36-2.355 1.21-3.712-1.155.047-2.585.77-3.419 1.74-.666.772-1.32 2.164-1.144 3.498 1.295.101 2.544-.537 3.353-1.526z"/>
-                    </svg>
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p style={{ margin: '15px 0 20px', color: 'var(--neutral-600)', fontSize: '14px', lineHeight: '1.5' }}>
-                  Tasdiqlash kodi quyidagi pochtaga yuborildi: <br />
-                  <strong style={{ color: 'var(--neutral-900)' }}>{email}</strong>
-                </p>
-                <div className="auth-input-box">
-                  <input 
-                    type="text" 
-                    placeholder={t('auth.verifyCode', "Tasdiqlash kodi")} 
-                    required 
-                    maxLength={6}
-                    value={registerCode} 
-                    onChange={e => setRegisterCode(e.target.value)} 
-                    style={{ letterSpacing: '4px', textAlign: 'center', fontWeight: 'bold', fontSize: '18px' }} 
-                    autoFocus
-                  />
-                  <ShieldCheck size={20} />
-                </div>
-                <button type="submit" className="auth-btn" disabled={loading} style={{ marginTop: '16px' }}>
-                  {loading ? t('auth.checking', 'Tekshirilmoqda...') : t('auth.verifyBtn', "Tasdiqlash")}
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => { setRegisterStep(1); setRegisterCode(''); setError(''); setMessage(''); }} 
-                  style={{ background: 'none', border: 'none', color: 'var(--neutral-500)', marginTop: '20px', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline' }}
-                >
-                  ← {t('auth.goBack', "Ortga qaytish")}
-                </button>
-              </>
-            )}
+            <div className="auth-input-box">
+              <input type="text" placeholder={t('auth.username', "Ismingiz")} required value={name} onChange={e => setName(e.target.value)} />
+              <User size={20} />
+            </div>
+            <div className="auth-input-box">
+              <input type="email" placeholder={t('auth.email', "Email manzilingiz")} required value={email} onChange={e => setEmail(e.target.value)} />
+              <Mail size={20} />
+            </div>
+            <div className="auth-input-box">
+              <input type="password" placeholder={t('auth.password', "Parolingiz")} required value={password} onChange={e => setPassword(e.target.value)} />
+              <KeyRound size={20} />
+            </div>
+            <button type="submit" className="auth-btn" disabled={loading}>
+              {loading ? t('auth.wait', 'Iltimos, kuting...') : t('auth.registerBtn', "Ro'yxatdan o'tish")}
+            </button>
+            <p>{t('auth.orRegisterSocial', "yoki quyidagilar orqali ro'yxatdan o'ting")}</p>
+            <div className="auth-social-icons">
+              <button type="button" onClick={() => handleSocialMock('Google')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+              </button>
+              <button type="button" onClick={() => handleSocialMock('Facebook')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{color: '#1877F2'}}>
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </button>
+              <button type="button" onClick={() => handleSocialMock('Apple')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.126 3.805 3.052 1.527-.074 2.124-.984 3.96-.984 1.815 0 2.383.984 3.96.958 1.628-.027 2.65-1.524 3.633-2.983 1.144-1.674 1.616-3.298 1.637-3.385-.037-.015-3.176-1.216-3.21-4.858-.029-3.045 2.492-4.508 2.607-4.577-1.428-2.086-3.627-2.37-4.437-2.417-2.032-.128-4.047 1.13-5.078 1.13zm1.186-5.834c.813-.984 1.36-2.355 1.21-3.712-1.155.047-2.585.77-3.419 1.74-.666.772-1.32 2.164-1.144 3.498 1.295.101 2.544-.537 3.353-1.526z"/>
+                </svg>
+              </button>
+            </div>
           </form>
         </div>
 

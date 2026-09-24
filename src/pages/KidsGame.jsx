@@ -104,7 +104,7 @@ function KidsGameInternal() {
   const { applyPromoCode, setIsCartOpen } = useCart();
   const { addXP, unlockBadge } = useGamer();
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, lang, setLang } = useLanguage();
   const navigate = useNavigate();
 
   // User avatar: Use uploaded user avatar
@@ -716,20 +716,40 @@ function KidsGameInternal() {
         </div>
 
         <nav className="shot-sub-routes">
-          <span className="route-item">BONUSLAR</span>
-          <span className="route-item">KEYSLAR</span>
+          <span className="route-item">{t('rushMid.bonuses', 'BONUSLAR')}</span>
+          <span className="route-item">{t('rushMid.cases', 'KEYSLAR')}</span>
           <span className="route-item active">RUSH MID</span>
-          <span className="route-item">RUS RULETKASI</span>
-          <span className="route-item">CASE BATTLES</span>
-          <span className="route-item">KONTRAKTLAR</span>
-          <span className="route-item">UPGRADE</span>
-          <span className="route-item" onClick={() => navigate('/products')}>DO'KON</span>
-          <span className="route-item">INVENTAR</span>
-          <span className="route-item">DO'STLAR</span>
+          <span className="route-item">{t('rushMid.roulette', 'RUS RULETKASI')}</span>
+          <span className="route-item">{t('rushMid.battles', 'CASE BATTLES')}</span>
+          <span className="route-item">{t('rushMid.contracts', 'KONTRAKTLAR')}</span>
+          <span className="route-item">{t('rushMid.upgrade', 'UPGRADE')}</span>
+          <span className="route-item" onClick={() => navigate('/products')}>{t('rushMid.store', "DO'KON")}</span>
+          <span className="route-item">{t('rushMid.inventory', 'INVENTAR')}</span>
+          <span className="route-item">{t('rushMid.friends', "DO'STLAR")}</span>
         </nav>
 
         <div className="shot-nav-right">
-          <span className="lang-selector">UZ ▾</span>
+          <button 
+            type="button" 
+            className="lang-selector-btn"
+            style={{ 
+              background: 'rgba(255,255,255,0.08)', 
+              border: '1px solid rgba(255,255,255,0.15)', 
+              color: '#00f0ff', 
+              borderRadius: '8px', 
+              padding: '5px 12px', 
+              fontSize: '13px', 
+              fontWeight: 700, 
+              cursor: 'pointer' 
+            }}
+            onClick={() => {
+              const next = lang === 'uz' ? 'ru' : lang === 'ru' ? 'en' : 'uz';
+              setLang(next);
+            }}
+            title="Tilni almashtirish / Сменить язык / Change language"
+          >
+            🌐 {lang.toUpperCase()} ▾
+          </button>
           <div className="shot-coin-pill">
             <span className="coin-icon">🪙</span>
             <span className="coin-val">{coins}</span>
@@ -758,31 +778,31 @@ function KidsGameInternal() {
                 className={`tab-pill-btn ${activeSubTab === 'games' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('games')}
               >
-                O'yinlar
+                {t('rushMid.tabGames', "O'yinlar")}
               </button>
               <button
                 className={`tab-pill-btn ${activeSubTab === 'fighter' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('fighter')}
               >
-                Jangchi
+                {t('rushMid.tabFighter', 'Jangchi')}
               </button>
               <button
                 className={`tab-pill-btn ${activeSubTab === 'history' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('history')}
               >
-                Tarix
+                {t('rushMid.tabHistory', 'Tarix')}
               </button>
               <button
                 className={`tab-pill-btn ${activeSubTab === 'rating' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('rating')}
               >
-                Reyting
+                {t('rushMid.tabRating', 'Reyting')}
               </button>
               <button
                 className={`tab-pill-btn ${activeSubTab === 'rewards' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('rewards')}
               >
-                Yutuq
+                {t('rushMid.tabRewards', 'Yutuq')}
               </button>
             </div>
 
@@ -792,7 +812,7 @@ function KidsGameInternal() {
               onClick={() => setShowCreateModal(true)}
             >
               <span className="gamepad-icon">🎮</span>
-              <span>O'yin yaratish</span>
+              <span>{t('rushMid.createGame', "O'yin yaratish")}</span>
             </button>
 
             {/* Quick 1-Click Bot Match Banner */}
@@ -803,8 +823,8 @@ function KidsGameInternal() {
                   <span className="bot-live-dot"></span>
                 </div>
                 <div className="bot-text-wrap">
-                  <h3 className="bot-title">🤖 BOT BILAN O'YNASH (TEZKOR DUEL)</h3>
-                  <p className="bot-desc">Hech kimni kutmasdan darhol CS2 Boti (Suicide 🏆 997) bilan jangga kiring!</p>
+                  <h3 className="bot-title">{t('rushMid.botBannerTitle', "🤖 BOT BILAN O'YNASH (TEZKOR DUEL)")}</h3>
+                  <p className="bot-desc">{t('rushMid.botBannerDesc', "Hech kimni kutmasdan darhol CS2 Boti (Suicide 🏆 997) bilan jangga kiring!")}</p>
                 </div>
               </div>
               <button
@@ -813,14 +833,14 @@ function KidsGameInternal() {
                 type="button"
               >
                 <Play size={17} fill="#ffffff" />
-                <span>Bot bilan Duel (100 🪙)</span>
+                <span>{t('rushMid.botBannerBtn', "Bot bilan Duel (100 🪙)")}</span>
               </button>
             </div>
 
             {/* Filter Bar (Qanday o'ynaladi / Ochiq / Hozir ketmoqda) */}
             <div className="rush-filter-row">
               <button className="link-how-to-play" onClick={() => setShowHelpModal(true)}>
-                <span>qanday o'ynaladi</span>
+                <span>{t('rushMid.howToPlay', "qanday o'ynaladi")}</span>
                 <HelpCircle size={17} />
               </button>
 
@@ -829,13 +849,13 @@ function KidsGameInternal() {
                   className={`filter-btn ${roomFilter === 'open' ? 'active' : ''}`}
                   onClick={() => setRoomFilter('open')}
                 >
-                  Ochiq o'yinlar
+                  {t('rushMid.filterOpen', "Ochiq o'yinlar")}
                 </button>
                 <button
                   className={`filter-btn ${roomFilter === 'live' ? 'active' : ''}`}
                   onClick={() => setRoomFilter('live')}
                 >
-                  Hozir ketmoqda
+                  {t('rushMid.filterLive', "Hozir ketmoqda")}
                 </button>
               </div>
             </div>
@@ -932,7 +952,7 @@ function KidsGameInternal() {
             <div className="lobby-team-box terrorists">
               <div className="lobby-team-header">
                 <span className="team-icon">⭐</span>
-                <span className="team-title-text">Terrorchilar</span>
+                <span className="team-title-text">{t('rushMid.terrorists', 'Terrorchilar')}</span>
               </div>
               <div className="lobby-player-row">
                 <div className="player-avatar-wrap">
@@ -958,7 +978,7 @@ function KidsGameInternal() {
             <div className="lobby-team-box cts">
               <div className="lobby-team-header">
                 <span className="team-icon">🛡️</span>
-                <span className="team-title-text">Kontr-terrorchilar</span>
+                <span className="team-title-text">{t('rushMid.cts', 'Kontr-terrorchilar')}</span>
               </div>
 
               {isPlayerSeated ? (
@@ -979,7 +999,7 @@ function KidsGameInternal() {
               ) : (
                 <button className="btn-take-seat-slot" onClick={handleTakeSeat}>
                   <Plus size={18} />
-                  <span>O'tirish</span>
+                  <span>{t('rushMid.takeSeat', "O'tirish")}</span>
                 </button>
               )}
             </div>
@@ -991,14 +1011,14 @@ function KidsGameInternal() {
                 onClick={() => setStage('rooms')}
               >
                 <ArrowLeft size={18} />
-                <span>Orqaga</span>
+                <span>{t('rushMid.back', "Orqaga")}</span>
               </button>
 
               <button
                 className="btn-start-gear-prep"
                 onClick={handleProceedToGear}
               >
-                <span>⚔️ Jangga Kirish (Bot bilan)</span>
+                <span>{t('rushMid.enterBattle', "⚔️ Jangga Kirish")}</span>
                 <ArrowRight size={18} />
               </button>
             </div>
@@ -1017,14 +1037,14 @@ function KidsGameInternal() {
                   <Shield size={28} color="#00f0ff" />
                 </div>
                 <div>
-                  <h2 className="gear-team-title">Kontr-terrorchilar</h2>
-                  <span className="gear-budget-label">Qoldi <strong className="green-money">$ {budgetRemaining}</strong></span>
+                  <h2 className="gear-team-title">{t('rushMid.cts', 'Kontr-terrorchilar')}</h2>
+                  <span className="gear-budget-label">{t('rushMid.budgetRemaining', 'Qoldi')} <strong className="green-money">$ {budgetRemaining}</strong></span>
                 </div>
               </div>
 
               <button className="link-how-it-works" onClick={() => setShowHelpModal(true)}>
                 <HelpCircle size={15} />
-                <span>Qanday ishlaydi?</span>
+                <span>{t('rushMid.howItWorks', "Qanday ishlaydi?")}</span>
               </button>
             </div>
 
@@ -1042,7 +1062,7 @@ function KidsGameInternal() {
                 }}
               >
                 <div className="gear-card-left">
-                  <span className="gear-cat-label">QUROL</span>
+                  <span className="gear-cat-label">{t('rushMid.gearWeapon', 'QUROL')}</span>
                   <div className="gear-choice-row">
                     <span className="gear-icon">🔫</span>
                     <span className="gear-choice-name">{equippedWeapon.name}</span>
@@ -1059,7 +1079,7 @@ function KidsGameInternal() {
                 onClick={() => toggleArmor({ id: 'kevlar', name: 'Kevlar Zirh', cost: 25, armor: 60 })}
               >
                 <div className="gear-card-left">
-                  <span className="gear-cat-label">ZIRH</span>
+                  <span className="gear-cat-label">{t('rushMid.gearArmor', 'ZIRH')}</span>
                   <div className="gear-choice-row">
                     <Shield size={18} color="#94a3b8" />
                     <span className="gear-choice-name">{equippedArmor.name}</span>
@@ -1076,7 +1096,7 @@ function KidsGameInternal() {
                 onClick={() => toggleGrenade({ id: 'he', name: 'Granata HE', cost: 20 })}
               >
                 <div className="gear-card-left">
-                  <span className="gear-cat-label">GRANATA</span>
+                  <span className="gear-cat-label">{t('rushMid.gearGrenade', 'GRANATA')}</span>
                   <div className="gear-choice-row">
                     <Bomb size={18} color="#94a3b8" />
                     <span className="gear-choice-name">{equippedGrenade.name}</span>
@@ -1093,7 +1113,7 @@ function KidsGameInternal() {
                 onClick={() => toggleMedkit({ id: 'medkit', name: 'Aptechka', cost: 15 })}
               >
                 <div className="gear-card-left">
-                  <span className="gear-cat-label">APTECHKA</span>
+                  <span className="gear-cat-label">{t('rushMid.gearMedkit', 'APTECHKA')}</span>
                   <div className="gear-choice-row">
                     <BriefcaseMedical size={18} color="#94a3b8" />
                     <span className="gear-choice-name">{equippedMedkit.name}</span>
@@ -1107,7 +1127,7 @@ function KidsGameInternal() {
 
             {/* Raqiblar (Opponents Box) */}
             <div className="gear-opponents-box">
-              <span className="opponents-title">Raqiblar</span>
+              <span className="opponents-title">{t('rushMid.opponents', 'Raqiblar')}</span>
               <div className="opponent-pill">
                 <img
                   src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80"
@@ -1124,7 +1144,7 @@ function KidsGameInternal() {
               className="btn-launch-battle-countdown"
               onClick={startDuelBattle}
             >
-              <span>{buyCountdown}s dan keyin jangga</span>
+              <span>{buyCountdown}{t('rushMid.countdownBtn', 's dan keyin jangga')}</span>
             </button>
           </div>
         )}
@@ -1282,7 +1302,7 @@ function KidsGameInternal() {
                       title="O'qdonni yangilash (R tugmasi)"
                     >
                       <RotateCcw size={12} className={isReloading ? 'animate-spin' : ''} />
-                      <span>{isReloading ? "O'qlanmoqda..." : "Qayta O'qlash (R)"}</span>
+                      <span>{isReloading ? t('rushMid.reloading', "O'qlanmoqda...") : t('rushMid.reloadBtn', "Qayta O'qlash (R)")}</span>
                     </button>
                   </div>
                 </div>
@@ -1291,7 +1311,7 @@ function KidsGameInternal() {
 
             {/* Tactical Stance Selector Bar (Switch between PUSH and HIMOYA) */}
             <div className="duel-tactical-stance-bar">
-              <span className="stance-bar-label">TAKTIK HOLAT:</span>
+              <span className="stance-bar-label">{t('rushMid.tacticalStance', 'TAKTIK HOLAT:')}</span>
               <div className="stance-pill-selector">
                 <button 
                   className={`stance-pill-option push ${tacticalStance === 'push' ? 'active' : ''}`}
@@ -1299,8 +1319,8 @@ function KidsGameInternal() {
                   type="button"
                 >
                   <Flame size={16} />
-                  <span>PUSH / HUJUM</span>
-                  <span className="stance-badge-stat">+35% ZARBA</span>
+                  <span>{t('rushMid.pushStance', 'PUSH / HUJUM')}</span>
+                  <span className="stance-badge-stat">{t('rushMid.pushStanceBadge', '+35% ZARBA')}</span>
                 </button>
                 <button 
                   className={`stance-pill-option defense ${tacticalStance === 'defense' ? 'active' : ''}`}
@@ -1308,8 +1328,8 @@ function KidsGameInternal() {
                   type="button"
                 >
                   <Shield size={16} />
-                  <span>HIMOYA (COVER)</span>
-                  <span className="stance-badge-stat">-50% ZIYON</span>
+                  <span>{t('rushMid.defenseStance', 'HIMOYA (COVER)')}</span>
+                  <span className="stance-badge-stat">{t('rushMid.defenseStanceBadge', '-50% ZIYON')}</span>
                 </button>
               </div>
             </div>
@@ -1326,8 +1346,8 @@ function KidsGameInternal() {
                 <div className="action-circle-icon">
                   <Swords size={24} color="#ffffff" />
                 </div>
-                <span className="action-btn-label">PICHOQ</span>
-                <span className="action-sub-tag">Cheksiz 🗡️</span>
+                <span className="action-btn-label">{t('rushMid.actionKnife', 'PICHOQ')}</span>
+                <span className="action-sub-tag">{t('rushMid.infinite', 'Cheksiz 🗡️')}</span>
               </button>
 
               {/* 2. HOLAT (Stance Switcher: PUSH <-> HIMOYA) */}
@@ -1344,8 +1364,8 @@ function KidsGameInternal() {
                     <Shield size={28} color="#00f0ff" />
                   )}
                 </div>
-                <span className="action-btn-label">HOLAT</span>
-                <span className="action-sub-tag">{tacticalStance === 'push' ? 'PUSH 🔥' : 'HIMOYA 🛡️'}</span>
+                <span className="action-btn-label">{t('rushMid.actionStance', 'HOLAT')}</span>
+                <span className="action-sub-tag">{tacticalStance === 'push' ? 'PUSH 🔥' : t('rushMid.defenseStance', 'HIMOYA 🛡️')}</span>
               </button>
 
               {/* 3. AVTOMATDA OTISH (Center Main Fire Button) */}
@@ -1359,8 +1379,8 @@ function KidsGameInternal() {
                   <Crosshair size={34} color="#ffffff" />
                   <span className="action-ammo-badge">{currentAmmo}</span>
                 </div>
-                <span className="action-btn-label">AVTOMAT</span>
-                <span className="action-sub-tag">{currentAmmo > 0 ? `${currentAmmo} O'Q 💥` : "BO'SH (R)"}</span>
+                <span className="action-btn-label">{t('rushMid.actionGun', 'AVTOMAT')}</span>
+                <span className="action-sub-tag">{currentAmmo > 0 ? `${currentAmmo} ${t('rushMid.ammoText', "O'Q 💥")}` : t('rushMid.emptyMag', "BO'SH (R)")}</span>
               </button>
 
               {/* 4. GRANATA */}
@@ -1374,8 +1394,8 @@ function KidsGameInternal() {
                   <Bomb size={24} color="#ffffff" />
                   {(equippedGrenade?.count || 0) > 0 && <span className="action-count-badge">{(equippedGrenade?.count || 0)}</span>}
                 </div>
-                <span className="action-btn-label">GRANATA</span>
-                <span className="action-sub-tag">{(equippedGrenade?.count || 0) > 0 ? `${equippedGrenade.count} dona` : "Yo'q"}</span>
+                <span className="action-btn-label">{t('rushMid.actionGrenade', 'GRANATA')}</span>
+                <span className="action-sub-tag">{(equippedGrenade?.count || 0) > 0 ? `${equippedGrenade.count} ${t('rushMid.pcs', 'dona')}` : t('rushMid.none', "Yo'q")}</span>
               </button>
 
               {/* 5. APTECHKA */}
@@ -1389,8 +1409,8 @@ function KidsGameInternal() {
                   <BriefcaseMedical size={24} color="#ffffff" />
                   {(equippedMedkit?.count || 0) > 0 && <span className="action-count-badge">{(equippedMedkit?.count || 0)}</span>}
                 </div>
-                <span className="action-btn-label">APTECHKA</span>
-                <span className="action-sub-tag">{(equippedMedkit?.count || 0) > 0 ? `${equippedMedkit.count} dona` : "Yo'q"}</span>
+                <span className="action-btn-label">{t('rushMid.actionMedkit', 'APTECHKA')}</span>
+                <span className="action-sub-tag">{(equippedMedkit?.count || 0) > 0 ? `${equippedMedkit.count} ${t('rushMid.pcs', 'dona')}` : t('rushMid.none', "Yo'q")}</span>
               </button>
             </div>
 
@@ -1407,7 +1427,7 @@ function KidsGameInternal() {
                   </div>
 
                   <h2 className="result-title">
-                    {battleResult === 'victory' ? "G'ALABA! RUSH MID EGALLANDI! 🎉" : "MAG'LUBIYAT! 💀"}
+                    {battleResult === 'victory' ? t('rushMid.victoryTitle', "G'ALABA! RUSH MID EGALLANDI! 🎉") : t('rushMid.defeatTitle', "MAG'LUBIYAT! 💀")}
                   </h2>
 
                   <p className="result-desc">
@@ -1420,12 +1440,12 @@ function KidsGameInternal() {
 
                   {battleResult === 'victory' && (
                     <div className="result-promo-box">
-                      <span className="promo-tagline">G'alaba promokodingiz (-15% do'kondagi chegirma):</span>
+                      <span className="promo-tagline">{t('rushMid.promoTagline', "G'alaba promokodingiz (-15% do'kondagi chegirma):")}</span>
                       <div className="promo-copy-row">
                         <strong>{promoCode}</strong>
                         <button className="btn-copy-promo" onClick={handleCopyPromo}>
                           {copiedPromo ? <Check size={16} /> : <Copy size={16} />}
-                          <span>{copiedPromo ? 'Nusxalandi' : 'Nusxalash'}</span>
+                          <span>{copiedPromo ? t('rushMid.copied', 'Nusxalandi') : t('rushMid.copy', 'Nusxalash')}</span>
                         </button>
                       </div>
                     </div>
@@ -1440,7 +1460,7 @@ function KidsGameInternal() {
                       }}
                     >
                       <RotateCcw size={16} />
-                      <span>Qayta O'ynash</span>
+                      <span>{t('rushMid.playAgain', "Qayta O'ynash")}</span>
                     </button>
 
                     <button
@@ -1451,7 +1471,7 @@ function KidsGameInternal() {
                       }}
                     >
                       <ArrowLeft size={16} />
-                      <span>Xonalar Ro'yxatiga</span>
+                      <span>{t('rushMid.roomsList', "Xonalar Ro'yxatiga")}</span>
                     </button>
                   </div>
                 </div>
@@ -1468,11 +1488,11 @@ function KidsGameInternal() {
       {showCreateModal && typeof document !== 'undefined' && createPortal(
         <div className="rush-modal-overlay" onClick={() => setShowCreateModal(false)}>
           <div className="rush-create-modal" onClick={e => e.stopPropagation()}>
-            <h3 className="modal-title">🎮 Yangi O'yin Yaratish</h3>
+            <h3 className="modal-title">{t('rushMid.createModalTitle', "🎮 Yangi O'yin Yaratish")}</h3>
 
             <form onSubmit={handleCreateRoomSubmit} className="create-room-form">
               <div className="form-group">
-                <label>Xarita (Map)</label>
+                <label>{t('rushMid.mapLabel', "Xarita (Map)")}</label>
                 <div className="map-picker-row">
                   <button
                     type="button"
@@ -1492,7 +1512,7 @@ function KidsGameInternal() {
               </div>
 
               <div className="form-group">
-                <label>O'yin formati</label>
+                <label>{t('rushMid.formatLabel', "O'yin formati")}</label>
                 <div className="mode-picker-row">
                   {['1 ga 1', '2 ga 2', '5 ga 5'].map(m => (
                     <button
@@ -1508,7 +1528,7 @@ function KidsGameInternal() {
               </div>
 
               <div className="form-group">
-                <label>Tikish summasi (Stavka)</label>
+                <label>{t('rushMid.betLabel', "Tikish summasi (Stavka)")}</label>
                 <div className="bet-picker-row">
                   {[100, 250, 500, 1000].map(b => (
                     <button
@@ -1525,10 +1545,10 @@ function KidsGameInternal() {
 
               <div className="modal-actions-row">
                 <button type="button" className="btn-cancel" onClick={() => setShowCreateModal(false)}>
-                  Bekor qilish
+                  {t('rushMid.cancel', "Bekor qilish")}
                 </button>
                 <button type="submit" className="btn-submit-create">
-                  Xonani ochish
+                  {t('rushMid.openRoomBtn', "Xonani ochish")}
                 </button>
               </div>
             </form>
@@ -1543,39 +1563,39 @@ function KidsGameInternal() {
       {showHelpModal && typeof document !== 'undefined' && createPortal(
         <div className="rush-modal-overlay" onClick={() => setShowHelpModal(false)}>
           <div className="rush-help-modal" onClick={e => e.stopPropagation()}>
-            <h3 className="modal-title">❓ RUSH MID Qanday O'ynaladi?</h3>
+            <h3 className="modal-title">{t('rushMid.howToPlayTitle', "❓ RUSH MID Qanday O'ynaladi?")}</h3>
             <div className="help-content-list">
               <div className="help-item">
                 <span className="help-number">1</span>
                 <div>
-                  <strong>Xona tanlash yoki yaratish:</strong>
-                  <p>Ochiq o'yinlar ro'yxatidan 1v1, 2v2 yoki 5v5 xonaga kiring yoki o'zingiz yangi xona oching.</p>
+                  <strong>{t('rushMid.helpStep1Title', "Xona tanlash yoki yaratish:")}</strong>
+                  <p>{t('rushMid.helpStep1Desc', "Ochiq o'yinlar ro'yxatidan 1v1, 2v2 yoki 5v5 xonaga kiring yoki o'zingiz yangi xona oching.")}</p>
                 </div>
               </div>
               <div className="help-item">
                 <span className="help-number">2</span>
                 <div>
-                  <strong>Jamoaga o'tirish:</strong>
-                  <p>Kontr-terrorchilar yoki Terrorchilar bo'sh joyiga (+ O'tirish) bosing.</p>
+                  <strong>{t('rushMid.helpStep2Title', "Jamoaga o'tirish:")}</strong>
+                  <p>{t('rushMid.helpStep2Desc', "Kontr-terrorchilar yoki Terrorchilar bo'sh joyiga (+ O'tirish) bosing.")}</p>
                 </div>
               </div>
               <div className="help-item">
                 <span className="help-number">3</span>
                 <div>
-                  <strong>Jihoz sotib olish (Buy Menu):</strong>
-                  <p>$100 byudjetingiz bilan Avtomat, Snayper, Zirh, Granata yoki Aptechka oling.</p>
+                  <strong>{t('rushMid.helpStep3Title', "Jihoz sotib olish (Buy Menu):")}</strong>
+                  <p>{t('rushMid.helpStep3Desc', "$100 byudjetingiz bilan Avtomat, Snayper, Zirh, Granata yoki Aptechka oling.")}</p>
                 </div>
               </div>
               <div className="help-item">
                 <span className="help-number">4</span>
                 <div>
-                  <strong>2D Jang maydonidagi taktik duel:</strong>
-                  <p>Har bir raundda 8 soniya ichida Otish, Pichoq, Granata yoki Aptechkadan foydalanib raqibni yiqiting va tangalarni yutib oling!</p>
+                  <strong>{t('rushMid.helpStep4Title', "2D Jang maydonidagi taktik duel:")}</strong>
+                  <p>{t('rushMid.helpStep4Desc', "Har bir raundda 8 soniya ichida Otish, Pichoq, Granata yoki Aptechkadan foydalanib raqibni yiqiting va tangalarni yutib oling!")}</p>
                 </div>
               </div>
             </div>
             <button className="btn-close-help" onClick={() => setShowHelpModal(false)}>
-              Tushundim
+              {t('rushMid.gotIt', "Tushundim")}
             </button>
           </div>
         </div>,
