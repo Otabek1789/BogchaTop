@@ -374,6 +374,180 @@
   50% { opacity: 0.7; transform: translateX(-50%) scale(1.04); }
 }
 
+.cs2-bottom-ammo-hud {
+  position: absolute;
+  bottom: 22px;
+  left: 24px;
+  z-index: 85;
+  background: rgba(11, 17, 30, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(0, 240, 255, 0.4);
+  border-radius: 14px;
+  padding: 10px 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 170px;
+  user-select: none;
+  transition: all 0.25s ease;
+  pointer-events: auto;
+}
+
+.cs2-bottom-ammo-hud:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.3);
+}
+
+.ammo-hud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ammo-hud-weapon-name {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--neon-cyan);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.ammo-hud-badge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+
+.ammo-hud-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ammo-hud-digits {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.ammo-val-current {
+  font-family: var(--font-gaming);
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+.ammo-val-divider {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #64748b;
+  margin: 0 1px;
+}
+
+.ammo-val-mag {
+  font-family: var(--font-gaming);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+/* Quick Reload Button inside HUD */
+.ammo-hud-reload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  color: var(--neon-cyan);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ammo-hud-reload-btn:hover:not(:disabled) {
+  background: var(--neon-cyan);
+  color: #000;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+}
+
+.ammo-hud-reload-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.reload-key-hint {
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+/* Mini Magazine Ammo Bar */
+.ammo-hud-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ammo-hud-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00f0ff, #10b981);
+  transition: width 0.15s ease, background 0.2s ease;
+}
+
+.ammo-hud-bar-fill.warning {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.ammo-hud-bar-fill.critical {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+/* Low Ammo & Reloading States */
+.hud-low-ammo {
+  border-color: #ef4444 !important;
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.3) !important;
+}
+
+.hud-low-ammo .ammo-val-current {
+  color: #ef4444 !important;
+  text-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
+  animation: ammoWarningPulse 0.6s infinite;
+}
+
+.hud-low-ammo .ammo-hud-badge {
+  background: rgba(239, 68, 68, 0.25) !important;
+  color: #fca5a5 !important;
+}
+
+@keyframes ammoWarningPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.8; }
+}
+
+.hud-is-reloading .ammo-val-current {
+  color: #f59e0b;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+.hud-is-reloading .ammo-hud-badge {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fcd34d;
+}
+
 /* ========================================================
    TACTICAL CS2 ENEMY BOTS (PEEKING MECHANIC)
    ======================================================== */
@@ -687,9 +861,6 @@
   margin-bottom: 22px;
 }
 
-/* ========================================================
-   LIGHT THEME OVERRIDES FOR RUSH MID CS2 ARENA
-   ======================================================== */
 [data-theme="light"] .game-icon-wrap {
   background: #f0f9ff !important;
   border: 1px solid #bae6fd !important;
@@ -938,6 +1109,70 @@
   color: #0f172a !important;
 }
 
+/* Light Theme for Bottom-Left Tactical Ammo HUD */
+[data-theme="light"] .cs2-bottom-ammo-hud {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 0 0 20px rgba(2, 132, 199, 0.1) !important;
+}
+
+[data-theme="light"] .cs2-bottom-ammo-hud:hover {
+  border-color: #0284c7 !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15), 0 0 25px rgba(2, 132, 199, 0.2) !important;
+}
+
+[data-theme="light"] .ammo-hud-weapon-name {
+  color: #0284c7 !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="light"] .ammo-hud-badge {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .ammo-val-current {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] .ammo-val-divider {
+  color: #94a3b8 !important;
+}
+
+[data-theme="light"] .ammo-val-mag {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .ammo-hud-reload-btn {
+  background: #f0f9ff !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .ammo-hud-reload-btn:hover:not(:disabled) {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .ammo-hud-bar-wrap {
+  background: #e2e8f0 !important;
+}
+
+[data-theme="light"] .hud-low-ammo {
+  border-color: #ef4444 !important;
+  box-shadow: 0 12px 30px rgba(239, 68, 68, 0.2) !important;
+}
+
+[data-theme="light"] .hud-low-ammo .ammo-val-current {
+  color: #dc2626 !important;
+}
+
+[data-theme="light"] .hud-low-ammo .ammo-hud-badge {
+  background: #fee2e2 !important;
+  color: #dc2626 !important;
+}
+
 @media (max-width: 768px) {
   .rush-arena {
     height: 480px;
@@ -948,5 +1183,14 @@
   }
   .rush-stat-val {
     font-size: 1.2rem;
+  }
+  .cs2-bottom-ammo-hud {
+    bottom: 14px;
+    left: 14px;
+    padding: 8px 12px;
+    min-width: 140px;
+  }
+  .ammo-val-current {
+    font-size: 1.7rem;
   }
 }

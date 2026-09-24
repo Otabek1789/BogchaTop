@@ -483,6 +483,54 @@ export default function KidsGame() {
           />
         ))}
 
+        {/* Tactical CS2 Ammo Counter (Bottom Left) */}
+        {gameState === 'playing' && (
+          <div 
+            className={`cs2-bottom-ammo-hud ${ammo <= 3 ? 'hud-low-ammo' : ''} ${isReloading ? 'hud-is-reloading' : ''}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="ammo-hud-header">
+              <span className="ammo-hud-weapon-name">{weaponConfig.name}</span>
+              <span className="ammo-hud-badge">
+                {isReloading ? "YANGILANMOQDA" : ammo === 0 ? "O'Q TUGADI" : "O'Q"}
+              </span>
+            </div>
+
+            <div className="ammo-hud-row">
+              <div className="ammo-hud-digits">
+                <span className="ammo-val-current">
+                  {isReloading ? '—' : ammo}
+                </span>
+                <span className="ammo-val-divider">/</span>
+                <span className="ammo-val-mag">{weaponConfig.magSize}</span>
+              </div>
+
+              <button 
+                type="button"
+                className="ammo-hud-reload-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleReload();
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                disabled={isReloading || ammo === weaponConfig.magSize}
+                title="Qayta o'qlash (Klaviatura: [R])"
+              >
+                <RefreshCw size={13} className={isReloading ? 'spin-anim' : ''} />
+                <span className="reload-key-hint">[R]</span>
+              </button>
+            </div>
+
+            {/* Graphical Bullet Magazine Bar */}
+            <div className="ammo-hud-bar-wrap">
+              <div 
+                className={`ammo-hud-bar-fill ${ammo <= 3 ? 'critical' : ammo <= weaponConfig.magSize / 2 ? 'warning' : ''}`}
+                style={{ width: isReloading ? '0%' : `${(ammo / weaponConfig.magSize) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         {/* Start Screen */}
         {gameState === 'idle' && (
           <div className="arena-overlay">
