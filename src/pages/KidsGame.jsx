@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import {
   Crosshair, Shield, Zap, Flame, Trophy, RotateCcw, Copy, Check,
@@ -1344,7 +1345,7 @@ function KidsGameInternal() {
       {/* ========================================================
           CREATE GAME MODAL (O'yin yaratish)
           ======================================================== */}
-      {showCreateModal && (
+      {showCreateModal && typeof document !== 'undefined' && createPortal(
         <div className="rush-modal-overlay" onClick={() => setShowCreateModal(false)}>
           <div className="rush-create-modal" onClick={e => e.stopPropagation()}>
             <h3 className="modal-title">🎮 Yangi O'yin Yaratish</h3>
@@ -1412,13 +1413,14 @@ function KidsGameInternal() {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* ========================================================
           HOW TO PLAY MODAL (Qanday o'ynaladi)
           ======================================================== */}
-      {showHelpModal && (
+      {showHelpModal && typeof document !== 'undefined' && createPortal(
         <div className="rush-modal-overlay" onClick={() => setShowHelpModal(false)}>
           <div className="rush-help-modal" onClick={e => e.stopPropagation()}>
             <h3 className="modal-title">❓ RUSH MID Qanday O'ynaladi?</h3>
@@ -1456,7 +1458,8 @@ function KidsGameInternal() {
               Tushundim
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
