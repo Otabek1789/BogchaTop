@@ -9,6 +9,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useGamer } from '../context/GamerContext';
+import { useAuth } from '../context/AuthContext';
 import { soundFX } from '../utils/soundFX';
 import toast from 'react-hot-toast';
 import './KidsGame.css';
@@ -64,8 +65,12 @@ const INITIAL_ROOMS = [
 export default function KidsGame() {
   const { applyPromoCode, setIsCartOpen } = useCart();
   const { addXP, unlockBadge } = useGamer();
+  const { user } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
+
+  // User avatar: Use uploaded user avatar
+  const userAvatar = user?.photoURL || '/images/rushmid/user_avatar.jpg';
 
   // User Coins balance (default 405 matching screenshot)
   const [coins, setCoins] = useState(() => {
@@ -468,7 +473,7 @@ export default function KidsGame() {
       maxWinText: `g'alaba uchun ${newRoomBet * 2} 🪙`,
       map: newRoomMap,
       mapImg: newRoomMap === 'MIRAGE' ? '/images/rushmid/mirage.jpg' : '/images/rushmid/inferno.jpg',
-      team1Slots: [{ id: 1, name: 'Siz (Gamer)', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80' }],
+      team1Slots: [{ id: 1, name: 'Siz (Gamer)', avatar: userAvatar }],
       team2Slots: [{ id: 2, empty: true }],
       status: 'open'
     };
@@ -516,7 +521,7 @@ export default function KidsGame() {
           </div>
           <div className="shot-user-avatar">
             <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" 
+              src={userAvatar} 
               alt="Profile" 
             />
           </div>
@@ -721,7 +726,7 @@ export default function KidsGame() {
                 <div className="lobby-player-row active-player">
                   <div className="player-avatar-wrap">
                     <img 
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" 
+                      src={userAvatar} 
                       alt="Siz" 
                     />
                     <span className="player-lvl-badge">Pro</span>
