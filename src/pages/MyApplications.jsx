@@ -1,113 +1,157 @@
-import React, { useState } from 'react';
-import { useKindergartens } from '../context/KindergartenContext';
-import { useLanguage } from '../context/LanguageContext';
-import { FileText, Calendar, Clock, CheckCircle, XCircle, Coffee, BookOpen, Moon, Activity } from 'lucide-react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import './MyApplications.css';
+import { Package, Clock, CheckCircle, Truck, XCircle, ShoppingBag, ArrowRight, Phone, MapPin } from 'lucide-react';
+import { useProducts } from '../context/ProductContext';
+import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import toast from 'react-hot-toast';
 
 export default function MyApplications() {
-  const { applications } = useKindergartens();
+  const { orders, updateOrderStatus } = useProducts();
+  const { user } = useAuth();
   const { t } = useLanguage();
-  const [expandedAppId, setExpandedAppId] = useState(null);
 
-  const myApps = applications || [];
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('uz-UZ').format(price) + " so'm";
+  };
 
   const getStatusBadge = (status) => {
-    switch(status) {
-      case 'approved':
-        return <span style={{ background: '#DEF7EC', color: '#03543F', padding: '4px 12px', borderRadius: '999px', fontSize: '14px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle size={14} /> {t('myApps.approved')}</span>;
-      case 'rejected':
-        return <span style={{ background: '#FDE8E8', color: '#9B1C1C', padding: '4px 12px', borderRadius: '999px', fontSize: '14px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '6px' }}><XCircle size={14} /> {t('myApps.rejected')}</span>;
+    switch (status) {
+      case 'Yangi':
+        return <span style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.3)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '5px' }}><Clock size={14} /> {t('orders.new')}</span>;
+      case 'Tayyorlanmoqda':
+      case 'Jarayonda':
+        return <span style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', border: '1px solid rgba(245, 158, 11, 0.3)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '5px' }}><Package size={14} /> {t('orders.processing')}</span>;
+      case 'Yetkazilmoqda':
+        return <span style={{ background: 'rgba(0, 240, 255, 0.15)', color: '#00f0ff', border: '1px solid rgba(0, 240, 255, 0.3)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '5px' }}><Truck size={14} /> {t('orders.shipping')}</span>;
+      case 'Bajarildi':
+        return <span style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '5px' }}><CheckCircle size={14} /> {t('orders.completed')}</span>;
+      case 'Bekor qilindi':
+        return <span style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '5px' }}><XCircle size={14} /> {t('orders.cancelled')}</span>;
       default:
-        return <span style={{ background: '#FEF3C7', color: '#92400E', padding: '4px 12px', borderRadius: '999px', fontSize: '14px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '6px' }}><Clock size={14} /> {t('myApps.pending')}</span>;
+        return <span>{status}</span>;
     }
   };
 
-  const timelineEvents = [
-    { time: '08:00', title: t('myApps.arrival'), desc: t('myApps.arrivedDesc'), icon: <CheckCircle size={16} />, color: 'var(--brand-500)' },
-    { time: '09:00', title: t('myApps.breakfast'), desc: t('myApps.breakfastDesc'), icon: <Coffee size={16} />, color: '#F59E0B' },
-    { time: '10:30', title: t('myApps.lessonTime'), desc: t('myApps.lessonDesc'), icon: <BookOpen size={16} />, color: '#3B82F6' },
-    { time: '11:45', title: t('myApps.playTime'), desc: t('myApps.playDesc'), icon: <Activity size={16} />, color: '#10B981' },
-    { time: '13:00', title: t('myApps.lunch'), desc: t('myApps.lunchDesc'), icon: <Coffee size={16} />, color: '#F59E0B' },
-    { time: '14:00', title: t('myApps.napTime'), desc: t('myApps.napDesc'), icon: <Moon size={16} />, color: '#8B5CF6' },
-  ];
+  const handleCancelOrder = (orderId) => {
+    if (window.confirm("Buyurtmani bekor qilmoqchimisiz?")) {
+      updateOrderStatus(orderId, 'Bekor qilindi');
+      toast.success("Buyurtma bekor qilindi");
+    }
+  };
 
   return (
-    <div className="container animate-fade-in-up" style={{ padding: '60px 1.5rem', minHeight: 'calc(100vh - 80px)' }}>
-      <h1 className="text-display" style={{ marginBottom: '32px' }}>{t('myApps.pageTitle')}</h1>
+    <div className="container" style={{ padding: '40px 1.5rem 80px' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <h1 className="text-h1" style={{ color: 'var(--neutral-900)', fontFamily: 'var(--font-gaming)' }}>
+          {t('orders.title')}
+        </h1>
+        <p style={{ color: 'var(--neutral-400)', marginTop: '4px' }}>
+          {t('orders.subtitle')}
+        </p>
+      </div>
 
-      {myApps.length === 0 ? (
-        <div className="card" style={{ padding: '60px', textAlign: 'center', background: 'var(--surface-warm)' }}>
-          <div style={{ width: '80px', height: '80px', background: 'var(--neutral-100)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto' }}>
-            <FileText size={40} color="var(--neutral-400)" />
-          </div>
-          <h2 className="text-h2" style={{ marginBottom: '16px', color: 'var(--neutral-900)' }}>{t('myApps.noApps')}</h2>
-          <p style={{ color: 'var(--neutral-500)', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px auto' }}>{t('myApps.noAppsDesc')}</p>
-          <Link to="/kindergartens" className="btn btn-primary">{t('myApps.viewKindergartens')}</Link>
-        </div>
-      ) : (
-        <div style={{ display: 'grid', gap: '24px' }}>
-          {myApps.map((app) => (
-            <div key={app.id} className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', background: 'var(--surface-warm)', border: '1px solid var(--neutral-200)', transition: 'transform 0.2s', cursor: 'pointer' }} onClick={() => app.status === 'approved' && setExpandedAppId(expandedAppId === app.id ? null : app.id)}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+      {orders.length > 0 ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {orders.map((order) => (
+            <div 
+              key={order.id} 
+              className="glass"
+              style={{
+                borderRadius: '16px',
+                padding: '24px',
+                background: 'var(--surface-warm)',
+                border: '1px solid var(--card-border)'
+              }}
+            >
+              {/* Order Top Info */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--neutral-200)', paddingBottom: '16px', marginBottom: '18px', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
-                  <h3 className="text-h3" style={{ marginBottom: '8px' }}>
-                    <Link to={`/bogcha/${app.kindergartenId}`} style={{ color: 'var(--brand-600)', textDecoration: 'none' }} onClick={(e) => e.stopPropagation()}>
-                      {app.kindergartenName}
-                    </Link>
-                  </h3>
-                  <div style={{ display: 'flex', gap: '16px', color: 'var(--neutral-500)', fontSize: '14px' }}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Calendar size={16} /> {new Date(app.date).toLocaleDateString()}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ fontFamily: 'var(--font-gaming)', fontSize: '1.25rem', fontWeight: 800, color: 'var(--neon-cyan)' }}>
+                      {order.id}
+                    </span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--neutral-400)' }}>
+                      • {order.date}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--neutral-400)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span><Phone size={13} style={{ display: 'inline', verticalAlign: 'middle' }} /> {order.customerPhone}</span>
+                    <span><MapPin size={13} style={{ display: 'inline', verticalAlign: 'middle' }} /> {order.address}</span>
                   </div>
                 </div>
-                <div>
-                  {getStatusBadge(app.status)}
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  {getStatusBadge(order.status)}
+                  {order.status === 'Yangi' && (
+                    <button 
+                      onClick={() => handleCancelOrder(order.id)}
+                      style={{ background: 'transparent', border: '1px solid rgba(239,68,68,0.4)', color: '#ef4444', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', cursor: 'pointer' }}
+                    >
+                      Bekor qilish
+                    </button>
+                  )}
                 </div>
               </div>
 
-              <div style={{ padding: '16px', background: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--neutral-200)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-                <div>
-                  <div style={{ fontSize: '13px', color: 'var(--neutral-500)', marginBottom: '4px' }}>{t('myApps.yourChild')}</div>
-                  <div style={{ fontWeight: 500, color: 'var(--neutral-900)' }}>{app.childName} ({app.childAge} {t('myApps.yearsOld')})</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '13px', color: 'var(--neutral-500)', marginBottom: '4px' }}>{t('myApps.yourName')}</div>
-                  <div style={{ fontWeight: 500, color: 'var(--neutral-900)' }}>{app.parentName}</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '13px', color: 'var(--neutral-500)', marginBottom: '4px' }}>{t('myApps.yourPhone')}</div>
-                  <div style={{ fontWeight: 500, color: 'var(--neutral-900)' }}>{app.phone}</div>
-                </div>
-              </div>
-
-              {app.status === 'approved' && expandedAppId === app.id && (
-                <div className="timeline-container animate-fade-in-up">
-                    <h4 style={{ marginBottom: '20px', color: 'var(--neutral-900)', borderBottom: '1px solid var(--neutral-200)', paddingBottom: '10px' }}>
-                     📅 {t('myApps.dailySchedule')}
-                  </h4>
-                  <div className="timeline">
-                    {timelineEvents.map((event, index) => (
-                      <div key={index} className="timeline-item">
-                        <div className="timeline-time">{event.time}</div>
-                        <div className="timeline-marker" style={{ background: event.color }}>
-                          {event.icon}
-                        </div>
-                        <div className="timeline-content">
-                          <h5>{event.title}</h5>
-                          <p>{event.desc}</p>
-                        </div>
+              {/* Items List */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
+                {order.items && order.items.map((item, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '14px', background: 'var(--neutral-100)', padding: '10px 14px', borderRadius: '10px' }}>
+                    <img 
+                      src={item.image} 
+                      alt={item.name} 
+                      style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }} 
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--neutral-900)' }}>{item.name}</div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--neutral-400)' }}>
+                        {item.quantity} dona × {formatPrice(item.price)}
                       </div>
-                    ))}
+                    </div>
+                    <div style={{ fontFamily: 'var(--font-gaming)', fontWeight: 700, fontSize: '1.05rem', color: '#34d399' }}>
+                      {formatPrice(item.price * item.quantity)}
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Total & Payment Method */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--neutral-200)', paddingTop: '14px' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--neutral-400)' }}>
+                  To'lov usuli: <strong style={{ color: 'var(--neutral-900)' }}>{order.paymentMethod}</strong>
+                  {order.paymentStatus && (
+                    <span style={{ marginLeft: '8px', padding: '2px 8px', borderRadius: '4px', fontSize: '0.72rem', background: order.paymentStatus === 'Paid' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)', color: order.paymentStatus === 'Paid' ? '#34d399' : '#fbbf24' }}>
+                      {order.paymentStatus === 'Paid' ? 'To\'langan' : 'Kutilmoqda'}
+                    </span>
+                  )}
                 </div>
-              )}
-              {app.status === 'approved' && expandedAppId !== app.id && (
-                <div style={{ textAlign: 'center', color: 'var(--brand-500)', fontSize: '14px', fontWeight: 500, marginTop: '8px' }}>
-                  {t('myApps.clickToView')}
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ color: 'var(--neutral-400)', fontSize: '0.9rem' }}>Jami to'lov:</span>
+                  <span style={{ fontFamily: 'var(--font-gaming)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--neon-cyan)' }}>
+                    {formatPrice(order.totalAmount)}
+                  </span>
                 </div>
-              )}
+              </div>
             </div>
           ))}
+        </div>
+      ) : (
+        <div className="glass" style={{ textAlign: 'center', padding: '80px 24px', borderRadius: '20px' }}>
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(0, 240, 255, 0.1)', color: 'var(--neon-cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+            <Package size={40} />
+          </div>
+          <h2 style={{ color: 'var(--neutral-900)', fontSize: '1.6rem', marginBottom: '10px' }}>
+            {t('orders.empty')}
+          </h2>
+          <p style={{ color: 'var(--neutral-400)', maxWidth: '420px', margin: '0 auto 24px' }}>
+            {t('cart.emptyDesc')}
+          </p>
+          <Link to="/products" className="btn btn-primary">
+            <span>{t('cart.explore')}</span>
+            <ArrowRight size={16} />
+          </Link>
         </div>
       )}
     </div>

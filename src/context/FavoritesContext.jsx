@@ -5,7 +5,7 @@ const FavoritesContext = createContext();
 export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState(() => {
     try {
-      const saved = localStorage.getItem('bogchatop_favorites');
+      const saved = localStorage.getItem('nexus_favorites') || localStorage.getItem('bogchatop_favorites');
       const parsed = saved ? JSON.parse(saved) : [];
       return Array.isArray(parsed) ? parsed : [];
     } catch (e) {
@@ -14,7 +14,10 @@ export function FavoritesProvider({ children }) {
   });
 
   useEffect(() => {
-    localStorage.setItem('bogchatop_favorites', JSON.stringify(favorites));
+    try {
+      localStorage.setItem('nexus_favorites', JSON.stringify(favorites));
+      localStorage.setItem('bogchatop_favorites', JSON.stringify(favorites));
+    } catch (_) {}
   }, [favorites]);
 
   const toggleFavorite = (id) => {

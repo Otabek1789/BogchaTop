@@ -1,53 +1,75 @@
 import React from 'react';
-import { useLanguage } from '../context/LanguageContext';
-import { useFavorites } from '../context/FavoritesContext';
-import { useKindergartens } from '../context/KindergartenContext';
-import KindergartenCard from '../components/KindergartenCard';
-import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Heart, ShoppingBag, ArrowRight } from 'lucide-react';
+import { useFavorites } from '../context/FavoritesContext';
+import { useProducts } from '../context/ProductContext';
+import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
+import ProductCard from '../components/ProductCard';
+import toast from 'react-hot-toast';
 
 export default function Favorites() {
-  const { t } = useLanguage();
   const { favorites } = useFavorites();
-  const { data: kindergartens } = useKindergartens();
+  const { products } = useProducts();
+  const { addToCart, setIsCartOpen } = useCart();
+  const { t } = useLanguage();
 
-  const favoriteKindergartens = kindergartens.filter(kg => favorites.includes(kg.id));
+  const favoriteProducts = products.filter(p => favorites.includes(p.id));
+
+  const handleAddAllToCart = () => {
+    favoriteProducts.forEach(prod => {
+      addToCart(prod, 1);
+    });
+    setIsCartOpen(true);
+    toast.success("Barcha sevimlilar savatga qo'shildi! 🎮");
+  };
 
   return (
-    <div className="animate-fade-in-up">
-      <section style={{ padding: '80px 0', background: 'var(--brand-gradient)', color: 'white', textAlign: 'center' }}>
-        <div className="container">
-          <h1 className="text-display" style={{ marginBottom: '24px' }}>
-            {t('favorites.pageTitle')}
+    <div className="container" style={{ padding: '40px 1.5rem 80px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <h1 className="text-h1" style={{ color: 'var(--neutral-900)', fontFamily: 'var(--font-gaming)' }}>
+            {t('favorites.title')}
           </h1>
-          <p className="text-body-lg" style={{ color: 'rgba(255,255,255,0.9)', maxWidth: '700px', margin: '0 auto' }}>
-            {t('favorites.pageSubtitle')}
+          <p style={{ color: 'var(--neutral-400)', marginTop: '4px' }}>
+            {t('favorites.subtitle')} ({favoriteProducts.length} ta mahsulot)
           </p>
         </div>
-      </section>
 
-      <section className="container" style={{ padding: '80px 1.5rem' }}>
-        {favoriteKindergartens.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '32px' }}>
-            {favoriteKindergartens.map(kg => (
-              <KindergartenCard key={kg.id} data={kg} />
-            ))}
-          </div>
-        ) : (
-          <div style={{ textAlign: 'center', padding: '100px 0' }}>
-            <Heart size={64} color="var(--neutral-300)" style={{ margin: '0 auto 24px auto' }} />
-            <h2 className="text-h2" style={{ marginBottom: '16px', color: 'var(--neutral-700)' }}>
-              {t('favorites.emptyTitle')}
-            </h2>
-            <p className="text-body-lg" style={{ color: 'var(--neutral-500)', marginBottom: '32px' }}>
-              {t('favorites.emptyDesc')}
-            </p>
-            <Link to="/kindergartens" className="btn btn-primary">
-              {t('favorites.viewKindergartens')}
-            </Link>
-          </div>
+        {favoriteProducts.length > 0 && (
+          <button 
+            className="btn btn-cyber"
+            onClick={handleAddAllToCart}
+          >
+            <ShoppingBag size={18} />
+            <span>{t('favorites.addAll')}</span>
+          </button>
         )}
-      </section>
+      </div>
+
+      {favoriteProducts.length > 0 ? (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
+          {favoriteProducts.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="glass" style={{ textAlign: 'center', padding: '80px 24px', borderRadius: '20px' }}>
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+            <Heart size={40} />
+          </div>
+          <h2 style={{ color: 'var(--neutral-900)', fontSize: '1.6rem', marginBottom: '10px' }}>
+            {t('favorites.emptyTitle')}
+          </h2>
+          <p style={{ color: 'var(--neutral-400)', maxWidth: '420px', margin: '0 auto 24px' }}>
+            {t('favorites.emptyDesc')}
+          </p>
+          <Link to="/products" className="btn btn-primary">
+            <span>{t('favorites.explore')}</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
@@ -31,36 +32,36 @@ app.post('/api/send-code', async (req, res) => {
 
   const mailOptions = {
     from: {
-      name: "Bog'chaTop",
+      name: "NEXUS GAMING",
       address: process.env.EMAIL_USER
     },
     to: email,
-    replyTo: `"Bog'chaTop Qo'llab-quvvatlash" <${process.env.EMAIL_USER}>`,
-    subject: `[Bog'chaTop] Kirish uchun tasdiqlash kodi: ${code}`,
-    text: `Bog'chaTop platformasiga kirish uchun tasdiqlash kodingiz: ${code}\n\nUshbu kod 5 daqiqa davomida amal qiladi. Hech kimga bermang.`,
+    replyTo: `"Nexus Gaming Support" <${process.env.EMAIL_USER}>`,
+    subject: `[NEXUS GAMING] Tizimga kirish kodi: ${code}`,
+    text: `NEXUS GAMING platformasiga kirish uchun tasdiqlash kodingiz: ${code}\n\nUshbu kod 5 daqiqa davomida amal qiladi. Uni hech kimga bermang.`,
     html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 500px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
-        <div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); padding: 32px 24px; text-align: center;">
-          <h1 style="color: #ffffff; margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.5px;">Bog'cha<span style="color: #f59e0b;">Top</span></h1>
-          <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 14px;">Tizimga kirish uchun tasdiqlash kodi</p>
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 520px; margin: 0 auto; background-color: #0b0f19; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 240, 255, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+        <div style="background: linear-gradient(135deg, #00f0ff 0%, #7000ff 100%); padding: 30px 24px; text-align: center;">
+          <h1 style="color: #000000; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: 2px;">NEXUS<span style="color: #ffffff;">GAMING</span></h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Xavfsiz Tizimga Kirish</p>
         </div>
         
-        <div style="padding: 32px 24px; text-align: center;">
-          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
-            Salom! <strong>Bog'chaTop</strong> platformasiga kirish uchun quyidagi bir martalik tasdiqlash kodidan foydalaning:
+        <div style="padding: 32px 24px; text-align: center; color: #e2e8f0;">
+          <p style="color: #94a3b8; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
+            Salom! <strong>NEXUS GAMING</strong> hisobingizga kirishni yakunlash uchun bir martalik 6 xonali tasdiqlash kodidan foydalaning:
           </p>
           
-          <div style="background-color: #f8fafc; border: 2px dashed #6366f1; border-radius: 12px; padding: 18px 24px; margin: 0 auto 24px auto; display: inline-block;">
-            <span style="font-size: 34px; font-weight: 800; letter-spacing: 8px; color: #4f46e5; font-family: monospace;">${code}</span>
+          <div style="background-color: #111827; border: 2px solid #00f0ff; border-radius: 12px; padding: 18px 24px; margin: 0 auto 24px auto; display: inline-block; box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);">
+            <span style="font-size: 36px; font-weight: 900; letter-spacing: 10px; color: #00f0ff; font-family: monospace;">${code}</span>
           </div>
           
           <p style="color: #64748b; font-size: 13px; margin: 0 0 24px 0; line-height: 1.5;">
             ⏱ Ushbu kod <strong>5 daqiqa</strong> davomida amal qiladi.<br />
-            Xavfsizlik maqsadida bu kodni hech kimga bermang.
+            Xavfsizlik maqsadida bu kodni hech kim bilan bo'lishmang.
           </p>
           
-          <div style="border-top: 1px solid #f1f5f9; padding-top: 20px; color: #94a3b8; font-size: 12px;">
-            Agar bu so'rovni siz yubormagan bo'lsangiz, ushbu xatni shunchaki e'tiborsiz qoldiring.
+          <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; color: #64748b; font-size: 12px;">
+            Agar bu so'rovni siz bajarmagan bo'lsangiz, ushbu xabarni e'tiborsiz qoldiring.
           </div>
         </div>
       </div>

@@ -77,8 +77,8 @@ export default function Login({ defaultRegister = false }) {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     if (loginStep === 1) {
-      if (!email) {
-        setError(t('auth.fillEmailPass') || "Iltimos, elektron pochtangizni kiriting");
+      if (!email || !password) {
+        setError(t('auth.fillEmailPass', "Iltimos, email va parolingizni kiriting"));
         return;
       }
       setError('');
@@ -88,24 +88,15 @@ export default function Login({ defaultRegister = false }) {
       const result = await sendOTP(email);
       if (result.success) {
         toast.success(result.message || "Tasdiqlash kodi pochtangizga yuborildi!");
-        setMessage(result.message || t('auth.codeSent'));
+        setMessage(result.message || t('auth.codeSent', "Email pochtangizga tasdiqlash kodi yuborildi:"));
         setLoginStep(2);
       } else {
-        // If port 5000 backend has error and user provided password, fallback to direct login
-        if (password) {
-          const directResult = await loginWithEmail(email, password);
-          if (directResult.success) {
-            navigate(directResult.isAdmin ? '/admin' : '/');
-            setLoading(false);
-            return;
-          }
-        }
-        setError(result.error || "Kod yuborishda xatolik yuz berdi");
+        setError(result.error || "Kod yuborishda xatolik yuz berdi. Pochtani tekshiring.");
       }
       setLoading(false);
     } else {
       if (!loginCode) {
-        setError(t('auth.enterCode') || "Iltimos, tasdiqlash kodini kiriting");
+        setError(t('auth.enterCode', "Iltimos, tasdiqlash kodini kiriting"));
         return;
       }
       setError('');
@@ -234,16 +225,36 @@ export default function Login({ defaultRegister = false }) {
       
       {/* Absolute Header Controls */}
       <div className="auth-back-action">
-        <Link to="/" className="auth-icon-btn" title={t('auth.goBack') || "Ortga"}>
+        <Link to="/" className="auth-icon-btn" title={t('auth.goBack', "Ortga")}>
           <ArrowLeft size={20} />
         </Link>
       </div>
       
       <div className="auth-header-actions">
-        <button className="auth-icon-btn" onClick={() => setLang(lang === 'uz' ? 'ru' : lang === 'ru' ? 'en' : 'uz')} title={t('auth.toggleLang') || "Tilni o'zgartirish"}>
-          <Globe size={18} />
-        </button>
-        <button className="auth-icon-btn" onClick={toggleTheme} title={t('auth.toggleTheme') || "Mavzuni o'zgartirish"}>
+        <div className="auth-lang-switcher">
+          <button 
+            type="button"
+            className={`auth-lang-btn ${lang === 'uz' ? 'active' : ''}`} 
+            onClick={() => setLang('uz')}
+          >
+            UZ
+          </button>
+          <button 
+            type="button"
+            className={`auth-lang-btn ${lang === 'ru' ? 'active' : ''}`} 
+            onClick={() => setLang('ru')}
+          >
+            RU
+          </button>
+          <button 
+            type="button"
+            className={`auth-lang-btn ${lang === 'en' ? 'active' : ''}`} 
+            onClick={() => setLang('en')}
+          >
+            EN
+          </button>
+        </div>
+        <button className="auth-icon-btn" onClick={toggleTheme} title={t('auth.toggleTheme', "Mavzuni o'zgartirish")}>
           {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
         </button>
       </div>
@@ -254,7 +265,7 @@ export default function Login({ defaultRegister = false }) {
         <div className="auth-form-box login">
           {isForgotPassword ? (
             <form onSubmit={handleForgotSubmit}>
-              <h1>{t('auth.forgotPassword') || "Parolni tiklash"}</h1>
+              <h1>{t('auth.forgotPassword', "Parolni tiklash")}</h1>
               
               {error && (
                 <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', padding: '10px', borderRadius: '8px', margin: '15px 0', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
@@ -276,7 +287,7 @@ export default function Login({ defaultRegister = false }) {
                   <div className="auth-input-box">
                     <input 
                       type="email" 
-                      placeholder={t('auth.email') || "Gmail pochtangiz"} 
+                      placeholder={t('auth.email', "Email manzilingiz")} 
                       required 
                       value={email} 
                       onChange={e => setEmail(e.target.value)} 
@@ -285,14 +296,14 @@ export default function Login({ defaultRegister = false }) {
                     <Mail size={20} />
                   </div>
                   <button type="submit" className="auth-btn" disabled={loading} style={{ marginTop: '16px' }}>
-                    {loading ? (t('auth.wait') || 'Yuborilmoqda...') : "Kodni yuborish"}
+                    {loading ? t('auth.wait', 'Yuborilmoqda...') : "Kodni yuborish"}
                   </button>
                   <button 
                     type="button" 
                     onClick={() => { setIsForgotPassword(false); setError(''); setMessage(''); }} 
                     style={{ background: 'none', border: 'none', color: 'var(--brand-500)', marginTop: '20px', cursor: 'pointer', fontSize: '14px', fontWeight: 500 }}
                   >
-                    ← {t('auth.goBack') || "Kirish sahifasiga qaytish"}
+                    ← {t('auth.goBack', "Kirish sahifasiga qaytish")}
                   </button>
                 </>
               ) : (
@@ -304,7 +315,7 @@ export default function Login({ defaultRegister = false }) {
                   <div className="auth-input-box">
                     <input 
                       type="text" 
-                      placeholder={t('auth.verifyCode') || "Tasdiqlash kodi"} 
+                      placeholder={t('auth.verifyCode', "Tasdiqlash kodi")} 
                       required 
                       maxLength={6}
                       value={forgotCode} 
@@ -315,7 +326,7 @@ export default function Login({ defaultRegister = false }) {
                     <ShieldCheck size={20} />
                   </div>
                   <button type="submit" className="auth-btn" disabled={loading} style={{ marginTop: '16px' }}>
-                    {loading ? (t('auth.checking') || 'Tekshirilmoqda...') : "Tasdiqlash va saytga kirish"}
+                    {loading ? t('auth.checking', 'Tekshirilmoqda...') : "Tasdiqlash va saytga kirish"}
                   </button>
                   <button 
                     type="button" 
@@ -329,7 +340,7 @@ export default function Login({ defaultRegister = false }) {
             </form>
           ) : (
             <form onSubmit={handleLoginSubmit}>
-              <h1>{t('auth.loginHeading')}</h1>
+              <h1>{t('auth.loginHeading', "Kirish")}</h1>
               
               {error && !isRegister && (
                 <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', padding: '10px', borderRadius: '8px', margin: '15px 0', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
@@ -346,30 +357,30 @@ export default function Login({ defaultRegister = false }) {
               {loginStep === 1 ? (
                 <>
                   <div className="auth-input-box">
-                    <input type="email" placeholder={t('auth.email')} required value={email} onChange={e => setEmail(e.target.value)} />
+                    <input type="email" placeholder={t('auth.email', "Email manzilingiz")} required value={email} onChange={e => setEmail(e.target.value)} />
                     <Mail size={20} />
                   </div>
                   <div className="auth-input-box">
-                    <input type="password" placeholder={t('auth.password')} value={password} onChange={e => setPassword(e.target.value)} />
+                    <input type="password" placeholder={t('auth.password', "Parolingiz")} required value={password} onChange={e => setPassword(e.target.value)} />
                     <KeyRound size={20} />
                   </div>
                   <div className="auth-forgot-link">
-                    <a href="#" onClick={openForgotPassword}>{t('auth.forgotPassword')}</a>
+                    <a href="#" onClick={openForgotPassword}>{t('auth.forgotPassword', "Parolni unutdingizmi?")}</a>
                   </div>
                   <button type="submit" className="auth-btn" disabled={loading}>
-                    {loading ? (t('auth.wait') || 'Yuborilmoqda...') : (t('auth.loginBtn') || 'Tizimga kirish')}
+                    {loading ? t('auth.wait', 'Yuborilmoqda...') : t('auth.loginBtn', 'Tizimga kirish')}
                   </button>
                 </>
               ) : (
                 <>
                   <p style={{ marginBottom: '16px', color: 'var(--neutral-600)', fontSize: '14px', lineHeight: '1.4' }}>
-                    {t('auth.codeSent') || "Email pochtangizga tasdiqlash kodi yuborildi:"} <br />
+                    {t('auth.codeSent', "Email pochtangizga tasdiqlash kodi yuborildi:")} <br />
                     <strong style={{ color: 'var(--neutral-900)' }}>{email}</strong>
                   </p>
                   <div className="auth-input-box">
                     <input 
                       type="text" 
-                      placeholder={t('auth.verifyCode') || "Tasdiqlash kodi"} 
+                      placeholder={t('auth.verifyCode', "Tasdiqlash kodi")} 
                       required 
                       maxLength={6}
                       value={loginCode} 
@@ -380,18 +391,18 @@ export default function Login({ defaultRegister = false }) {
                     <ShieldCheck size={20} />
                   </div>
                   <button type="submit" className="auth-btn" disabled={loading}>
-                    {loading ? (t('auth.checking') || 'Tekshirilmoqda...') : (t('auth.verifyBtn') || 'Tasdiqlash')}
+                    {loading ? t('auth.checking', 'Tekshirilmoqda...') : t('auth.verifyBtn', 'Tasdiqlash')}
                   </button>
                   <button 
                     type="button" 
                     onClick={() => { setLoginStep(1); setLoginCode(''); setError(''); setMessage(''); }} 
                     style={{ background: 'none', border: 'none', color: 'var(--neutral-500)', marginTop: '16px', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline' }}
                   >
-                    ← {t('auth.goBack') || "Ortga qaytish"}
+                    ← {t('auth.goBack', "Ortga qaytish")}
                   </button>
                 </>
               )}
-              <p>{t('auth.orLoginSocial')}</p>
+              <p>{t('auth.orLoginSocial', "yoki ijtimoiy tarmoqlar orqali kiring")}</p>
               <div className="auth-social-icons">
                 <button type="button" onClick={() => handleSocialMock('Google')}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -419,7 +430,7 @@ export default function Login({ defaultRegister = false }) {
         {/* REGISTER FORM (Left) */}
         <div className="auth-form-box register">
           <form onSubmit={handleRegisterSubmit}>
-            <h1>{t('auth.registrationHeading')}</h1>
+            <h1>{t('auth.registrationHeading', "Ro'yxatdan o'tish")}</h1>
             
             {error && isRegister && (
               <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', padding: '10px', borderRadius: '8px', margin: '15px 0', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
@@ -436,21 +447,21 @@ export default function Login({ defaultRegister = false }) {
             {registerStep === 1 ? (
               <>
                 <div className="auth-input-box">
-                  <input type="text" placeholder={t('auth.username')} required value={name} onChange={e => setName(e.target.value)} />
+                  <input type="text" placeholder={t('auth.username', "Ismingiz")} required value={name} onChange={e => setName(e.target.value)} />
                   <User size={20} />
                 </div>
                 <div className="auth-input-box">
-                  <input type="email" placeholder={t('auth.email')} required value={email} onChange={e => setEmail(e.target.value)} />
+                  <input type="email" placeholder={t('auth.email', "Email manzilingiz")} required value={email} onChange={e => setEmail(e.target.value)} />
                   <Mail size={20} />
                 </div>
                 <div className="auth-input-box">
-                  <input type="password" placeholder={t('auth.password')} required value={password} onChange={e => setPassword(e.target.value)} />
+                  <input type="password" placeholder={t('auth.password', "Parolingiz")} required value={password} onChange={e => setPassword(e.target.value)} />
                   <KeyRound size={20} />
                 </div>
                 <button type="submit" className="auth-btn" disabled={loading}>
-                  {loading ? t('auth.wait') : t('auth.registerBtn')}
+                  {loading ? t('auth.wait', 'Iltimos, kuting...') : t('auth.registerBtn', "Ro'yxatdan o'tish")}
                 </button>
-                <p>{t('auth.orRegisterSocial')}</p>
+                <p>{t('auth.orRegisterSocial', "yoki quyidagilar orqali ro'yxatdan o'ting")}</p>
                 <div className="auth-social-icons">
                   <button type="button" onClick={() => handleSocialMock('Google')}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -481,7 +492,7 @@ export default function Login({ defaultRegister = false }) {
                 <div className="auth-input-box">
                   <input 
                     type="text" 
-                    placeholder={t('auth.verifyCode') || "Tasdiqlash kodi"} 
+                    placeholder={t('auth.verifyCode', "Tasdiqlash kodi")} 
                     required 
                     maxLength={6}
                     value={registerCode} 
@@ -492,14 +503,14 @@ export default function Login({ defaultRegister = false }) {
                   <ShieldCheck size={20} />
                 </div>
                 <button type="submit" className="auth-btn" disabled={loading} style={{ marginTop: '16px' }}>
-                  {loading ? (t('auth.checking') || 'Tekshirilmoqda...') : (t('auth.verifyBtn') || "Tasdiqlash")}
+                  {loading ? t('auth.checking', 'Tekshirilmoqda...') : t('auth.verifyBtn', "Tasdiqlash")}
                 </button>
                 <button 
                   type="button" 
                   onClick={() => { setRegisterStep(1); setRegisterCode(''); setError(''); setMessage(''); }} 
                   style={{ background: 'none', border: 'none', color: 'var(--neutral-500)', marginTop: '20px', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline' }}
                 >
-                  ← {t('auth.goBack') || "Ortga qaytish"}
+                  ← {t('auth.goBack', "Ortga qaytish")}
                 </button>
               </>
             )}
@@ -509,15 +520,15 @@ export default function Login({ defaultRegister = false }) {
         {/* TOGGLE PANELS */}
         <div className="auth-toggle-box">
           <div className="auth-toggle-panel toggle-left">
-            <h1>{t('auth.helloWelcome')}</h1>
-            <p>{t('auth.dontHaveAccount')}</p>
-            <button className="auth-btn" onClick={() => togglePanel(true)}>{t('auth.registerBtn')}</button>
+            <h1>{t('auth.helloWelcome', "Xush kelibsiz!")}</h1>
+            <p>{t('auth.dontHaveAccount', "Profilingiz yo'qmi? Hoziroq ro'yxatdan o'ting")}</p>
+            <button className="auth-btn" onClick={() => togglePanel(true)}>{t('auth.registerBtn', "Ro'yxatdan o'tish")}</button>
           </div>
 
           <div className="auth-toggle-panel toggle-right">
-            <h1>{t('auth.welcomeBack')}</h1>
-            <p>{t('auth.alreadyHaveAccount')}</p>
-            <button className="auth-btn" onClick={() => togglePanel(false)}>{t('auth.loginBtn')}</button>
+            <h1>{t('auth.welcomeBack', "Qaytganingizdan xursandmiz!")}</h1>
+            <p>{t('auth.alreadyHaveAccount', "Profilingiz bormi? Tizimga kiring")}</p>
+            <button className="auth-btn" onClick={() => togglePanel(false)}>{t('auth.loginBtn', "Tizimga kirish")}</button>
           </div>
         </div>
       </div>

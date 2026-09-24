@@ -1,81 +1,80 @@
 import React, { useState } from 'react';
-import { DollarSign, ArrowUpRight, ArrowDownRight, FileText } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { DollarSign, ArrowUpRight, ArrowDownRight, FileText, CheckCircle2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import toast from 'react-hot-toast';
 
 export default function FinanceTab() {
   const { t } = useLanguage();
-  const [toast, setToast] = useState('');
 
-  const sendReceipt = () => {
-    setToast(t('crm.receiptSuccess'));
-    setTimeout(() => setToast(''), 3000);
+  const downloadReport = () => {
+    toast.success("Moliya hisoboti (PDF/Excel) yuklab olindi! 📊");
   };
 
   const transactions = [
-    { id: 1, type: "income", name: "To'lov - Aliyev Vali", date: "05.09.2026", amount: "+ 2 500 000 UZS" },
-    { id: 2, type: "expense", name: "Oziq-ovqat xarajati", date: "04.09.2026", amount: "- 1 200 000 UZS" },
-    { id: 3, type: "income", name: "To'lov - Karimova Madina", date: "03.09.2026", amount: "+ 2 500 000 UZS" },
-    { id: 4, type: "income", name: "To'lov - Sodiqov Jasur", date: "03.09.2026", amount: "+ 2 500 000 UZS" },
-    { id: 5, type: "expense", name: "Elektr energiyasi", date: "02.09.2026", amount: "- 850 000 UZS" },
-    { id: 6, type: "income", name: "To'lov - Toshmatov Anvar", date: "02.09.2026", amount: "+ 2 500 000 UZS" },
-    { id: 7, type: "expense", name: "Xodimlar oyligi", date: "01.09.2026", amount: "- 18 500 000 UZS" },
-    { id: 8, type: "income", name: "To'lov - Murodova Asal", date: "01.09.2026", amount: "+ 2 500 000 UZS" },
-    { id: 9, type: "income", name: "To'lov - Ismoilov Diyor", date: "01.09.2026", amount: "+ 2 500 000 UZS" },
-    { id: 10, type: "expense", name: "Suv to'lovi", date: "31.08.2026", amount: "- 150 000 UZS" },
-    { id: 11, type: "income", name: "To'lov - Xalilova Iroda", date: "30.08.2026", amount: "+ 2 500 000 UZS" },
-    { id: 12, type: "expense", name: "O'quv qurollari", date: "29.08.2026", amount: "- 1 800 000 UZS" },
-    { id: 13, type: "income", name: "To'lov - Olimov Bekzod", date: "29.08.2026", amount: "+ 2 500 000 UZS" },
-    { id: 14, type: "income", name: "To'lov - Yusupova Sevara", date: "28.08.2026", amount: "+ 2 500 000 UZS" },
-    { id: 15, type: "expense", name: "Bog'cha remont ishlari", date: "28.08.2026", amount: "- 4 200 000 UZS" },
-    { id: 16, type: "income", name: "To'lov - Nurmatov Aziz", date: "27.08.2026", amount: "+ 2 500 000 UZS" },
-    { id: 17, type: "income", name: "To'lov - Qodirova Zebo", date: "26.08.2026", amount: "+ 2 500 000 UZS" },
-    { id: 18, type: "expense", name: "Xo'jalik mollari", date: "25.08.2026", amount: "- 600 000 UZS" },
-    { id: 19, type: "income", name: "To'lov - Hasanov Sardor", date: "25.08.2026", amount: "+ 2 500 000 UZS" },
-    { id: 20, type: "income", name: "To'lov - Ergasheva Laylo", date: "24.08.2026", amount: "+ 2 500 000 UZS" }
+    { id: 1, type: "income", name: "PlayStation 5 Pro sotuvi - Javohir T.", date: "21.02.2025", amount: "+ 9 800 000 UZS", method: "Click" },
+    { id: 2, type: "expense", name: "Razer ulgurji partiya importi", date: "20.02.2025", amount: "- 18 500 000 UZS", method: "Bank" },
+    { id: 3, type: "income", name: "Razer Viper V3 Pro - Azizbek R.", date: "20.02.2025", amount: "+ 1 950 000 UZS", method: "Payme" },
+    { id: 4, type: "income", name: "ASUS ROG SCAR 18 sotuvi - Shoxrux M.", date: "19.02.2025", amount: "+ 42 500 000 UZS", method: "Naqd" },
+    { id: 5, type: "expense", name: "Kuryerlik va yetkazib berish xizmati", date: "18.02.2025", amount: "- 2 400 000 UZS", method: "Bank" },
+    { id: 6, type: "income", name: "Samsung Odyssey G9 Monitor - Bekzod O.", date: "18.02.2025", amount: "+ 18 900 000 UZS", method: "Click" },
+    { id: 7, type: "income", name: "Black Myth: Wukong Litsenziyalari", date: "17.02.2025", amount: "+ 4 680 000 UZS", method: "Payme" }
   ];
 
   const chartData = [
-    { name: 'Yan', kirim: 38000000, chiqim: 12000000 },
-    { name: 'Fev', kirim: 42000000, chiqim: 14000000 },
-    { name: 'Mar', kirim: 39000000, chiqim: 15000000 },
-    { name: 'Apr', kirim: 45000000, chiqim: 11000000 },
-    { name: 'May', kirim: 43000000, chiqim: 13000000 },
-    { name: 'Iyun', kirim: 48000000, chiqim: 12500000 },
+    { name: 'Sentabr', kirim: 68000000, chiqim: 22000000 },
+    { name: 'Oktabr', kirim: 92000000, chiqim: 31000000 },
+    { name: 'Noyabr', kirim: 145000000, chiqim: 55000000 },
+    { name: 'Dekabr', kirim: 230000000, chiqim: 85000000 },
+    { name: 'Yanvar', kirim: 178000000, chiqim: 64000000 },
+    { name: 'Fevral', kirim: 215000000, chiqim: 72000000 },
   ];
 
   return (
     <div className="animate-fade-in-up">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-        <h2 className="text-h2" style={{ color: 'var(--neutral-900)' }}>{t('crm.financeAndPayments')}</h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {toast && <span style={{ color: '#10B981', fontWeight: 500 }}>{toast}</span>}
-          <button onClick={sendReceipt} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <FileText size={18} />{t('crm.sendReceipt')}
-          </button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <h2 className="text-h2" style={{ color: 'var(--neutral-900)', fontFamily: 'var(--font-gaming)' }}>
+            {t('admin.finance').toUpperCase()}
+          </h2>
+          <p style={{ color: 'var(--neutral-500)', fontSize: '14px', marginTop: '2px' }}>
+            {t('admin.panelSubtitle')}
+          </p>
+        </div>
+
+        <button onClick={downloadReport} className="btn btn-cyber" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <FileText size={18} /> Hisobotni yuklash
+        </button>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+        <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '22px', borderRadius: '16px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
+          <div style={{ color: '#10b981', fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <ArrowUpRight size={16} /> Bu oydagi savdo tushumi
+          </div>
+          <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--neutral-900)' }}>215 000 000 UZS</div>
+        </div>
+
+        <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '22px', borderRadius: '16px', border: '1px solid rgba(239, 68, 68, 0.25)' }}>
+          <div style={{ color: '#ef4444', fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <ArrowDownRight size={16} /> Xarajatlar (Ulgurji import & logistika)
+          </div>
+          <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--neutral-900)' }}>72 000 000 UZS</div>
+        </div>
+
+        <div style={{ background: 'rgba(0, 240, 255, 0.1)', padding: '22px', borderRadius: '16px', border: '1px solid rgba(0, 240, 255, 0.25)' }}>
+          <div style={{ color: '#00f0ff', fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <DollarSign size={16} /> Sof foyda (Marja)
+          </div>
+          <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--neutral-900)' }}>143 000 000 UZS</div>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '40px' }}>
-        <div style={{ background: '#ECFDF5', padding: '24px', borderRadius: '16px', border: '1px solid #A7F3D0' }}>
-          <div style={{ color: '#047857', fontSize: '14px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <ArrowUpRight size={16} />{t('crm.thisMonthIncome')}</div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: '#064E3B' }}>45 000 000 UZS</div>
-        </div>
-        <div style={{ background: '#FEF2F2', padding: '24px', borderRadius: '16px', border: '1px solid #FECACA' }}>
-          <div style={{ color: '#B91C1C', fontSize: '14px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <ArrowDownRight size={16} />{t('crm.expenses')}</div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: '#7F1D1D' }}>12 500 000 UZS</div>
-        </div>
-        <div style={{ background: '#FFFBEB', padding: '24px', borderRadius: '16px', border: '1px solid #FDE68A' }}>
-          <div style={{ color: '#B45309', fontSize: '14px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <DollarSign size={16} />{t('crm.expected')}</div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: '#78350F' }}>7 500 000 UZS</div>
-        </div>
-      </div>
-
-      <div style={{ background: 'var(--surface-warm)', borderRadius: '16px', border: '1px solid var(--neutral-200)', padding: '24px', marginBottom: '40px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-900)', marginBottom: '24px' }}>{t('adminExtra.financeDynamics')}</h3>
+      {/* Bar Chart */}
+      <div style={{ background: 'var(--surface-warm)', borderRadius: '16px', border: '1px solid var(--neutral-200)', padding: '24px', marginBottom: '32px' }}>
+        <h3 style={{ fontSize: '17px', fontWeight: 700, color: 'var(--neutral-900)', marginBottom: '20px' }}>
+          Oylik Daromad va Xarajat Taqqoslanishi
+        </h3>
         <div style={{ height: '300px', width: '100%' }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
@@ -83,46 +82,39 @@ export default function FinanceTab() {
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--neutral-500)', fontSize: 12 }} dy={10} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--neutral-500)', fontSize: 12 }} dx={-10} tickFormatter={(val) => `${val / 1000000}M`} />
               <Tooltip 
-                contentStyle={{ backgroundColor: 'var(--surface)', borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                itemStyle={{ fontWeight: 600 }}
+                contentStyle={{ backgroundColor: 'var(--surface-warm)', borderRadius: '8px', border: '1px solid var(--neutral-200)' }}
                 formatter={(value) => [`${value.toLocaleString()} UZS`, '']}
-                labelStyle={{ color: 'var(--neutral-500)', marginBottom: '4px' }}
-                cursor={{ fill: 'var(--neutral-100)' }}
               />
               <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
-              <Bar dataKey="kirim" name={t("adminExtra.incomeLabel")} fill="#10B981" radius={[4, 4, 0, 0]} barSize={24} />
-              <Bar dataKey="chiqim" name={t("adminExtra.expenseLabel")} fill="#EF4444" radius={[4, 4, 0, 0]} barSize={24} />
+              <Bar dataKey="kirim" name="Savdo tushumi" fill="#00f0ff" radius={[4, 4, 0, 0]} barSize={22} />
+              <Bar dataKey="chiqim" name="Xarajatlar" fill="#ef4444" radius={[4, 4, 0, 0]} barSize={22} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
+      {/* Transactions Table */}
       <div style={{ background: 'var(--surface-warm)', borderRadius: '16px', border: '1px solid var(--neutral-200)', overflow: 'hidden' }}>
-        <div style={{ padding: '24px', borderBottom: '1px solid var(--neutral-200)' }}>
-          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-900)' }}>{t('crm.recentOps')}</h3>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--neutral-200)' }}>
+          <strong style={{ color: 'var(--neutral-900)' }}>So'nggi moliyaviy operatsiyalar</strong>
         </div>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13.5px' }}>
           <thead>
-            <tr style={{ background: 'var(--neutral-50)', color: 'var(--neutral-500)', fontSize: '16px', borderBottom: '1px solid var(--neutral-200)' }}>
-              <th style={{ padding: '24px 32px', fontWeight: 600 }}>{t('crm.desc')}</th>
-              <th style={{ padding: '24px 32px', fontWeight: 600 }}>{t('crm.date')}</th>
-              <th style={{ padding: '24px 32px', fontWeight: 600, textAlign: 'right' }}>{t('crm.amount')}</th>
+            <tr style={{ background: 'var(--surface)', color: 'var(--neutral-500)' }}>
+              <th style={{ padding: '12px 16px', textAlign: 'left' }}>Sana</th>
+              <th style={{ padding: '12px 16px', textAlign: 'left' }}>Operatsiya tafsiloti</th>
+              <th style={{ padding: '12px 16px', textAlign: 'left' }}>To'lov usuli</th>
+              <th style={{ padding: '12px 16px', textAlign: 'right' }}>Summa</th>
             </tr>
           </thead>
           <tbody>
-            {transactions.map(item => (
-              <tr key={item.id} style={{ borderBottom: '1px solid var(--neutral-100)', color: 'var(--neutral-900)' }}>
-                <td style={{ padding: '24px 32px', fontWeight: 500, fontSize: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: item.type === 'income' ? '#ECFDF5' : '#FEF2F2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: item.type === 'income' ? '#10B981' : '#EF4444' }}>
-                      {item.type === 'income' ? <ArrowUpRight size={20} /> : <ArrowDownRight size={20} />}
-                    </div>
-                    {item.name}
-                  </div>
-                </td>
-                <td style={{ padding: '24px 32px', color: 'var(--neutral-500)', fontSize: '16px' }}>{item.date}</td>
-                <td style={{ padding: '24px 32px', textAlign: 'right', fontWeight: 700, fontSize: '18px', color: item.type === 'income' ? '#10B981' : '#EF4444' }}>
-                  {item.amount}
+            {transactions.map(tr => (
+              <tr key={tr.id} style={{ borderBottom: '1px solid var(--neutral-100)' }}>
+                <td style={{ padding: '12px 16px', color: 'var(--neutral-500)' }}>{tr.date}</td>
+                <td style={{ padding: '12px 16px', fontWeight: 600, color: 'var(--neutral-900)' }}>{tr.name}</td>
+                <td style={{ padding: '12px 16px', color: 'var(--neutral-700)' }}>{tr.method}</td>
+                <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 700, color: tr.type === 'income' ? '#10b981' : '#ef4444' }}>
+                  {tr.amount}
                 </td>
               </tr>
             ))}

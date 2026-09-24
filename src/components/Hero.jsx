@@ -1,199 +1,189 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Search, MapPin, ChevronDown, ArrowRight, Star, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { districts } from '../data/mockData';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Flame, Zap, Shield, Truck, Headphones, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { useKindergartens } from '../context/KindergartenContext';
-import CustomSelect from './CustomSelect';
 import './Hero.css';
 
-export default function Hero({ onSearch }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [district, setDistrict] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [liveResults, setLiveResults] = useState([]);
-  const dropdownRef = useRef(null);
-  const searchBoxRef = useRef(null);
-  const { t, lang } = useLanguage();
-  const { data: kindergartens } = useKindergartens();
+export default function Hero() {
+  const [query, setQuery] = useState('');
+  const { t } = useLanguage();
+  const navigate = useNavigate();
 
-  // Live search logic
-  useEffect(() => {
-    if (!searchTerm.trim() && !district) {
-      setShowDropdown(false);
-      setLiveResults([]);
-      if (onSearch) onSearch({ searchTerm: '', district: '' });
-      return;
-    }
-
-    let result = kindergartens;
-    if (searchTerm.trim()) {
-      result = result.filter(k => k.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    }
-    if (district) {
-      result = result.filter(k => k.district === district);
-    }
-
-    setLiveResults(result);
-    setShowDropdown(true);
-    if (onSearch) onSearch({ searchTerm, district });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm, district, kindergartens]);
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (searchBoxRef.current && !searchBoxRef.current.contains(e.target)) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleSubmit = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    setShowDropdown(false);
-  };
-
-  const clearSearch = () => {
-    setSearchTerm('');
-    setDistrict('');
-    setShowDropdown(false);
-    if (onSearch) onSearch({ searchTerm: '', district: '' });
+    if (query.trim()) {
+      navigate(`/products?search=${encodeURIComponent(query.trim())}`);
+    } else {
+      navigate('/products');
+    }
   };
 
   return (
-    <section className="hero-section">
-      <div className="hero-bg-glow"></div>
+    <section className="gaming-hero">
+      {/* Background Glows */}
+      <div className="hero-glow hero-glow-1"></div>
+      <div className="hero-glow hero-glow-2"></div>
+
       <div className="container hero-container">
         <div className="hero-content animate-fade-in-up">
-          <span className="location-badge">
-            <span className="dot"></span> {t('hero.location')}
-          </span>
-          <h1 className="text-display hero-title">
-            {t('hero.title')}
-          </h1>
-          <p className="text-body-lg hero-subtitle">
-            {t('hero.subtitle')}
-          </p>
-        </div>
+          {/* Eyebrow badge */}
+          <div className="hero-badge">
+            <span className="pulse-dot"></span>
+            <span className="badge-text">{t('hero.badge')}</span>
+            <Flame size={16} color="#f59e0b" />
+          </div>
 
-        <div className="hero-search-wrapper" ref={searchBoxRef}>
-          <form className="hero-search-box animate-fade-in-up delay-100" onSubmit={handleSubmit}>
-            <div className="search-field search-input-field">
-              <Search size={20} color="var(--neutral-500)" />
+          {/* Main Title */}
+          <h1 className="hero-title">
+            {t('hero.title1')} <br />
+            <span className="text-cyber">{t('hero.title2')}</span> {t('hero.title3')}
+          </h1>
+
+          <p className="hero-desc">
+            {t('hero.desc')}
+          </p>
+
+          {/* Search Form */}
+          <form className="hero-search-form" onSubmit={handleSearch}>
+            <div className="search-input-box">
+              <Search size={20} className="search-icon" />
               <input 
                 type="text" 
-                placeholder={t('hero.searchPlaceholder')} 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onFocus={() => {
-                  if (searchTerm.trim() || district) setShowDropdown(true);
-                }}
-              />
-              {searchTerm && (
-                <button 
-                  type="button" 
-                  className="search-clear-btn"
-                  onClick={clearSearch}
-                  title="Tozalash"
-                >
-                  <X size={16} />
-                </button>
-              )}
-            </div>
-            
-            <div className="divider"></div>
-            
-            <div className="search-field select-field" style={{ flex: 1, paddingRight: '20px' }}>
-              <MapPin size={20} color="var(--neutral-500)" style={{ flexShrink: 0 }} />
-              <CustomSelect 
-                variant="hero"
-                value={district} 
-                onChange={setDistrict}
-                options={[
-                  { value: "", label: t('hero.allDistricts') },
-                  ...districts.map(d => ({ value: d, label: d }))
-                ]}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t('hero.searchPlaceholder')}
               />
             </div>
-            
-            <button type="submit" className="search-submit" title={t('hero.searchBtn')}>
-              <ArrowRight size={20} />
+            <button type="submit" className="btn btn-cyber hero-search-btn">
+              <span>{t('hero.searchBtn')}</span>
+              <ArrowRight size={18} />
             </button>
           </form>
 
-          {/* Live Search Dropdown */}
-          {showDropdown && (searchTerm.trim() || district) && (
-            <div className="search-dropdown animate-fade-in-up" ref={dropdownRef}>
-              <div className="search-dropdown-header">
-                <span className="search-dropdown-count">
-                  {liveResults.length} {t('heroExtra.resultsFound')}
-                </span>
-                {liveResults.length > 5 && (
-                  <span className="search-dropdown-hint">
-                    {t('heroExtra.first5Shown')}
-                  </span>
-                )}
-              </div>
-              
-              {liveResults.length > 0 ? (
-                <div className="search-dropdown-list">
-                  {liveResults.slice(0, 5).map((kg) => (
-                    <Link 
-                      key={kg.id} 
-                      to={`/bogcha/${kg.id}`} 
-                      className="search-dropdown-item"
-                      onClick={() => setShowDropdown(false)}
-                    >
-                      <img 
-                        src={kg.image} 
-                        alt={kg.name} 
-                        className="search-dropdown-img" 
-                      />
-                      <div className="search-dropdown-info">
-                        <div className="search-dropdown-name">{kg.name}</div>
-                        <div className="search-dropdown-address">
-                          <MapPin size={12} />
-                          {kg.address[lang] || kg.address['uz']}
-                        </div>
-                      </div>
-                      <div className="search-dropdown-meta">
-                        <div className="search-dropdown-rating">
-                          <Star size={14} fill="var(--accent-500)" color="var(--accent-500)" />
-                          <span>{kg.rating}</span>
-                        </div>
-                        <div className="search-dropdown-price">{kg.price[lang] || kg.price['uz']}</div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <div className="search-dropdown-empty">
-                  <Search size={24} color="var(--neutral-300)" />
-                  <span>{t('heroExtra.nothingFound')}</span>
-                </div>
-              )}
-            </div>
-          )}
+          {/* Quick tags */}
+          <div className="hero-quick-tags">
+            <span className="tags-label">{t('hero.popular')}</span>
+            {['PlayStation 5 Pro', 'RTX 4090 PC', 'Razer Viper V3', 'Black Myth: Wukong', 'OLED G9'].map((tag, idx) => (
+              <button 
+                key={idx} 
+                className="tag-pill"
+                onClick={() => navigate(`/products?search=${encodeURIComponent(tag)}`)}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="hero-cta-group">
+            <button 
+              className="btn btn-primary cta-btn"
+              onClick={() => navigate('/products')}
+            >
+              <span>{t('hero.catalogBtn')}</span>
+              <ArrowRight size={18} />
+            </button>
+            <button 
+              className="btn btn-outline cta-btn reflex-cta"
+              onClick={() => navigate('/game')}
+            >
+              <Zap size={18} color="currentColor" />
+              <span>{t('hero.reflexBtn')}</span>
+            </button>
+          </div>
         </div>
-        
-        <div className="hero-stats animate-fade-in-up delay-200">
-          <div className="stat-item">
-            <strong>50+</strong> {t('header.kindergartens')}
+
+        {/* Hero Visual Card Showcase */}
+        <div className="hero-visual">
+          <div className="visual-card-main glass">
+            <div className="featured-tag">
+              <Zap size={14} />
+              <span>{t('hero.weekHit')}</span>
+            </div>
+            <img 
+              src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&auto=format&fit=crop&q=80" 
+              alt="PlayStation 5 Pro"
+              className="visual-img"
+            />
+            <div className="visual-info">
+              <span className="visual-brand">SONY PLAYSTATION</span>
+              <h3 className="visual-title">PlayStation 5 Pro 2TB Digital Edition</h3>
+              <div className="visual-price-row">
+                <span className="visual-price">9,800,000 so'm</span>
+                <span className="visual-discount">{t('hero.discountTag')}</span>
+              </div>
+              <button 
+                className="btn btn-cyber visual-btn"
+                onClick={() => navigate('/product/prod-1')}
+              >
+                {t('hero.viewDetails')}
+              </button>
+            </div>
           </div>
-          <span className="dot-sep">·</span>
-          <div className="stat-item">
-            <strong>100%</strong> {t('hero.freeService')}
+
+          {/* Floating mini stats badges */}
+          <div className="floating-badge badge-1 glass">
+            <Shield size={18} color="#10b981" />
+            <div>
+              <strong>{t('hero.warrantyTag')}</strong>
+              <small>{t('hero.fullWarranty')}</small>
+            </div>
           </div>
-          <span className="dot-sep">·</span>
-          <div className="stat-item">
-            <strong>12</strong> {t('hero.districts')}
+
+          <div className="floating-badge badge-2 glass">
+            <Truck size={18} color="#00f0ff" />
+            <div>
+              <strong>{t('hero.courier')}</strong>
+              <small>{t('hero.nationwide')}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Feature Strip */}
+      <div className="container">
+        <div className="hero-features-strip glass">
+          <div className="feature-item">
+            <div className="feature-icon-wrap">
+              <Truck size={22} color="#00f0ff" />
+            </div>
+            <div>
+              <h4>{t('hero.fastDelivery')}</h4>
+              <p>{t('hero.fastDeliveryDesc')}</p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon-wrap">
+              <Shield size={22} color="#10b981" />
+            </div>
+            <div>
+              <h4>{t('hero.originalQuality')}</h4>
+              <p>{t('hero.originalQualityDesc')}</p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon-wrap">
+              <Zap size={22} color="#8b5cf6" />
+            </div>
+            <div>
+              <h4>{t('hero.esports')}</h4>
+              <p>{t('hero.esportsDesc')}</p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="feature-icon-wrap">
+              <Headphones size={22} color="#ec4899" />
+            </div>
+            <div>
+              <h4>{t('hero.aiSupport')}</h4>
+              <p>{t('hero.aiSupportDesc')}</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
-

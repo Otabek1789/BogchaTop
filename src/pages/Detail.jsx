@@ -1,268 +1,468 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { useParams, Link } from 'react-router-dom';
-import { MapPin, Star, CheckCircle2, Phone, ArrowLeft, Users, Clock, X, Send } from 'lucide-react';
-import toast from 'react-hot-toast';
-import { useLanguage } from '../context/LanguageContext';
-import { useKindergartens } from '../context/KindergartenContext';
-import KindergartenCard from '../components/KindergartenCard';
-import Gallery from '../components/Gallery';
+import React, { useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
-  getLocalizedDescription, 
-  getLocalizedLanguages, 
-  getLocalizedFeatures, 
-  getLocalizedAddress, 
-  getLocalizedPrice 
-} from '../utils/kindergartenLocalization';
+  Star, 
+  Heart, 
+  ShoppingBag, 
+  Zap, 
+  ShieldCheck, 
+  Truck, 
+  ArrowLeft, 
+  Check, 
+  Share2, 
+  MessageSquare,
+  Sparkles,
+  Send
+} from 'lucide-react';
+
+const TELEGRAM_BOT_TOKEN = '8682232515:AAE_r0XFh0SyhJ7ec3w0JItfAgJCAB8OL-4';
+const TELEGRAM_CHAT_ID = '7373118052';
+import { useProducts } from '../context/ProductContext';
+import { useLanguage } from '../context/LanguageContext';
+import { useCart } from '../context/CartContext';
+import { useFavorites } from '../context/FavoritesContext';
+import { useAuth } from '../context/AuthContext';
+import ProductCard from '../components/ProductCard';
+import toast from 'react-hot-toast';
 import './Detail.css';
 
 export default function Detail() {
   const { id } = useParams();
-  const { t, lang } = useLanguage();
-  const { data: kindergartens, reviews, addReview, submitApplication } = useKindergartens();
-  
-  const data = kindergartens.find(k => k.id === id);
-  const kgReviews = reviews[id] || [];
+  const navigate = useNavigate();
+  const { products, reviews, addReview } = useProducts();
+  const { t } = useLanguage();
+  const { addToCart, setIsCartOpen } = useCart();
+  const { favorites, toggleFavorite } = useFavorites();
+  const { user } = useAuth();
 
-  const [showAppModal, setShowAppModal] = useState(false);
-  const [appForm, setAppForm] = useState({ parentName: '', phone: '', childName: '', childAge: '' });
-  
-  const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, comment: '' });
+  const product = products.find(p => p.id === id);
 
-  // Disable scroll when modal is open
-  useEffect(() => {
-    if (showAppModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => { document.body.style.overflow = 'unset'; };
-  }, [showAppModal]);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [reviewName, setReviewName] = useState(user?.displayName || '');
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState('');
+  const [isQuickBuyOpen, setIsQuickBuyOpen] = useState(false);
+  const [quickPhone, setQuickPhone] = useState('+998 ');
 
-  const handleApply = (e) => {
-    e.preventDefault();
-    submitApplication({ kindergartenId: id, kindergartenName: data.name, ...appForm });
-    setShowAppModal(false);
-    toast.success(t('detailExtra.appSuccess'));
-    setAppForm({ parentName: '', phone: '', childName: '', childAge: '' });
-  };
-
-  const handleReview = (e) => {
-    e.preventDefault();
-    addReview(id, reviewForm);
-    toast.success(t('detailExtra.reviewSuccess'));
-    setReviewForm({ name: '', rating: 5, comment: '' });
-  };
-
-  // Pick 3 random recommendations (memoized to avoid re-shuffle on re-render)
-  const recommendations = useMemo(() => 
-    kindergartens
-      .filter(k => k.id !== id)
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3),
-    [id, kindergartens]
-  );
-
-  if (!data) {
+  if (!product) {
     return (
-      <div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>
-        <h2>{t('detail.notFound')}</h2>
-        <Link to="/" className="btn btn-outline" style={{ marginTop: '20px' }}>{t('detail.backHome')}</Link>
+      <div className="container not-found-wrap">
+        <h2>{t('catalog.emptyTitle')}</h2>
+        <p>{t('catalog.emptyDesc')}</p>
+        <button className="btn btn-primary" onClick={() => navigate('/products')}>
+          {t('product.back')}
+        </button>
       </div>
     );
   }
 
-  const numId = parseInt(data.id) || 1;
-  const defaultGallery = [
-    data.image,
-    `/ai-${((numId * 3 + 1) % 44) + 1}.jpg`,
-    `/ai-${((numId * 3 + 7) % 44) + 1}.jpg`,
-    `/ai-${((numId * 3 + 13) % 44) + 1}.jpg`,
-    `/ai-${((numId * 3 + 19) % 44) + 1}.jpg`
-  ].filter((img, idx, self) => self.indexOf(img) === idx);
-  const imagesToUse = data.images || defaultGallery;
+  const isFav = favorites.includes(product.id);
+  const productReviews = reviews[product.id] || [];
+  const gallery = product.gallery && product.gallery.length > 0 
+    ? product.gallery 
+    : [product.image];
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('uz-UZ').format(price) + " so'm";
+  };
+
+  const discountPercent = product.oldPrice 
+    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+    : 0;
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    if (!reviewComment.trim()) {
+      toast.error("Iltimos, fikringizni yozing");
+      return;
+    }
+    addReview(product.id, {
+      user: reviewName.trim() || 'Gamer',
+      rating: reviewRating,
+      comment: reviewComment.trim()
+    });
+    setReviewComment('');
+    toast.success("Sharhingiz muvaffaqiyatli qo'shildi! Rahmat! 🎮");
+  };
+
+  const handleQuickBuy = (e) => {
+    e.preventDefault();
+    if (quickPhone.length < 9) {
+      toast.error("Iltimos, to'liq telefon raqamingizni kiriting");
+      return;
+    }
+    toast.success("Tezkor xarid arizangiz qabul qilindi! Operatorimiz 5 daqiqada bog'lanadi.");
+    setIsQuickBuyOpen(false);
+  };
+
+  const handleTelegramOrder = async () => {
+    const priceFormatted = new Intl.NumberFormat('uz-UZ').format(product.price) + " so'm";
+    const caption = [
+      `🛒 *Yangi buyurtma!*`,
+      ``,
+      `📦 *Tovar:* ${product.name}`,
+      `🏷️ *Brend:* ${product.brand}`,
+      `💰 *Narxi:* ${priceFormatted}`,
+      product.oldPrice ? `~~${new Intl.NumberFormat('uz-UZ').format(product.oldPrice)} so'm~~` : null,
+      product.stock > 0 ? `✅ *Mavjud:* ${product.stock} dona` : `❌ Mavjud emas`,
+      ``,
+      `📝 *Tavsif:* ${product.description || 'Malumot yo\'q'}`,
+      ``,
+      `🌐 *Sayt:* BogchaTop Gaming Store`,
+    ].filter(Boolean).join('\n');
+
+    try {
+      const imageUrl = gallery[activeImageIndex] || product.image;
+      // Try sending with photo first
+      const photoRes = await fetch(
+        `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            photo: imageUrl,
+            caption,
+            parse_mode: 'Markdown',
+          }),
+        }
+      );
+      const photoData = await photoRes.json();
+
+      if (!photoData.ok) {
+        // Fallback: send as text message if photo fails
+        await fetch(
+          `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: caption + `\n🖼️ Rasm: ${imageUrl}`,
+              parse_mode: 'Markdown',
+            }),
+          }
+        );
+      }
+
+      toast.success('✅ Tovar ma\'lumoti Telegramga yuborildi!');
+    } catch (err) {
+      toast.error('Telegramga yuborishda xato yuz berdi');
+      console.error(err);
+    }
+  };
+
+  // Related products
+  const relatedProducts = products
+    .filter(p => p.category === product.category && p.id !== product.id)
+    .slice(0, 4);
 
   return (
-    <>
-      <div className="detail-page animate-fade-in-up">
-        <div className="detail-header-bg">
-          <img 
-            src={data.image} 
-            alt={data.name} 
-            className="detail-hero-img" 
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = '/happy-kids-academy.jpg';
-            }}
-          />
-          <div className="overlay"></div>
-          <div className="container header-content-wrapper">
-            <Link to="/" className="back-btn">
-              <ArrowLeft size={20} />
-              <span>{t('detail.back')}</span>
-            </Link>
-            <div className="title-area">
-              <span className="badge badge-brand" style={{ marginBottom: '16px' }}>{t('detail.verified')}</span>
-              <h1 className="text-display" style={{ color: 'white', marginBottom: '16px' }}>{data.name}</h1>
-              <div className="meta-info">
-                <span className="meta-item">
-                  <MapPin size={18} /> {getLocalizedAddress(data, lang)}
-                </span>
-                <span className="meta-item">
-                  <Star size={18} color="var(--accent-500)" fill="var(--accent-500)" /> {data.rating} ({data.reviews} {t('detail.reviews')})
-                </span>
-              </div>
-            </div>
+    <div className="detail-page container">
+      {/* Back button */}
+      <div className="detail-nav-bar">
+        <button className="btn-back" onClick={() => navigate(-1)}>
+          <ArrowLeft size={18} />
+          <span>{t('product.back')}</span>
+        </button>
+        <div className="breadcrumb">
+          <Link to="/">{t('nav.home')}</Link> / <Link to="/products">{t('nav.catalog')}</Link> / <span>{product.name}</span>
+        </div>
+      </div>
+
+      {/* Main Product Info Grid */}
+      <div className="detail-main-grid">
+        {/* Gallery */}
+        <div className="detail-gallery-wrap">
+          <div className="main-image-box glass">
+            <img 
+              src={gallery[activeImageIndex] || product.image} 
+              alt={product.name}
+              className="main-img" 
+            />
+            {product.badge && (
+              <span className="detail-badge badge-neon">{product.badge}</span>
+            )}
           </div>
+
+          {gallery.length > 1 && (
+            <div className="thumbnails-row">
+              {gallery.map((img, idx) => (
+                <div 
+                  key={idx}
+                  className={`thumb-box ${activeImageIndex === idx ? 'active' : ''}`}
+                  onClick={() => setActiveImageIndex(idx)}
+                >
+                  <img src={img} alt={`Preview ${idx}`} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="container detail-content">
-          <div className="main-col">
-            <section className="detail-section card" style={{ padding: '24px', background: 'var(--surface-warm)' }}>
-              <h2 className="text-h2" style={{ marginBottom: '24px' }}>{t('detailExtra.photoGallery')}</h2>
-              <Gallery images={imagesToUse} />
-            </section>
-
-            <section className="detail-section card">
-              <h2 className="text-h2">{t('detail.about')}</h2>
-              <p className="text-body-lg" style={{ marginTop: '16px' }}>{getLocalizedDescription(data, lang)}</p>
-              <p className="text-body-lg" style={{ marginTop: '16px' }}>
-                {t('detail.aboutDesc')}
-              </p>
-            </section>
-
-            <section className="detail-section card">
-              <h2 className="text-h2">{t('detail.features')}</h2>
-              <div className="features-grid">
-                {getLocalizedFeatures(data, lang).map((feature, i) => (
-                  <div key={i} className="feature-item">
-                    <CheckCircle2 size={20} color="var(--brand-600)" />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-                <div className="feature-item">
-                  <CheckCircle2 size={20} color="var(--brand-600)" />
-                  <span>{t('detail.cctv')}</span>
-                </div>
-                <div className="feature-item">
-                  <CheckCircle2 size={20} color="var(--brand-600)" />
-                  <span>{t('detail.psychologist')}</span>
-                </div>
-              </div>
-            </section>
-
-            {/* Reviews Section */}
-            <section className="detail-section card">
-              <h2 className="text-h2" style={{ marginBottom: '24px' }}>{t('detailExtra.leaveReview')}</h2>
-              <p style={{ color: 'var(--neutral-500)', marginBottom: '16px' }}>{t('detailExtra.reviewNote')}</p>
-
-              <form onSubmit={handleReview} style={{ background: 'var(--surface-warm)', padding: '24px', borderRadius: '16px', border: '1px solid var(--neutral-200)' }}>
-                <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
-                  <input required type="text" placeholder={t('detailExtra.yourName')} value={reviewForm.name} onChange={e => setReviewForm({...reviewForm, name: e.target.value})} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
-                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center', padding: '0 16px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)' }}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        onClick={() => setReviewForm({ ...reviewForm, rating: star })}
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                      >
-                        <Star size={24} color={star <= reviewForm.rating ? "var(--accent-500)" : "var(--neutral-400)"} fill={star <= reviewForm.rating ? "var(--accent-500)" : "transparent"} style={{ transition: 'all 0.2s' }} />
-                      </button>
-                    ))}
-                    <span style={{ marginLeft: '8px', fontWeight: '600', color: 'var(--neutral-700)' }}>
-                      {reviewForm.rating}/5
-                    </span>
-                  </div>
-                </div>
-                <textarea required placeholder={t('detailExtra.writeReview')} value={reviewForm.comment} onChange={e => setReviewForm({...reviewForm, comment: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', minHeight: '100px', marginBottom: '16px', background: 'var(--surface)', color: 'var(--neutral-900)', resize: 'vertical' }}></textarea>
-                <button type="submit" className="btn btn-primary" style={{ display: 'flex', gap: '8px' }}>
-                  <Send size={16} /> {t('detailExtra.send')}
-                </button>
-              </form>
-            </section>
-          </div>
-
-          <div className="sidebar-col">
-            <div className="card sticky-sidebar">
-              <div className="price-box">
-                <span className="price-label">{t('detail.monthlyFee')}</span>
-                <div className="price-value">{getLocalizedPrice(data, lang)}</div>
-              </div>
-              
-              <div className="sidebar-info-list">
-                <div className="sidebar-info-item">
-                  <div className="icon-box"><Users size={20} /></div>
-                  <div>
-                    <strong>{t('detail.langs')}</strong>
-                    <div>{getLocalizedLanguages(data, lang).join(", ")}</div>
-                  </div>
-                </div>
-                <div className="sidebar-info-item">
-                  <div className="icon-box"><Clock size={20} /></div>
-                  <div>
-                    <strong>{t('detail.workHours')}</strong>
-                    <div>{t('detail.workHoursDesc')}</div>
-                  </div>
-                </div>
-              </div>
-
-              <button onClick={() => toast(t('detail.contact') + ': ' + (data.phone || '+998 90 123 45 67'), { icon: '📞' })} className="btn btn-primary" style={{ width: '100%', marginTop: '24px' }}>
-                <Phone size={18} />
-                {t('detail.contact')}
-              </button>
-              <button onClick={() => setShowAppModal(true)} className="btn btn-outline" style={{ width: '100%', marginTop: '12px', fontWeight: 'bold' }}>
-                {t('detailExtra.applyBtn')}
-              </button>
+        {/* Product Details Info */}
+        <div className="detail-info-wrap">
+          <div className="detail-brand-row">
+            <span className="detail-brand">{product.brand}</span>
+            <div className="detail-rating">
+              <Star size={16} fill="#fbbf24" color="#fbbf24" />
+              <span>{product.rating || 5.0}</span>
+              <span className="rating-cnt">({productReviews.length + (product.reviewsCount || 0)} {t('product.reviews')})</span>
             </div>
           </div>
-        </div>
 
-        <div className="container" style={{ padding: '60px 1.5rem', borderTop: '1px solid var(--neutral-200)', marginTop: '40px' }}>
-          <h2 className="text-h2" style={{ marginBottom: '32px' }}>{t('detail.recommendations')}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
-            {recommendations.map(kg => (
-              <KindergartenCard key={kg.id} data={kg} />
-            ))}
+          <h1 className="detail-title">{product.name}</h1>
+
+          {/* Price Row */}
+          <div className="detail-price-box">
+            <div className="price-main">{formatPrice(product.price)}</div>
+            {product.oldPrice && (
+              <div className="price-old">{formatPrice(product.oldPrice)}</div>
+            )}
+            {discountPercent > 0 && (
+              <span className="discount-tag">-{discountPercent}% OFF</span>
+            )}
+          </div>
+
+          {/* Stock */}
+          <div className="detail-stock-row">
+            {product.stock > 0 ? (
+              <span className="stock-badge in">
+                <Check size={14} /> {t('product.inStock')} ({product.stock})
+              </span>
+            ) : (
+              <span className="stock-badge out">
+                {t('product.outOfStock')}
+              </span>
+            )}
+          </div>
+
+          <p className="detail-desc">{product.description}</p>
+
+          {/* Action Row */}
+          <div className="detail-actions-box">
+            <div className="qty-selector">
+              <button 
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="qty-btn"
+              >
+                -
+              </button>
+              <span className="qty-number">{quantity}</span>
+              <button 
+                onClick={() => setQuantity(quantity + 1)}
+                className="qty-btn"
+              >
+                +
+              </button>
+            </div>
+
+            <button 
+              className="btn btn-cyber add-cart-large"
+              onClick={() => {
+                addToCart(product, quantity);
+                setIsCartOpen(true);
+              }}
+            >
+              <ShoppingBag size={20} />
+              <span>{t('product.addToCart')}</span>
+            </button>
+
+            <button 
+              className={`detail-fav-btn ${isFav ? 'active' : ''}`}
+              onClick={() => toggleFavorite(product.id)}
+              title={t('nav.favorites')}
+            >
+              <Heart size={20} fill={isFav ? '#ef4444' : 'none'} color={isFav ? '#ef4444' : 'currentColor'} />
+            </button>
+          </div>
+
+          {/* Quick Buy One Click + Telegram */}
+          <div className="quick-buy-box">
+            <button 
+              className="btn btn-outline quick-buy-trigger"
+              onClick={() => setIsQuickBuyOpen(true)}
+            >
+              <Zap size={18} color="#00f0ff" />
+              <span>{t('product.buyNow')}</span>
+            </button>
+
+            <button
+              className="btn btn-telegram"
+              onClick={handleTelegramOrder}
+              title="Telegramda buyurtma qilish"
+            >
+              <Send size={18} />
+              <span>Telegramda buyurtma</span>
+            </button>
+          </div>
+
+          {/* Benefits Grid */}
+          <div className="detail-benefits-grid">
+            <div className="benefit-item glass">
+              <ShieldCheck size={20} color="#10b981" />
+              <div>
+                <strong>{t('product.warranty')}</strong>
+                <small>{t('product.genuine')}</small>
+              </div>
+            </div>
+            <div className="benefit-item glass">
+              <Truck size={20} color="#00f0ff" />
+              <div>
+                <strong>{t('product.delivery')}</strong>
+                <small>{t('product.support')}</small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Application Modal (Rendered via Portal to escape transforms) */}
-      {showAppModal && createPortal(
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '20px' }}>
-          <div className="animate-fade-in-up" style={{ background: 'var(--surface)', padding: '32px', borderRadius: '24px', width: '100%', maxWidth: '500px', position: 'relative', border: '1px solid var(--neutral-200)', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
-            <button onClick={() => setShowAppModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--neutral-500)' }}>
-              <X size={24} />
+      {/* Specifications & Reviews Tabs */}
+      <div className="detail-tabs-section">
+        <div className="specs-card glass">
+          <h3 className="section-tab-title">
+            <Zap size={20} className="text-neon" />
+            <span>{t('product.specs')}</span>
+          </h3>
+
+          {product.specs ? (
+            <div className="specs-table">
+              {Object.entries(product.specs).map(([specKey, specVal], idx) => (
+                <div key={idx} className="spec-row">
+                  <span className="spec-name">{specKey}</span>
+                  <span className="spec-value">{specVal}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-specs">Standart komplektatsiya.</p>
+          )}
+        </div>
+
+        {/* Customer Reviews Box */}
+        <div className="reviews-card glass">
+          <h3 className="section-tab-title">
+            <MessageSquare size={20} className="text-neon" />
+            <span>{t('product.reviews')} ({productReviews.length})</span>
+          </h3>
+
+          {/* Review submission form */}
+          <form className="add-review-form" onSubmit={handleReviewSubmit}>
+            <div className="review-inputs-row">
+              <input 
+                type="text"
+                value={reviewName}
+                onChange={(e) => setReviewName(e.target.value)}
+                placeholder={t('product.yourName')}
+              />
+              <div className="star-select">
+                <span>Bahoyingiz:</span>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    className="star-btn"
+                    onClick={() => setReviewRating(star)}
+                  >
+                    <Star 
+                      size={18} 
+                      fill={star <= reviewRating ? '#fbbf24' : 'none'} 
+                      color={star <= reviewRating ? '#fbbf24' : '#64748b'} 
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <textarea 
+              rows={3}
+              value={reviewComment}
+              onChange={(e) => setReviewComment(e.target.value)}
+              placeholder={t('product.yourReview')}
+              required
+            />
+
+            <button type="submit" className="btn btn-primary review-submit-btn">
+              {t('product.sendReview')}
             </button>
-            <h2 className="text-h2" style={{ marginBottom: '8px', color: 'var(--neutral-900)' }}>{t('detailExtra.applyTitle')}</h2>
-            <p style={{ color: 'var(--neutral-500)', marginBottom: '24px' }}>{data.name} — {t('detailExtra.applyDesc')}</p>
-            
-            <form onSubmit={handleApply} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.parentName')}</label>
-                <input required type="text" placeholder={t('detailExtra.parentNamePh')} value={appForm.parentName} onChange={e => setAppForm({...appForm, parentName: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.phonePh')}</label>
-                <input required type="tel" placeholder="+998" value={appForm.phone} onChange={e => setAppForm({...appForm, phone: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
-              </div>
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <div style={{ flex: 2 }}>
-                  <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.childName')}</label>
-                  <input required type="text" placeholder={t('detailExtra.childNamePh')} value={appForm.childName} onChange={e => setAppForm({...appForm, childName: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
+          </form>
+
+          {/* Reviews list */}
+          <div className="reviews-list">
+            {productReviews.length > 0 ? (
+              productReviews.map((rev) => (
+                <div key={rev.id} className="review-item">
+                  <div className="review-header">
+                    <div className="reviewer-info">
+                      <div className="reviewer-avatar">
+                        {rev.user ? rev.user.charAt(0).toUpperCase() : 'G'}
+                      </div>
+                      <div>
+                        <strong className="reviewer-name">{rev.user}</strong>
+                        <div className="review-date">{rev.date}</div>
+                      </div>
+                    </div>
+                    <div className="review-stars">
+                      {[...Array(rev.rating || 5)].map((_, i) => (
+                        <Star key={i} size={14} fill="#fbbf24" color="#fbbf24" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="review-text">{rev.comment}</p>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', color: 'var(--neutral-900)' }}>{t('detailExtra.childAge')}</label>
-                  <input required type="number" min="2" max="7" placeholder={t('detailExtra.childAgePh')} value={appForm.childAge} onChange={e => setAppForm({...appForm, childAge: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--neutral-300)', background: 'var(--surface)', color: 'var(--neutral-900)' }} />
-                </div>
+              ))
+            ) : (
+              <p className="no-reviews">Bu tovar uchun hali sharh qoldirilmagan.</p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Related Products */}
+      {relatedProducts.length > 0 && (
+        <div className="related-section">
+          <h2 className="related-title">{t('product.related')}</h2>
+          <div className="products-grid">
+            {relatedProducts.map(rel => (
+              <ProductCard key={rel.id} product={rel} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Quick Buy Modal */}
+      {isQuickBuyOpen && (
+        <div className="modal-backdrop" onClick={() => setIsQuickBuyOpen(false)}>
+          <div className="quick-modal glass" onClick={e => e.stopPropagation()}>
+            <h3>Tezkor 1-klikda buyurtma</h3>
+            <p className="quick-modal-desc">
+              <strong>{product.name}</strong> uchun telefon raqamingizni qoldiring, 5 daqiqada bog'lanamiz:
+            </p>
+            <form onSubmit={handleQuickBuy}>
+              <input 
+                type="tel" 
+                value={quickPhone}
+                onChange={e => setQuickPhone(e.target.value)}
+                placeholder="+998 90 123 45 67"
+                required
+              />
+              <div className="modal-actions">
+                <button type="submit" className="btn btn-cyber">
+                  Arizani yuborish
+                </button>
+                <button 
+                  type="button" 
+                  className="btn btn-outline"
+                  onClick={() => setIsQuickBuyOpen(false)}
+                >
+                  Bekor qilish
+                </button>
               </div>
-              <button type="submit" className="btn btn-primary" style={{ marginTop: '8px' }}>{t('detailExtra.submitApp')}</button>
             </form>
           </div>
-        </div>,
-        document.body
+        </div>
       )}
-    </>
+    </div>
   );
 }

@@ -61,7 +61,7 @@ export default function Contact() {
               </div>
               <div>
                 <div style={{ color: 'var(--neutral-500)', fontSize: '14px', marginBottom: '4px' }}>{t('contact.email')}</div>
-                <div style={{ fontWeight: 600, fontSize: '1.1rem', color: 'var(--neutral-900)' }}>info@bogchatop.uz</div>
+                <div style={{ fontWeight: 600, fontSize: '1.1rem', color: 'var(--neutral-900)' }}>support@nexusgaming.uz</div>
               </div>
             </div>
 
