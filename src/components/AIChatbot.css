@@ -427,79 +427,162 @@
 /* ========================================================
    LIGHT THEME OVERRIDES FOR AI CHATBOT
    ======================================================== */
+[data-theme="light"] .ai-chat-trigger {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 8px 30px rgba(2, 132, 199, 0.3) !important;
+}
+
+[data-theme="light"] .ai-chat-trigger:hover {
+  box-shadow: 0 12px 40px rgba(2, 132, 199, 0.45) !important;
+}
+
+[data-theme="light"] .ai-chat-trigger svg {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .trigger-badge {
+  background: #10b981;
+  color: #ffffff;
+  border: 1px solid #059669;
+}
+
 [data-theme="light"] .ai-chat-window {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 25px rgba(2, 132, 199, 0.1) !important;
 }
 
 [data-theme="light"] .ai-chat-header {
-  background: #f8fafc;
-  border-bottom-color: #e2e8f0;
+  background: #f8fafc !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .ai-avatar {
+  background: #0284c7 !important;
+  box-shadow: 0 0 15px rgba(2, 132, 199, 0.35) !important;
+}
+
+[data-theme="light"] .ai-avatar svg {
+  color: #ffffff !important;
 }
 
 [data-theme="light"] .ai-name {
-  color: #0f172a;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .ai-status {
+  color: #64748b !important;
 }
 
 [data-theme="light"] .ai-close-btn {
-  background: #f1f5f9;
-  color: #64748b;
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+}
+
+[data-theme="light"] .ai-close-btn:hover {
+  background: #fee2e2 !important;
+  color: #ef4444 !important;
+}
+
+[data-theme="light"] .ai-chat-body {
+  background: #ffffff !important;
+}
+
+[data-theme="light"] .ai-msg-avatar {
+  background: #e0f2fe !important;
+  border-color: #bae6fd !important;
+}
+
+[data-theme="light"] .ai-msg-avatar svg {
+  color: #0284c7 !important;
 }
 
 [data-theme="light"] .ai-bubble.bot {
-  background: #f1f5f9;
-  border-color: #e2e8f0;
-  color: #0f172a;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .ai-bubble.user {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
 }
 
 [data-theme="light"] .ai-quick-chips {
-  border-top-color: #f1f5f9;
+  background: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .chip-btn {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .chip-btn:hover {
+  background: #e0f2fe !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
 }
 
 [data-theme="light"] .ai-input-form {
-  background: #ffffff;
-  border-top-color: #e2e8f0;
+  background: #ffffff !important;
+  border-top-color: #e2e8f0 !important;
 }
 
 [data-theme="light"] .ai-input-form input {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  color: #0f172a;
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .ai-input-form input::placeholder {
+  color: #94a3b8 !important;
+}
+
+[data-theme="light"] .ai-send-btn {
+  background: #0284c7 !important;
+  color: #ffffff !important;
 }
 
 [data-theme="light"] .ai-prod-card {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 
 [data-theme="light"] .ai-prod-card:hover {
-  border-color: #0284c7;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #0284c7 !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.15) !important;
+}
+
+[data-theme="light"] .ai-prod-brand {
+  color: #0284c7 !important;
 }
 
 [data-theme="light"] .ai-prod-name {
-  color: #0f172a;
+  color: #0f172a !important;
 }
 
 [data-theme="light"] .ai-prod-price {
-  color: #059669;
+  color: #059669 !important;
 }
 
 [data-theme="light"] .ai-view-prod-btn {
-  background: #e2e8f0;
-  border-color: #cbd5e1;
-  color: #334155;
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
 }
 
 [data-theme="light"] .ai-action-btn {
-  background: #f1f5f9;
-  border-color: #0284c7;
-  color: #0284c7;
+  background: #f0fdf4 !important;
+  border-color: #86efac !important;
+  color: #15803d !important;
 }
 
 [data-theme="light"] .ai-action-btn:hover {
-  background: #0284c7;
-  color: #ffffff;
+  background: #16a34a !important;
+  color: #ffffff !important;
 }
 
