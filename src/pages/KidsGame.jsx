@@ -143,6 +143,11 @@ function KidsGameInternal() {
   // Tactical Stance: 'push' (Hujum / Aggressive +35% dmg) | 'defense' (Himoya / Cover -50% taken dmg)
   const [tacticalStance, setTacticalStance] = useState('push');
 
+  // Ammo & Reloading State for Weapons (Avtomat, Snayper, etc.)
+  const [currentAmmo, setCurrentAmmo] = useState(30);
+  const [reserveAmmo, setReserveAmmo] = useState(90);
+  const [isReloading, setIsReloading] = useState(false);
+
   // Battle Duel State
   const [round, setRound] = useState(1);
   const [turnTimer, setTurnTimer] = useState(8);
@@ -210,6 +215,34 @@ function KidsGameInternal() {
 
     return () => clearInterval(timer);
   }, [stage, isPlayerTurn, battleResult]);
+
+  // Stage 4 (Battle) Keyboard Controls (1: Avtomat, 2: Pichoq, 3: Granata, 4: Aptechka, R: Reload, Space: Holat)
+  useEffect(() => {
+    if (stage !== 'battle' || battleResult !== null) return;
+
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+
+      const key = e.key.toLowerCase();
+      if (key === '1' || key === 'enter') {
+        handleActionShoot();
+      } else if (key === '2') {
+        handleActionKnife();
+      } else if (key === '3' || key === 'g') {
+        handleActionGrenade();
+      } else if (key === '4' || key === 'x') {
+        handleActionMedkit();
+      } else if (key === 'r') {
+        handleReload();
+      } else if (key === ' ' || key === 'f') {
+        handleSwitchStance();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [stage, isPlayerTurn, battleResult, currentAmmo, reserveAmmo, isReloading, tacticalStance]);
+
 
   // Quick Bot Match starter (1-click play against CS2 Bot)
   const handleStartBotMatch = (mapName = 'MIRAGE') => {
@@ -375,8 +408,44 @@ function KidsGameInternal() {
     setBattleResult(null);
     setFloatingDamage(null);
     setActionEffect(null);
-    setTacticalStance('push'); // Default to push
+    setTacticalStance('push'); // Default to push (hujum)
+
+    // Setup ammo depending on equipped weapon
+    const isAwp = equippedWeapon?.id === 'awp';
+    const isDeagle = equippedWeapon?.id === 'deagle';
+    const maxMag = isAwp ? 5 : (isDeagle ? 7 : 30);
+    const maxRes = isAwp ? 20 : (isDeagle ? 35 : 90);
+    setCurrentAmmo(maxMag);
+    setReserveAmmo(maxRes);
+    setIsReloading(false);
+
     setStage('battle');
+  };
+
+  // Tactical Reload for Guns (Avtomat, Snayper)
+  const handleReload = () => {
+    if (isReloading || reserveAmmo <= 0) return;
+    const isAwp = equippedWeapon?.id === 'awp';
+    const isDeagle = equippedWeapon?.id === 'deagle';
+    const maxMag = isAwp ? 5 : (isDeagle ? 7 : 30);
+
+    if (currentAmmo >= maxMag) {
+      toast("O'qdon to'la!", { icon: 'ℹ️' });
+      return;
+    }
+
+    soundFX.playReload();
+    setIsReloading(true);
+    toast("🔄 O'qdon qayta o'qlanmoqda...", { duration: 1000 });
+
+    setTimeout(() => {
+      const needed = maxMag - currentAmmo;
+      const toLoad = Math.min(needed, reserveAmmo);
+      setCurrentAmmo(prev => prev + toLoad);
+      setReserveAmmo(prev => Math.max(0, prev - toLoad));
+      setIsReloading(false);
+      toast.success("✅ O'qdon shay! Otishga tayyorsiz!", { icon: '🔫' });
+    }, 750);
   };
 
   // Combat Actions in Step 4
@@ -385,24 +454,37 @@ function KidsGameInternal() {
     setTimeout(() => setFloatingDamage(null), 1200);
   };
 
-  // Action 1: Shoot with Main Weapon (Influenced by Tactical Stance: Push vs Defense)
+  // Action 1: Shoot with Main Weapon (Avtomat / Rifle / AWP)
   const handleActionShoot = () => {
-    if (!isPlayerTurn || battleResult) return;
-    soundFX.playShot();
+    if (!isPlayerTurn || battleResult || isReloading) return;
+
+    // Check if player has bullets
+    if (currentAmmo <= 0) {
+      soundFX.playEmptyAmmo();
+      toast.error("O'q tugadi! O'qdonni yangilang (R)", { icon: '⚠️' });
+      handleReload();
+      return;
+    }
+
+    // Play gunshot sound for equipped weapon
+    soundFX.playShot(equippedWeapon?.id || 'ak47');
     setActionEffect('shoot');
     setTimeout(() => setActionEffect(null), 500);
+
+    // Consume 1 bullet
+    setCurrentAmmo(prev => Math.max(0, prev - 1));
 
     // Stance multiplier: Push = 1.35x massive damage, Defense = 0.9x cover fire + 10 armor repair
     const stanceMult = tacticalStance === 'push' ? 1.35 : 0.9;
     const isHeadshot = Math.random() < (tacticalStance === 'push' ? 0.35 : 0.2);
-    let baseDmg = Math.round((equippedWeapon.damage + Math.floor(Math.random() * 14) - 5) * stanceMult);
+    let baseDmg = Math.round(((equippedWeapon?.damage || 48) + Math.floor(Math.random() * 14) - 5) * stanceMult);
 
     if (isHeadshot) {
       baseDmg = Math.round(baseDmg * 1.5);
       soundFX.playHeadshot();
       triggerFloatingText(`💥 ${tacticalStance === 'push' ? 'PUSH HEADSHOT' : 'HEADSHOT'} -${baseDmg}!`, 'enemy', 'crit');
     } else {
-      triggerFloatingText(`${tacticalStance === 'push' ? '🔥 PUSH' : '🛡️ ZARBA'} -${baseDmg}`, 'enemy', tacticalStance === 'push' ? 'crit' : 'normal');
+      triggerFloatingText(`${tacticalStance === 'push' ? '🔥 AVTOMAT (PUSH)' : '🛡️ AVTOMAT'} -${baseDmg}`, 'enemy', tacticalStance === 'push' ? 'crit' : 'normal');
     }
 
     // In defense stance, repairing cover/armor
@@ -427,7 +509,7 @@ function KidsGameInternal() {
   // Action 2: Pichoq (Knife Strike)
   const handleActionKnife = () => {
     if (!isPlayerTurn || battleResult) return;
-    soundFX.playClick(2000);
+    soundFX.playKnife();
     setActionEffect('knife');
     setTimeout(() => setActionEffect(null), 400);
 
@@ -441,7 +523,7 @@ function KidsGameInternal() {
       soundFX.playHeadshot();
       triggerFloatingText(`🗡️ KRITIK PICHOQ -${baseDmg}!`, 'enemy', 'crit');
     } else {
-      triggerFloatingText(`🗡️ -${baseDmg}`, 'enemy', 'normal');
+      triggerFloatingText(`🗡️ PICHOQ -${baseDmg}`, 'enemy', 'normal');
     }
 
     const nextEnemyHp = Math.max(0, enemyHp - baseDmg);
@@ -465,7 +547,7 @@ function KidsGameInternal() {
       return;
     }
 
-    soundFX.playShot();
+    soundFX.playGrenade();
     setActionEffect('grenade');
     setTimeout(() => setActionEffect(null), 600);
     setEquippedGrenade(prev => ({ ...prev, count: prev.count - 1 }));
@@ -495,7 +577,7 @@ function KidsGameInternal() {
       return;
     }
 
-    soundFX.playPowerUp();
+    soundFX.playHeal();
     setActionEffect('heal');
     setTimeout(() => setActionEffect(null), 500);
     setEquippedMedkit(prev => ({ ...prev, count: prev.count - 1 }));
@@ -514,14 +596,20 @@ function KidsGameInternal() {
   const handleEnemyTurn = () => {
     if (stage !== 'battle' || battleResult) return;
 
-    soundFX.playPlayerHurt();
     const enemyChoices = ['shoot', 'shoot', 'grenade', 'knife'];
     const choice = enemyChoices[Math.floor(Math.random() * enemyChoices.length)];
 
     let rawDmg = 26 + Math.floor(Math.random() * 14);
     if (choice === 'grenade') {
+      soundFX.playGrenade();
       rawDmg = 38 + Math.floor(Math.random() * 10);
+    } else if (choice === 'knife') {
+      soundFX.playKnife();
+    } else {
+      soundFX.playShot('ak47');
     }
+
+    soundFX.playPlayerHurt();
 
     // Defensive Stance blocks 50% of incoming damage!
     let finalDmg = rawDmg;
@@ -1170,6 +1258,34 @@ function KidsGameInternal() {
                     <div className={`fighter-circular-base ${tacticalStance === 'defense' ? 'blue' : 'green'}`}></div>
                   </div>
                 </div>
+
+                {/* CS2 HUD: O'qlar ko'rsatkichi (chap tomon pastda) */}
+                <div className="duel-bottom-left-hud">
+                  <div className="ammo-hud-box">
+                    <div className="ammo-top-meta">
+                      <span className="ammo-weapon-name">🔫 {equippedWeapon?.name || 'Avtomat (M4A1)'}</span>
+                      <span className={`ammo-stance-tag ${tacticalStance}`}>
+                        {tacticalStance === 'push' ? '🔥 PUSH (+35%)' : '🛡️ HIMOYA (-50%)'}
+                      </span>
+                    </div>
+                    <div className="ammo-counter-row">
+                      <span className={`ammo-val-current ${currentAmmo <= 5 ? 'ammo-critical' : ''}`}>
+                        {currentAmmo}
+                      </span>
+                      <span className="ammo-val-divider">/</span>
+                      <span className="ammo-val-reserve">{reserveAmmo}</span>
+                    </div>
+                    <button
+                      className={`btn-hud-reload ${isReloading ? 'reloading' : ''}`}
+                      onClick={handleReload}
+                      disabled={isReloading || reserveAmmo <= 0 || currentAmmo >= (equippedWeapon?.id === 'awp' ? 5 : 30)}
+                      title="O'qdonni yangilash (R tugmasi)"
+                    >
+                      <RotateCcw size={12} className={isReloading ? 'animate-spin' : ''} />
+                      <span>{isReloading ? "O'qlanmoqda..." : "Qayta O'qlash (R)"}</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1198,19 +1314,20 @@ function KidsGameInternal() {
               </div>
             </div>
 
-            {/* Bottom 5 Circular Tactical Action Buttons (matching Screenshot 4) */}
+            {/* Bottom 5 Circular Tactical Action Buttons */}
             <div className="duel-bottom-controls-deck">
               {/* 1. PICHOQ (Knife) */}
               <button
                 className="deck-action-btn knife-btn"
                 onClick={handleActionKnife}
                 disabled={!isPlayerTurn || battleResult !== null}
-                title="Pichoq bilan tezkor zarba"
+                title="Pichoq bilan zarba berish"
               >
                 <div className="action-circle-icon">
                   <Swords size={24} color="#ffffff" />
                 </div>
                 <span className="action-btn-label">PICHOQ</span>
+                <span className="action-sub-tag">Cheksiz 🗡️</span>
               </button>
 
               {/* 2. HOLAT (Stance Switcher: PUSH <-> HIMOYA) */}
@@ -1231,18 +1348,19 @@ function KidsGameInternal() {
                 <span className="action-sub-tag">{tacticalStance === 'push' ? 'PUSH 🔥' : 'HIMOYA 🛡️'}</span>
               </button>
 
-              {/* 3. HUJUM / OTISH (Center Main Fire Button) */}
+              {/* 3. AVTOMATDA OTISH (Center Main Fire Button) */}
               <button
-                className={`deck-action-btn shoot-btn main-fire ${tacticalStance}`}
+                className={`deck-action-btn shoot-btn main-fire ${tacticalStance} ${currentAmmo === 0 ? 'empty-mag' : ''}`}
                 onClick={handleActionShoot}
-                disabled={!isPlayerTurn || battleResult !== null}
-                title={tacticalStance === 'push' ? "Push hujumi (+35% zarba)" : "Himoya holatidan otish"}
+                disabled={!isPlayerTurn || battleResult !== null || isReloading}
+                title={currentAmmo > 0 ? `${equippedWeapon?.name || 'Avtomat'}dan otish` : "O'q tugadi! Qayta o'qlang (R)"}
               >
                 <div className="action-circle-icon pulse-glow">
-                  <Crosshair size={36} color="#ffffff" />
+                  <Crosshair size={34} color="#ffffff" />
+                  <span className="action-ammo-badge">{currentAmmo}</span>
                 </div>
-                <span className="action-btn-label">OTISH</span>
-                <span className="action-sub-tag">{tacticalStance === 'push' ? '+35% DMG' : 'COVER SHOT'}</span>
+                <span className="action-btn-label">AVTOMAT</span>
+                <span className="action-sub-tag">{currentAmmo > 0 ? `${currentAmmo} O'Q 💥` : "BO'SH (R)"}</span>
               </button>
 
               {/* 4. GRANATA */}
@@ -1257,6 +1375,7 @@ function KidsGameInternal() {
                   {(equippedGrenade?.count || 0) > 0 && <span className="action-count-badge">{(equippedGrenade?.count || 0)}</span>}
                 </div>
                 <span className="action-btn-label">GRANATA</span>
+                <span className="action-sub-tag">{(equippedGrenade?.count || 0) > 0 ? `${equippedGrenade.count} dona` : "Yo'q"}</span>
               </button>
 
               {/* 5. APTECHKA */}
@@ -1271,6 +1390,7 @@ function KidsGameInternal() {
                   {(equippedMedkit?.count || 0) > 0 && <span className="action-count-badge">{(equippedMedkit?.count || 0)}</span>}
                 </div>
                 <span className="action-btn-label">APTECHKA</span>
+                <span className="action-sub-tag">{(equippedMedkit?.count || 0) > 0 ? `${equippedMedkit.count} dona` : "Yo'q"}</span>
               </button>
             </div>
 

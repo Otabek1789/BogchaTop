@@ -652,10 +652,128 @@ class SoundFXManager {
     } catch (_) {}
   }
 
+  // Universal Weapon Shot Player (AK47, M4A1, AWP, Deagle)
+  playShot(weaponType = null) {
+    if (!this.enabled) return;
+    try {
+      const type = (weaponType || this.currentWeapon || 'ak47').toLowerCase();
+      if (type.includes('awp') || type.includes('snayper')) {
+        this.playAWP();
+      } else if (type.includes('m4a1') || type.includes('m4')) {
+        this.playM4A1S();
+      } else if (type.includes('deagle') || type.includes('pistol')) {
+        this.playDeagle();
+      } else {
+        this.playAK47();
+      }
+    } catch (_) {
+      this.playClick();
+    }
+  }
+
+  // Tactical Kevlar / Armor deflection clack
+  playArmor() {
+    if (!this.enabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(140, now + 0.12);
+      gain.gain.setValueAtTime(0.28, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    } catch (_) {}
+  }
+
+  // Tactical Knife Slash sound
+  playKnife() {
+    if (!this.enabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1800, now);
+      osc.frequency.exponentialRampToValueAtTime(350, now + 0.08);
+      gain.gain.setValueAtTime(0.32, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } catch (_) {
+      this.playClick();
+    }
+  }
+
+  // Tactical HE Grenade explosion
+  playGrenade() {
+    if (!this.enabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = this.getNoiseBuffer(0.45);
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(900, now);
+      filter.frequency.exponentialRampToValueAtTime(80, now + 0.4);
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.5, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+      noise.start(now);
+    } catch (_) {}
+  }
+
+  // Tactical Medkit heal sound
+  playHeal() {
+    if (!this.enabled) return;
+    this.playPowerUp();
+  }
+
   // High score victory fanfare
   playVictory() {
     this.playSuccess();
   }
 }
 
-export const soundFX = new SoundFXManager();
+const rawSoundFX = new SoundFXManager();
+
+// Crash-proof Safe Proxy to guarantee no audio call ever throws a runtime error
+export const soundFX = new Proxy(rawSoundFX, {
+  get(target, prop) {
+    if (prop in target) {
+      const val = target[prop];
+      if (typeof val === 'function') {
+        return (...args) => {
+          try {
+            return val.apply(target, args);
+          } catch (e) {
+            console.warn(`SoundFX ${String(prop)} warning:`, e);
+          }
+        };
+      }
+      return val;
+    }
+    // Graceful silent fallback for any unknown method
+    return (...args) => {
+      try {
+        if (target.playClick) target.playClick();
+      } catch (_) {}
+    };
+  }
+});
+

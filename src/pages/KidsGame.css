@@ -1205,6 +1205,153 @@
 }
 
 /* ========================================================
+   CS2 ARENA BOTTOM-LEFT AMMO HUD (Chap tomon pastda)
+   ======================================================== */
+.duel-bottom-left-hud {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  z-index: 15;
+  pointer-events: auto;
+}
+
+.ammo-hud-box {
+  background: rgba(10, 15, 26, 0.88);
+  border: 1.5px solid rgba(0, 240, 255, 0.4);
+  border-radius: 12px;
+  padding: 8px 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 240, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.ammo-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ammo-weapon-name {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+
+.ammo-stance-tag {
+  font-size: 0.6rem;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.ammo-stance-tag.push {
+  background: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.ammo-stance-tag.defense {
+  background: rgba(0, 240, 255, 0.2);
+  color: #00f0ff;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+}
+
+.ammo-counter-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-gaming, "Orbitron", sans-serif);
+}
+
+.ammo-val-current {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.ammo-val-current.ammo-critical {
+  color: #ef4444;
+  animation: pulseCrit 0.8s infinite alternate;
+}
+
+@keyframes pulseCrit {
+  from { opacity: 1; text-shadow: 0 0 8px #ef4444; }
+  to { opacity: 0.5; text-shadow: none; }
+}
+
+.ammo-val-divider {
+  font-size: 1rem;
+  color: #64748b;
+}
+
+.ammo-val-reserve {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #94a3b8;
+}
+
+.btn-hud-reload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #38bdf8;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.btn-hud-reload:hover:not(:disabled) {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.btn-hud-reload:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-ammo-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #00f0ff;
+  color: #050b14;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 1px 6px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.action-sub-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-top: -2px;
+}
+
+.deck-action-btn.empty-mag .action-circle-icon {
+  border-color: #ef4444;
+  animation: pulseCrit 1s infinite alternate;
+}
+
+/* ========================================================
    BOTTOM CONTROLS DECK (matching Screenshot 4)
    ======================================================== */
 .duel-bottom-controls-deck {
