@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Crosshair, Shield, Zap, Flame, Trophy, RotateCcw, Copy, Check, 
-  ArrowRight, Skull, Target, Award, Heart, Sparkles, RefreshCw, 
+import {
+  Crosshair, Shield, Zap, Flame, Trophy, RotateCcw, Copy, Check,
+  ArrowRight, Skull, Target, Award, Heart, Sparkles, RefreshCw,
   Plus, Users, Play, Coins, HelpCircle, Clock, ArrowLeft, Swords,
-  Bomb, BriefcaseMedical
+  Bomb, BriefcaseMedical, Bot
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -13,6 +13,41 @@ import { useAuth } from '../context/AuthContext';
 import { soundFX } from '../utils/soundFX';
 import toast from 'react-hot-toast';
 import './KidsGame.css';
+
+// React Error Boundary to prevent any blank screen crash
+class GameErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("Game crash recovered:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="rush-mid-app-wrapper" style={{ padding: '60px 20px', textAlign: 'center', color: '#fff' }}>
+          <h2 style={{ color: '#00f0ff', marginBottom: '16px' }}>🎮 O'yin sozlanmoqda...</h2>
+          <p style={{ color: '#94a3b8', marginBottom: '24px' }}>Tizim muvaffaqiyatli saqlandi. Qayta ishga tushirish uchun bosing:</p>
+          <button
+            className="btn btn-cyber"
+            style={{ padding: '12px 28px', fontSize: '1rem', cursor: 'pointer', background: '#0070f3', color: '#fff', border: 'none', borderRadius: '12px' }}
+            onClick={() => {
+              this.setState({ hasError: false });
+              window.location.reload();
+            }}
+          >
+            O'yinni Qayta Yuklash 🔄
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 // Initial Mock Rooms matching Screenshot 1
 const INITIAL_ROOMS = [
@@ -41,28 +76,30 @@ const INITIAL_ROOMS = [
   {
     id: 'room-3',
     bet: 100,
-    modeText: '1 ga 1',
-    maxWinText: "g'alaba uchun 500 🪙 gacha",
+    modeText: '1 ga 1 (Bot)',
+    maxWinText: "g'alaba uchun 200 🪙",
     map: 'INFERNO',
     mapImg: '/images/rushmid/inferno.jpg',
-    team1Slots: [{ id: 1, name: 'NiKo_CS', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80' }],
+    isBot: true,
+    team1Slots: [{ id: 1, name: 'NiKo_CS [BOT]', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80', isBot: true }],
     team2Slots: [{ id: 2, empty: true }],
     status: 'open'
   },
   {
     id: 'room-4',
     bet: 100,
-    modeText: '1 ga 1',
-    maxWinText: "g'alaba uchun 150 🪙 — 500 🪙",
+    modeText: '1 ga 1 (Bot)',
+    maxWinText: "g'alaba uchun 200 🪙",
     map: 'MIRAGE',
     mapImg: '/images/rushmid/mirage.jpg',
-    team1Slots: [{ id: 1, name: 'Suicide', trophies: 997, avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80' }],
+    isBot: true,
+    team1Slots: [{ id: 1, name: 'Suicide', trophies: 997, avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80', isBot: true }],
     team2Slots: [{ id: 2, empty: true }],
     status: 'open'
   }
 ];
 
-export default function KidsGame() {
+function KidsGameInternal() {
   const { applyPromoCode, setIsCartOpen } = useCart();
   const { addXP, unlockBadge } = useGamer();
   const { user } = useAuth();
@@ -102,6 +139,9 @@ export default function KidsGame() {
   const [equippedMedkit, setEquippedMedkit] = useState({ id: 'none', name: "Yo'q", cost: 0, count: 0 });
   const [buyCountdown, setBuyCountdown] = useState(15);
 
+  // Tactical Stance: 'push' (Hujum / Aggressive +35% dmg) | 'defense' (Himoya / Cover -50% taken dmg)
+  const [tacticalStance, setTacticalStance] = useState('push');
+
   // Battle Duel State
   const [round, setRound] = useState(1);
   const [turnTimer, setTurnTimer] = useState(8);
@@ -126,7 +166,7 @@ export default function KidsGame() {
   useEffect(() => {
     try {
       localStorage.setItem('nexus_shot_coins', coins.toString());
-    } catch (_) {}
+    } catch (_) { }
   }, [coins]);
 
   // Stage 3 (Gear Buy) auto-countdown
@@ -170,11 +210,55 @@ export default function KidsGame() {
     return () => clearInterval(timer);
   }, [stage, isPlayerTurn, battleResult]);
 
+  // Quick Bot Match starter (1-click play against CS2 Bot)
+  const handleStartBotMatch = (mapName = 'MIRAGE') => {
+    soundFX.playPowerUp();
+    const botRoom = {
+      id: `bot-duel-${Date.now()}`,
+      bet: 100,
+      modeText: '1 ga 1 (Bot)',
+      maxWinText: "g'alaba uchun 200 🪙",
+      map: mapName,
+      mapImg: mapName === 'MIRAGE' ? '/images/rushmid/mirage.jpg' : '/images/rushmid/inferno.jpg',
+      isBot: true,
+      team1Slots: [{ id: 1, name: 'Suicide', trophies: 997, avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80', isBot: true }],
+      team2Slots: [{ id: 2, name: 'Siz (CT)', avatar: userAvatar, isUser: true }],
+      status: 'open'
+    };
+    setSelectedRoom(botRoom);
+    setIsPlayerSeated(true);
+    setMyTeam('cts');
+    setCoins(prev => Math.max(0, prev - 100));
+    setBudgetRemaining(60);
+    setEquippedWeapon({ id: 'avtomat', name: 'Avtomat (M4A1)', cost: 40, damage: 48 });
+    setEquippedArmor({ id: 'kevlar', name: 'Kevlar Zirh', cost: 25, armor: 60 });
+    setEquippedGrenade({ id: 'he', name: 'Granata HE', cost: 20, count: 1 });
+    setEquippedMedkit({ id: 'medkit', name: 'Aptechka', cost: 15, count: 1 });
+    setStage('gear_buy');
+    toast.success("🤖 CS2 Boti bilan 1v1 duel boshlandi! Jihozlaringiz tayyorlandi.", { icon: '🤖' });
+  };
+
+  // Switch tactical stance: PUSH (Hujum) vs HIMOYA (Defense)
+  const handleSwitchStance = (newStance) => {
+    const next = newStance || (tacticalStance === 'push' ? 'defense' : 'push');
+    setTacticalStance(next);
+    if (next === 'defense') {
+      soundFX.playArmor();
+      toast.success("🛡️ Holat: HIMOYA (MUDOFAA)! Dushman zarbasidan -50% himoyalandingiz!", { icon: '🛡️' });
+      triggerFloatingText("🛡️ HIMOYA REJIMI!", 'player', 'heal');
+    } else {
+      soundFX.playShot();
+      toast.success("🔥 Holat: PUSH (HUJUM)! +35% Kuchaytirilgan zarba rejimi!", { icon: '🔥' });
+      triggerFloatingText("🔥 PUSH ZARBASI!", 'player', 'crit');
+    }
+  };
+
   // Enter a room from room list (Step 1 -> Step 2)
   const handleSelectRoom = (room) => {
     soundFX.playClick();
     setSelectedRoom(room);
-    setIsPlayerSeated(false);
+    setIsPlayerSeated(true); // Automatically seat player for frictionless start
+    setMyTeam('cts');
     setStage('room_lobby');
   };
 
@@ -186,22 +270,30 @@ export default function KidsGame() {
     toast.success("Siz Kontr-terrorchilar safiga qo'shildingiz!", { icon: '🛡️' });
   };
 
+  // Add Bot to Lobby
+  const handleAddBotToLobby = () => {
+    soundFX.playPowerUp();
+    toast.success("🤖 Bot raqib qo'shildi: Suicide 🏆 997!", { icon: '🤖' });
+  };
+
   // Proceed from Room Lobby to Gear Buy Phase (Step 2 -> Step 3)
   const handleProceedToGear = () => {
+    // If not seated, auto-seat to prevent getting blocked
     if (!isPlayerSeated) {
-      toast.error("Iltimos, avval jamoaga qo'shiling (+ O'tirish)!");
-      return;
+      setIsPlayerSeated(true);
+      setMyTeam('cts');
     }
-    if (coins < selectedRoom.bet) {
-      toast.error(`Yetarli tanga yo'q! Bu o'yinga kirish uchun ${selectedRoom.bet} 🪙 kerak.`);
+    const betAmount = selectedRoom?.bet || 100;
+    if (coins < betAmount) {
+      toast.error(`Yetarli tanga yo'q! Bu o'yinga kirish uchun ${betAmount} 🪙 kerak.`);
       return;
     }
 
     // Deduct room bet
     soundFX.playClick();
-    setCoins(prev => Math.max(0, prev - selectedRoom.bet));
+    setCoins(prev => Math.max(0, prev - betAmount));
     setBudgetRemaining(60); // $100 starting budget - $40 Avtomat
-    setEquippedWeapon({ id: 'avtomat', name: 'Avtomat', cost: 40, damage: 48 });
+    setEquippedWeapon({ id: 'avtomat', name: 'Avtomat (M4A1)', cost: 40, damage: 48 });
     setEquippedArmor({ id: 'none', name: 'Zirhsiz', cost: 0, armor: 0 });
     setEquippedGrenade({ id: 'none', name: "Yo'q", cost: 0, count: 0 });
     setEquippedMedkit({ id: 'none', name: "Yo'q", cost: 0, count: 0 });
@@ -276,12 +368,13 @@ export default function KidsGame() {
     setTurnTimer(8);
     setIsPlayerTurn(true);
     setPlayerHp(120);
-    setPlayerArmor(equippedArmor.armor || 0);
+    setPlayerArmor(equippedArmor?.armor || 0);
     setEnemyHp(120);
     setEnemyArmor(40);
     setBattleResult(null);
     setFloatingDamage(null);
     setActionEffect(null);
+    setTacticalStance('push'); // Default to push
     setStage('battle');
   };
 
@@ -291,22 +384,29 @@ export default function KidsGame() {
     setTimeout(() => setFloatingDamage(null), 1200);
   };
 
-  // Action 1: Shoot with Main Weapon
+  // Action 1: Shoot with Main Weapon (Influenced by Tactical Stance: Push vs Defense)
   const handleActionShoot = () => {
     if (!isPlayerTurn || battleResult) return;
     soundFX.playShot();
     setActionEffect('shoot');
     setTimeout(() => setActionEffect(null), 500);
 
-    // Calculate damage & headshot chance
-    const isHeadshot = Math.random() < 0.28;
-    let baseDmg = equippedWeapon.damage + Math.floor(Math.random() * 14) - 5;
+    // Stance multiplier: Push = 1.35x massive damage, Defense = 0.9x cover fire + 10 armor repair
+    const stanceMult = tacticalStance === 'push' ? 1.35 : 0.9;
+    const isHeadshot = Math.random() < (tacticalStance === 'push' ? 0.35 : 0.2);
+    let baseDmg = Math.round((equippedWeapon.damage + Math.floor(Math.random() * 14) - 5) * stanceMult);
+
     if (isHeadshot) {
-      baseDmg = Math.round(baseDmg * 1.6);
+      baseDmg = Math.round(baseDmg * 1.5);
       soundFX.playHeadshot();
-      triggerFloatingText(`💥 HEADSHOT -${baseDmg}!`, 'enemy', 'crit');
+      triggerFloatingText(`💥 ${tacticalStance === 'push' ? 'PUSH HEADSHOT' : 'HEADSHOT'} -${baseDmg}!`, 'enemy', 'crit');
     } else {
-      triggerFloatingText(`-${baseDmg}`, 'enemy', 'normal');
+      triggerFloatingText(`${tacticalStance === 'push' ? '🔥 PUSH' : '🛡️ ZARBA'} -${baseDmg}`, 'enemy', tacticalStance === 'push' ? 'crit' : 'normal');
+    }
+
+    // In defense stance, repairing cover/armor
+    if (tacticalStance === 'defense') {
+      setPlayerArmor(prev => Math.min(80, prev + 10));
     }
 
     const nextEnemyHp = Math.max(0, enemyHp - baseDmg);
@@ -331,7 +431,11 @@ export default function KidsGame() {
     setTimeout(() => setActionEffect(null), 400);
 
     const isCrit = Math.random() < 0.35;
-    const baseDmg = isCrit ? 45 : 30;
+    let baseDmg = isCrit ? 45 : 30;
+    if (tacticalStance === 'push') {
+      baseDmg = Math.round(baseDmg * 1.25);
+    }
+
     if (isCrit) {
       soundFX.playHeadshot();
       triggerFloatingText(`🗡️ KRITIK PICHOQ -${baseDmg}!`, 'enemy', 'crit');
@@ -355,7 +459,7 @@ export default function KidsGame() {
   // Action 3: Granata (HE Grenade)
   const handleActionGrenade = () => {
     if (!isPlayerTurn || battleResult) return;
-    if (equippedGrenade.count <= 0) {
+    if ((equippedGrenade?.count || 0) <= 0) {
       toast.error("Sizda granata yo'q! Uni jihoz bosqichida sotib olish kerak.");
       return;
     }
@@ -365,7 +469,8 @@ export default function KidsGame() {
     setTimeout(() => setActionEffect(null), 600);
     setEquippedGrenade(prev => ({ ...prev, count: prev.count - 1 }));
 
-    const dmg = 55 + Math.floor(Math.random() * 15);
+    let dmg = 55 + Math.floor(Math.random() * 15);
+    if (tacticalStance === 'push') dmg = Math.round(dmg * 1.2);
     triggerFloatingText(`💣 BOOM! -${dmg}`, 'enemy', 'crit');
 
     const nextEnemyHp = Math.max(0, enemyHp - dmg);
@@ -384,7 +489,7 @@ export default function KidsGame() {
   // Action 4: Aptechka (Medkit)
   const handleActionMedkit = () => {
     if (!isPlayerTurn || battleResult) return;
-    if (equippedMedkit.count <= 0) {
+    if ((equippedMedkit?.count || 0) <= 0) {
       toast.error("Sizda aptechka yo'q! Uni jihoz bosqichida sotib olish kerak.");
       return;
     }
@@ -394,7 +499,7 @@ export default function KidsGame() {
     setTimeout(() => setActionEffect(null), 500);
     setEquippedMedkit(prev => ({ ...prev, count: prev.count - 1 }));
 
-    const healAmount = 45;
+    const healAmount = 50;
     setPlayerHp(prev => Math.min(120, prev + healAmount));
     triggerFloatingText(`+${healAmount} HP ❤️`, 'player', 'heal');
 
@@ -404,7 +509,7 @@ export default function KidsGame() {
     setTimeout(handleEnemyTurn, 1400);
   };
 
-  // Enemy Bot AI Turn
+  // Enemy Bot AI Turn (With Stance Defense Reduction)
   const handleEnemyTurn = () => {
     if (stage !== 'battle' || battleResult) return;
 
@@ -412,22 +517,44 @@ export default function KidsGame() {
     const enemyChoices = ['shoot', 'shoot', 'grenade', 'knife'];
     const choice = enemyChoices[Math.floor(Math.random() * enemyChoices.length)];
 
-    let dmg = 25 + Math.floor(Math.random() * 15);
+    let rawDmg = 26 + Math.floor(Math.random() * 14);
     if (choice === 'grenade') {
-      dmg = 38 + Math.floor(Math.random() * 10);
-      triggerFloatingText(`💣 Granata zarbasi: -${dmg}`, 'player', 'crit');
-    } else {
-      triggerFloatingText(`Suicide o't ochdi: -${dmg}`, 'player', 'normal');
+      rawDmg = 38 + Math.floor(Math.random() * 10);
     }
 
-    setPlayerHp(prev => {
-      const next = Math.max(0, prev - dmg);
-      if (next <= 0) {
-        handleDefeat();
-        return 0;
-      }
-      return next;
-    });
+    // Defensive Stance blocks 50% of incoming damage!
+    let finalDmg = rawDmg;
+    if (tacticalStance === 'defense') {
+      finalDmg = Math.max(8, Math.round(rawDmg * 0.5));
+      triggerFloatingText(`🛡️ QALQON HIMOYA (-50%): -${finalDmg}`, 'player', 'heal');
+    } else {
+      finalDmg = Math.round(rawDmg * 1.1);
+      triggerFloatingText(`Suicide zarbasi: -${finalDmg}`, 'player', 'normal');
+    }
+
+    // Armor absorbs 60% of damage if available
+    if (playerArmor > 0) {
+      const armorAbsorb = Math.min(playerArmor, Math.round(finalDmg * 0.6));
+      const hpDmg = finalDmg - armorAbsorb;
+      setPlayerArmor(prev => Math.max(0, prev - armorAbsorb));
+      setPlayerHp(prev => {
+        const next = Math.max(0, prev - hpDmg);
+        if (next <= 0) {
+          handleDefeat();
+          return 0;
+        }
+        return next;
+      });
+    } else {
+      setPlayerHp(prev => {
+        const next = Math.max(0, prev - finalDmg);
+        if (next <= 0) {
+          handleDefeat();
+          return 0;
+        }
+        return next;
+      });
+    }
 
     setRound(prev => prev + 1);
     setIsPlayerTurn(true);
@@ -520,9 +647,9 @@ export default function KidsGame() {
             <button className="btn-add-coins" onClick={() => setCoins(c => c + 100)} title="Tanga qo'shish">+</button>
           </div>
           <div className="shot-user-avatar">
-            <img 
-              src={userAvatar} 
-              alt="Profile" 
+            <img
+              src={userAvatar}
+              alt="Profile"
             />
           </div>
         </div>
@@ -538,31 +665,31 @@ export default function KidsGame() {
           <div className="rush-rooms-screen">
             {/* Top Sub-Nav Pills */}
             <div className="rush-mode-tabs-pill">
-              <button 
+              <button
                 className={`tab-pill-btn ${activeSubTab === 'games' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('games')}
               >
                 O'yinlar
               </button>
-              <button 
+              <button
                 className={`tab-pill-btn ${activeSubTab === 'fighter' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('fighter')}
               >
                 Jangchi
               </button>
-              <button 
+              <button
                 className={`tab-pill-btn ${activeSubTab === 'history' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('history')}
               >
                 Tarix
               </button>
-              <button 
+              <button
                 className={`tab-pill-btn ${activeSubTab === 'rating' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('rating')}
               >
                 Reyting
               </button>
-              <button 
+              <button
                 className={`tab-pill-btn ${activeSubTab === 'rewards' ? 'active' : ''}`}
                 onClick={() => setActiveSubTab('rewards')}
               >
@@ -571,13 +698,35 @@ export default function KidsGame() {
             </div>
 
             {/* Giant Create Game Blue Button */}
-            <button 
+            <button
               className="btn-create-game-giant"
               onClick={() => setShowCreateModal(true)}
             >
               <span className="gamepad-icon">🎮</span>
               <span>O'yin yaratish</span>
             </button>
+
+            {/* Quick 1-Click Bot Match Banner */}
+            <div className="rush-quick-bot-banner">
+              <div className="bot-banner-left">
+                <div className="bot-badge-pulse">
+                  <Bot size={26} color="#00f0ff" />
+                  <span className="bot-live-dot"></span>
+                </div>
+                <div className="bot-text-wrap">
+                  <h3 className="bot-title">🤖 BOT BILAN O'YNASH (TEZKOR DUEL)</h3>
+                  <p className="bot-desc">Hech kimni kutmasdan darhol CS2 Boti (Suicide 🏆 997) bilan jangga kiring!</p>
+                </div>
+              </div>
+              <button
+                className="btn-start-bot-match"
+                onClick={() => handleStartBotMatch('MIRAGE')}
+                type="button"
+              >
+                <Play size={17} fill="#ffffff" />
+                <span>Bot bilan Duel (100 🪙)</span>
+              </button>
+            </div>
 
             {/* Filter Bar (Qanday o'ynaladi / Ochiq / Hozir ketmoqda) */}
             <div className="rush-filter-row">
@@ -587,13 +736,13 @@ export default function KidsGame() {
               </button>
 
               <div className="filter-toggle-group">
-                <button 
+                <button
                   className={`filter-btn ${roomFilter === 'open' ? 'active' : ''}`}
                   onClick={() => setRoomFilter('open')}
                 >
                   Ochiq o'yinlar
                 </button>
-                <button 
+                <button
                   className={`filter-btn ${roomFilter === 'live' ? 'active' : ''}`}
                   onClick={() => setRoomFilter('live')}
                 >
@@ -605,8 +754,8 @@ export default function KidsGame() {
             {/* List of Room Cards (matching Screenshot 1) */}
             <div className="rush-room-cards-list">
               {INITIAL_ROOMS.map(room => (
-                <div 
-                  key={room.id} 
+                <div
+                  key={room.id}
                   className="rush-room-card"
                   onClick={() => handleSelectRoom(room)}
                 >
@@ -623,7 +772,7 @@ export default function KidsGame() {
                   </div>
 
                   {/* Center Map Banner with Teams & VS */}
-                  <div 
+                  <div
                     className="room-card-map-banner"
                     style={{ backgroundImage: `url(${room.mapImg})` }}
                   >
@@ -675,17 +824,17 @@ export default function KidsGame() {
         {stage === 'room_lobby' && (
           <div className="rush-lobby-screen">
             {/* Top Room Banner */}
-            <div 
+            <div
               className="lobby-top-banner"
-              style={{ backgroundImage: `url(${selectedRoom.mapImg})` }}
+              style={{ backgroundImage: `url(${selectedRoom?.mapImg || '/images/rushmid/mirage.jpg'})` }}
             >
               <div className="lobby-banner-overlay">
-                <span className="lobby-map-pill">{selectedRoom.map}</span>
+                <span className="lobby-map-pill">{selectedRoom?.map || 'MIRAGE'}</span>
                 <h2 className="lobby-match-title">
-                  {selectedRoom.bet} 🪙 • {selectedRoom.modeText}
+                  {selectedRoom?.bet || 100} 🪙 • {selectedRoom?.modeText || '1 ga 1'}
                 </h2>
                 <div className="lobby-win-range">
-                  <span>{selectedRoom.maxWinText}</span>
+                  <span>{selectedRoom?.maxWinText || "g'alaba uchun 200 🪙"}</span>
                 </div>
               </div>
             </div>
@@ -698,13 +847,14 @@ export default function KidsGame() {
               </div>
               <div className="lobby-player-row">
                 <div className="player-avatar-wrap">
-                  <img 
-                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80" 
-                    alt="Suicide" 
+                  <img
+                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80"
+                    alt="Suicide"
                   />
                   <span className="player-lvl-badge">1</span>
                 </div>
                 <span className="player-username gothic">Suicide</span>
+                <span className="bot-tag-pill">🤖 BOT</span>
                 <div className="player-trophies-badge">
                   <span>🏆</span>
                   <span>997</span>
@@ -725,13 +875,13 @@ export default function KidsGame() {
               {isPlayerSeated ? (
                 <div className="lobby-player-row active-player">
                   <div className="player-avatar-wrap">
-                    <img 
-                      src={userAvatar} 
-                      alt="Siz" 
+                    <img
+                      src={userAvatar}
+                      alt="Siz"
                     />
                     <span className="player-lvl-badge">Pro</span>
                   </div>
-                  <span className="player-username">Siz (Gamer)</span>
+                  <span className="player-username">Siz (CT)</span>
                   <div className="player-trophies-badge">
                     <span>🏆</span>
                     <span>1 050</span>
@@ -747,7 +897,7 @@ export default function KidsGame() {
 
             {/* Bottom Actions */}
             <div className="lobby-bottom-actions">
-              <button 
+              <button
                 className="btn-back-rooms"
                 onClick={() => setStage('rooms')}
               >
@@ -755,11 +905,11 @@ export default function KidsGame() {
                 <span>Orqaga</span>
               </button>
 
-              <button 
+              <button
                 className="btn-start-gear-prep"
                 onClick={handleProceedToGear}
               >
-                <span>{isPlayerSeated ? "Jangga Tayyorgarlik (Jihoz)" : "Taklif qilish"}</span>
+                <span>⚔️ Jangga Kirish (Bot bilan)</span>
                 <ArrowRight size={18} />
               </button>
             </div>
@@ -792,7 +942,7 @@ export default function KidsGame() {
             {/* Gear Items 2x2 Grid */}
             <div className="gear-items-grid">
               {/* 1. QUROL */}
-              <div 
+              <div
                 className={`gear-item-card ${equippedWeapon.id !== 'none' ? 'equipped' : ''}`}
                 onClick={() => {
                   if (equippedWeapon.id === 'avtomat') {
@@ -815,7 +965,7 @@ export default function KidsGame() {
               </div>
 
               {/* 2. ZIRH */}
-              <div 
+              <div
                 className={`gear-item-card ${equippedArmor.id !== 'none' ? 'equipped' : ''}`}
                 onClick={() => toggleArmor({ id: 'kevlar', name: 'Kevlar Zirh', cost: 25, armor: 60 })}
               >
@@ -832,7 +982,7 @@ export default function KidsGame() {
               </div>
 
               {/* 3. GRANATA */}
-              <div 
+              <div
                 className={`gear-item-card ${equippedGrenade.count > 0 ? 'equipped' : ''}`}
                 onClick={() => toggleGrenade({ id: 'he', name: 'Granata HE', cost: 20 })}
               >
@@ -849,7 +999,7 @@ export default function KidsGame() {
               </div>
 
               {/* 4. APTECHKA */}
-              <div 
+              <div
                 className={`gear-item-card ${equippedMedkit.count > 0 ? 'equipped' : ''}`}
                 onClick={() => toggleMedkit({ id: 'medkit', name: 'Aptechka', cost: 15 })}
               >
@@ -870,9 +1020,9 @@ export default function KidsGame() {
             <div className="gear-opponents-box">
               <span className="opponents-title">Raqiblar</span>
               <div className="opponent-pill">
-                <img 
-                  src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80" 
-                  alt="Suicide" 
+                <img
+                  src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80"
+                  alt="Suicide"
                   className="opp-avatar"
                 />
                 <span className="opp-name gothic">Suicide</span>
@@ -881,7 +1031,7 @@ export default function KidsGame() {
             </div>
 
             {/* Big Blue Countdown Button */}
-            <button 
+            <button
               className="btn-launch-battle-countdown"
               onClick={startDuelBattle}
             >
@@ -902,11 +1052,11 @@ export default function KidsGame() {
               </div>
 
               <div className="duel-dual-hp-bar">
-                <div 
+                <div
                   className="hp-fill-terrorist"
                   style={{ width: `${(enemyHp / 120) * 50}%` }}
                 />
-                <div 
+                <div
                   className="hp-fill-ct"
                   style={{ width: `${(playerHp / 120) * 50}%` }}
                 />
@@ -926,14 +1076,14 @@ export default function KidsGame() {
             </div>
 
             {/* 2D Dust 2 Mid Arena Battlefield Viewport */}
-            <div 
+            <div
               className="duel-arena-viewport"
               style={{ backgroundImage: `url('/images/rushmid/arena.jpg')` }}
             >
               <div className="arena-inner-overlay">
                 {/* Floating Damage Numbers */}
                 {floatingDamage && (
-                  <div 
+                  <div
                     className={`floating-damage-popup ${floatingDamage.target} ${floatingDamage.type}`}
                   >
                     {floatingDamage.text}
@@ -947,8 +1097,8 @@ export default function KidsGame() {
                     <span className="fighter-hud-name gothic">Suicide</span>
                     <div className="fighter-bar-stack">
                       <div className="fighter-hp-bar">
-                        <div 
-                          className="fighter-hp-fill enemy" 
+                        <div
+                          className="fighter-hp-fill enemy"
                           style={{ width: `${Math.max(0, (enemyHp / 120) * 100)}%` }}
                         />
                         <span className="fighter-hp-text">{enemyHp}</span>
@@ -963,9 +1113,9 @@ export default function KidsGame() {
 
                   {/* 2D Chibi Terrorist Sprite */}
                   <div className="fighter-sprite-wrap">
-                    <img 
-                      src="/images/rushmid/terrorist.jpg" 
-                      alt="Terrorist" 
+                    <img
+                      src="/images/rushmid/terrorist.jpg"
+                      alt="Terrorist"
                       className="fighter-character-img"
                     />
                     {/* Red Circular Base Ring under feet */}
@@ -980,16 +1130,16 @@ export default function KidsGame() {
                     <span className="fighter-hud-name">Siz (CT)</span>
                     <div className="fighter-bar-stack">
                       <div className="fighter-hp-bar">
-                        <div 
-                          className="fighter-hp-fill player" 
+                        <div
+                          className="fighter-hp-fill player"
                           style={{ width: `${Math.max(0, (playerHp / 120) * 100)}%` }}
                         />
                         <span className="fighter-hp-text">{playerHp}</span>
                       </div>
                       {playerArmor > 0 && (
                         <div className="fighter-armor-bar">
-                          <div 
-                            className="fighter-armor-fill" 
+                          <div
+                            className="fighter-armor-fill"
                             style={{ width: `${Math.max(0, (playerArmor / 80) * 100)}%` }}
                           />
                           <span className="fighter-armor-text">{playerArmor}</span>
@@ -998,72 +1148,126 @@ export default function KidsGame() {
                     </div>
                   </div>
 
-                  {/* 2D Chibi CT Sprite */}
+                  {/* 2D Chibi CT Sprite with Stance Barrier if Defense */}
                   <div className="fighter-sprite-wrap">
-                    <img 
-                      src="/images/rushmid/ct.jpg" 
-                      alt="Counter-Terrorist" 
+                    {tacticalStance === 'defense' && (
+                      <div className="fighter-defense-barrier-aura animate-pulse" title="HIMOYA REJIMI (-50% Ziyon)">
+                        <Shield size={36} color="#00f0ff" />
+                      </div>
+                    )}
+                    {tacticalStance === 'push' && (
+                      <div className="fighter-push-flame-aura" title="PUSH REJIMI (+35% Zarba)">
+                        <Flame size={36} color="#ff3366" />
+                      </div>
+                    )}
+                    <img
+                      src="/images/rushmid/ct.jpg"
+                      alt="Counter-Terrorist"
                       className="fighter-character-img"
                     />
-                    {/* Green Circular Base Ring under feet */}
-                    <div className="fighter-circular-base green"></div>
+                    {/* Circular Base Ring under feet */}
+                    <div className={`fighter-circular-base ${tacticalStance === 'defense' ? 'blue' : 'green'}`}></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Bottom 4 Circular Tactical Action Buttons (matching Screenshot 4) */}
+            {/* Tactical Stance Selector Bar (Switch between PUSH and HIMOYA) */}
+            <div className="duel-tactical-stance-bar">
+              <span className="stance-bar-label">TAKTIK HOLAT:</span>
+              <div className="stance-pill-selector">
+                <button 
+                  className={`stance-pill-option push ${tacticalStance === 'push' ? 'active' : ''}`}
+                  onClick={() => handleSwitchStance('push')}
+                  type="button"
+                >
+                  <Flame size={16} />
+                  <span>PUSH / HUJUM</span>
+                  <span className="stance-badge-stat">+35% ZARBA</span>
+                </button>
+                <button 
+                  className={`stance-pill-option defense ${tacticalStance === 'defense' ? 'active' : ''}`}
+                  onClick={() => handleSwitchStance('defense')}
+                  type="button"
+                >
+                  <Shield size={16} />
+                  <span>HIMOYA (COVER)</span>
+                  <span className="stance-badge-stat">-50% ZIYON</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Bottom 5 Circular Tactical Action Buttons (matching Screenshot 4) */}
             <div className="duel-bottom-controls-deck">
               {/* 1. PICHOQ (Knife) */}
-              <button 
+              <button
                 className="deck-action-btn knife-btn"
                 onClick={handleActionKnife}
                 disabled={!isPlayerTurn || battleResult !== null}
                 title="Pichoq bilan tezkor zarba"
               >
                 <div className="action-circle-icon">
-                  <Swords size={26} color="#ffffff" />
+                  <Swords size={24} color="#ffffff" />
                 </div>
                 <span className="action-btn-label">PICHOQ</span>
               </button>
 
-              {/* 2. HOLAT / OTISH (Center Red Glowing Crosshair) */}
-              <button 
-                className="deck-action-btn shoot-btn main-fire"
+              {/* 2. HOLAT (Stance Switcher: PUSH <-> HIMOYA) */}
+              <button
+                className={`deck-action-btn stance-toggle-btn ${tacticalStance}`}
+                onClick={() => handleSwitchStance()}
+                disabled={!isPlayerTurn || battleResult !== null}
+                title={tacticalStance === 'push' ? "Holat: PUSH. Bosib HIMOYAga o'ting" : "Holat: HIMOYA. Bosib PUSHga o'ting"}
+              >
+                <div className={`action-circle-icon ${tacticalStance === 'push' ? 'fire-stance-glow' : 'shield-stance-glow'}`}>
+                  {tacticalStance === 'push' ? (
+                    <Flame size={28} color="#ff3366" />
+                  ) : (
+                    <Shield size={28} color="#00f0ff" />
+                  )}
+                </div>
+                <span className="action-btn-label">HOLAT</span>
+                <span className="action-sub-tag">{tacticalStance === 'push' ? 'PUSH 🔥' : 'HIMOYA 🛡️'}</span>
+              </button>
+
+              {/* 3. HUJUM / OTISH (Center Main Fire Button) */}
+              <button
+                className={`deck-action-btn shoot-btn main-fire ${tacticalStance}`}
                 onClick={handleActionShoot}
                 disabled={!isPlayerTurn || battleResult !== null}
-                title="Qurol bilan o't ochish (M4A1 / AK-47)"
+                title={tacticalStance === 'push' ? "Push hujumi (+35% zarba)" : "Himoya holatidan otish"}
               >
                 <div className="action-circle-icon pulse-glow">
                   <Crosshair size={36} color="#ffffff" />
                 </div>
-                <span className="action-btn-label">HOLAT</span>
+                <span className="action-btn-label">OTISH</span>
+                <span className="action-sub-tag">{tacticalStance === 'push' ? '+35% DMG' : 'COVER SHOT'}</span>
               </button>
 
-              {/* 3. GRANATA */}
-              <button 
-                className={`deck-action-btn grenade-btn ${equippedGrenade.count <= 0 ? 'disabled' : ''}`}
+              {/* 4. GRANATA */}
+              <button
+                className={`deck-action-btn grenade-btn ${(equippedGrenade?.count || 0) <= 0 ? 'disabled' : ''}`}
                 onClick={handleActionGrenade}
-                disabled={!isPlayerTurn || battleResult !== null || equippedGrenade.count <= 0}
-                title={equippedGrenade.count > 0 ? "Granata uloqtirish" : "Granata yo'q"}
+                disabled={!isPlayerTurn || battleResult !== null || (equippedGrenade?.count || 0) <= 0}
+                title={(equippedGrenade?.count || 0) > 0 ? "Granata uloqtirish" : "Granata yo'q"}
               >
                 <div className="action-circle-icon">
-                  <Bomb size={26} color="#ffffff" />
-                  {equippedGrenade.count > 0 && <span className="action-count-badge">1</span>}
+                  <Bomb size={24} color="#ffffff" />
+                  {(equippedGrenade?.count || 0) > 0 && <span className="action-count-badge">{(equippedGrenade?.count || 0)}</span>}
                 </div>
                 <span className="action-btn-label">GRANATA</span>
               </button>
 
-              {/* 4. APTECHKA */}
-              <button 
-                className={`deck-action-btn medkit-btn ${equippedMedkit.count <= 0 ? 'disabled' : ''}`}
+              {/* 5. APTECHKA */}
+              <button
+                className={`deck-action-btn medkit-btn ${(equippedMedkit?.count || 0) <= 0 ? 'disabled' : ''}`}
                 onClick={handleActionMedkit}
-                disabled={!isPlayerTurn || battleResult !== null || equippedMedkit.count <= 0}
-                title={equippedMedkit.count > 0 ? "Jonni tiklash" : "Aptechka yo'q"}
+                disabled={!isPlayerTurn || battleResult !== null || (equippedMedkit?.count || 0) <= 0}
+                title={(equippedMedkit?.count || 0) > 0 ? "Jonni tiklash" : "Aptechka yo'q"}
               >
                 <div className="action-circle-icon">
-                  <BriefcaseMedical size={26} color="#ffffff" />
-                  {equippedMedkit.count > 0 && <span className="action-count-badge">1</span>}
+                  <BriefcaseMedical size={24} color="#ffffff" />
+                  {(equippedMedkit?.count || 0) > 0 && <span className="action-count-badge">{(equippedMedkit?.count || 0)}</span>}
                 </div>
                 <span className="action-btn-label">APTECHKA</span>
               </button>
@@ -1087,7 +1291,7 @@ export default function KidsGame() {
 
                   <p className="result-desc">
                     {battleResult === 'victory' ? (
-                      <>Siz <strong>Suicide</strong> ustidan g'alaba qozondingiz va <strong>+{selectedRoom.bet * 2} 🪙</strong> tanga yutib oldingiz!</>
+                      <>Siz <strong>Suicide</strong> ustidan g'alaba qozondingiz va <strong>+{(selectedRoom?.bet || 100) * 2} 🪙</strong> tanga yutib oldingiz!</>
                     ) : (
                       <>Dushman sizni bartaraf etdi. Qaytadan urinib ko'ring!</>
                     )}
@@ -1107,7 +1311,7 @@ export default function KidsGame() {
                   )}
 
                   <div className="result-actions-row">
-                    <button 
+                    <button
                       className="btn btn-cyber"
                       onClick={() => {
                         setStage('gear_buy');
@@ -1118,7 +1322,7 @@ export default function KidsGame() {
                       <span>Qayta O'ynash</span>
                     </button>
 
-                    <button 
+                    <button
                       className="btn btn-outline"
                       onClick={() => {
                         setStage('rooms');
@@ -1149,15 +1353,15 @@ export default function KidsGame() {
               <div className="form-group">
                 <label>Xarita (Map)</label>
                 <div className="map-picker-row">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className={`btn-choice-map ${newRoomMap === 'MIRAGE' ? 'active' : ''}`}
                     onClick={() => setNewRoomMap('MIRAGE')}
                   >
                     MIRAGE
                   </button>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className={`btn-choice-map ${newRoomMap === 'INFERNO' ? 'active' : ''}`}
                     onClick={() => setNewRoomMap('INFERNO')}
                   >
@@ -1170,7 +1374,7 @@ export default function KidsGame() {
                 <label>O'yin formati</label>
                 <div className="mode-picker-row">
                   {['1 ga 1', '2 ga 2', '5 ga 5'].map(m => (
-                    <button 
+                    <button
                       key={m}
                       type="button"
                       className={`btn-choice-mode ${newRoomMode === m ? 'active' : ''}`}
@@ -1186,7 +1390,7 @@ export default function KidsGame() {
                 <label>Tikish summasi (Stavka)</label>
                 <div className="bet-picker-row">
                   {[100, 250, 500, 1000].map(b => (
-                    <button 
+                    <button
                       key={b}
                       type="button"
                       className={`btn-choice-bet ${newRoomBet === b ? 'active' : ''}`}
@@ -1257,3 +1461,12 @@ export default function KidsGame() {
     </div>
   );
 }
+
+export default function KidsGame() {
+  return (
+    <GameErrorBoundary>
+      <KidsGameInternal />
+    </GameErrorBoundary>
+  );
+}
+

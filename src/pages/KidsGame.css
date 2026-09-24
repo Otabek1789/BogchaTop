@@ -1680,6 +1680,259 @@
 }
 
 /* ========================================================
+   QUICK BOT DUEL BANNER (1-Click Bot Match)
+   ======================================================== */
+.rush-quick-bot-banner {
+  background: linear-gradient(135deg, rgba(0, 112, 243, 0.25) 0%, rgba(0, 240, 255, 0.12) 50%, rgba(13, 18, 30, 0.9) 100%);
+  border: 1.5px solid rgba(0, 240, 255, 0.4);
+  border-radius: 18px;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0, 112, 243, 0.25), inset 0 0 20px rgba(0, 240, 255, 0.1);
+  margin-bottom: 8px;
+  transition: all 0.25s ease;
+}
+
+.rush-quick-bot-banner:hover {
+  border-color: #00f0ff;
+  box-shadow: 0 12px 40px rgba(0, 240, 255, 0.35);
+}
+
+.bot-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bot-badge-pulse {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(0, 240, 255, 0.15);
+  border: 1.5px solid #00f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.bot-live-dot {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.bot-title {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #ffffff;
+  font-family: var(--font-gaming, "Orbitron", sans-serif);
+  letter-spacing: 0.5px;
+}
+
+.bot-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.btn-start-bot-match {
+  background: linear-gradient(135deg, #0070f3, #00f0ff);
+  color: #ffffff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 112, 243, 0.5);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-start-bot-match:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.6);
+}
+
+.bot-tag-pill {
+  background: rgba(0, 240, 255, 0.2);
+  border: 1px solid #00f0ff;
+  color: #00f0ff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* ========================================================
+   TACTICAL STANCE BAR & CONTROLS (PUSH vs HIMOYA)
+   ======================================================== */
+.duel-tactical-stance-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0a0e18;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 8px 16px;
+  gap: 12px;
+}
+
+.stance-bar-label {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #64748b;
+  letter-spacing: 1px;
+}
+
+.stance-pill-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.stance-pill-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stance-pill-option.push.active {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ff3366;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.stance-pill-option.defense.active {
+  background: rgba(0, 240, 255, 0.2);
+  border-color: #00f0ff;
+  color: #00f0ff;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.stance-badge-stat {
+  font-size: 0.65rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.stance-pill-option.push .stance-badge-stat {
+  color: #fbbf24;
+}
+
+.stance-pill-option.defense .stance-badge-stat {
+  color: #38bdf8;
+}
+
+/* Stance Tag on Fighter */
+.fighter-stance-status-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.fighter-stance-status-tag.push {
+  background: rgba(239, 68, 68, 0.3);
+  border: 1px solid #ef4444;
+  color: #ff4d6d;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.fighter-stance-status-tag.defense {
+  background: rgba(0, 240, 255, 0.3);
+  border: 1px solid #00f0ff;
+  color: #00f0ff;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+/* Fighter Auras */
+.fighter-defense-barrier-aura {
+  position: absolute;
+  top: 15px;
+  right: -25px;
+  z-index: 15;
+  filter: drop-shadow(0 0 15px #00f0ff);
+  animation: floatShield 2s ease-in-out infinite;
+}
+
+@keyframes floatShield {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.08); }
+}
+
+.fighter-push-flame-aura {
+  position: absolute;
+  top: 15px;
+  right: -25px;
+  z-index: 15;
+  filter: drop-shadow(0 0 15px #ff3366);
+  animation: flamePulse 1s ease-in-out infinite;
+}
+
+@keyframes flamePulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.fighter-circular-base.blue {
+  background: radial-gradient(ellipse at center, rgba(0, 240, 255, 0.7) 0%, rgba(0, 112, 243, 0.2) 70%, transparent 100%);
+  border: 2px solid #00f0ff;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.9);
+}
+
+/* Stance Action Buttons */
+.fire-stance-glow {
+  background: radial-gradient(circle, #ef4444 0%, #991b1b 100%) !important;
+  border-color: #ff4d6d !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.7) !important;
+}
+
+.shield-stance-glow {
+  background: radial-gradient(circle, #0284c7 0%, #0369a1 100%) !important;
+  border-color: #00f0ff !important;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.7) !important;
+}
+
+.action-sub-tag {
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.5px;
+}
+
+/* ========================================================
    RESPONSIVE DESIGN
    ======================================================== */
 @media (max-width: 768px) {
