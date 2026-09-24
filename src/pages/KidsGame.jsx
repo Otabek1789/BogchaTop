@@ -9,12 +9,12 @@ import toast from 'react-hot-toast';
 import './KidsGame.css';
 
 const WEAPON_CONFIGS = {
-  ak47: { name: 'AK-47', magSize: 30, maxAmmo: 90, reloadTime: 1200, damage: 100 },
-  m4a1s: { name: 'M4A1-S', magSize: 20, maxAmmo: 60, reloadTime: 1100, damage: 100 },
-  awp: { name: 'AWP', magSize: 5, maxAmmo: 20, reloadTime: 1500, damage: 150 },
-  deagle: { name: 'Desert Eagle', magSize: 7, maxAmmo: 28, reloadTime: 1000, damage: 100 },
-  laser: { name: 'Plasma Laser', magSize: 25, maxAmmo: 75, reloadTime: 900, damage: 100 },
-  classic: { name: 'Kiber Pistol', magSize: 15, maxAmmo: 45, reloadTime: 1000, damage: 100 }
+  ak47: { name: 'AK-47', magSize: 30, maxAmmo: 90, reloadTime: 750, damage: 100 },
+  m4a1s: { name: 'M4A1-S', magSize: 20, maxAmmo: 60, reloadTime: 700, damage: 100 },
+  awp: { name: 'AWP', magSize: 5, maxAmmo: 20, reloadTime: 850, damage: 150 },
+  deagle: { name: 'Desert Eagle', magSize: 7, maxAmmo: 28, reloadTime: 600, damage: 100 },
+  laser: { name: 'Plasma Laser', magSize: 25, maxAmmo: 75, reloadTime: 600, damage: 100 },
+  classic: { name: 'Kiber Pistol', magSize: 15, maxAmmo: 45, reloadTime: 650, damage: 100 }
 };
 
 const BOT_NAMES = [
@@ -91,7 +91,7 @@ export default function KidsGame() {
     if (isReloading || ammo === weaponConfig.magSize) return;
     setIsReloading(true);
     soundFX.playReload();
-    toast('O\'q yangilanmoqda...', { icon: '🔄', duration: 1000 });
+    toast('O\'q yangilanmoqda...', { icon: '🔄', duration: weaponConfig.reloadTime });
 
     setTimeout(() => {
       setAmmo(weaponConfig.magSize);
@@ -128,13 +128,13 @@ export default function KidsGame() {
     return () => clearInterval(timer);
   }, [gameState]);
 
-  // Spawner: Spawns enemies behind Mid cover
+  // Spawner: Spawns enemies behind Mid cover with balanced human reaction time
   useEffect(() => {
     if (gameState !== 'playing') return;
 
     const spawnInterval = setInterval(() => {
       setEnemies(prev => {
-        if (prev.length >= 4) return prev; // max 4 enemies simultaneously
+        if (prev.length >= 3) return prev; // max 3 enemies simultaneously
 
         // Choose position that has no enemy currently
         const occupiedPosIds = prev.map(e => e.posId);
@@ -143,7 +143,8 @@ export default function KidsGame() {
 
         const pos = freePositions[Math.floor(Math.random() * freePositions.length)];
         const botName = BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)];
-        const threatTime = 1600; // ms before enemy shoots player
+        // Balanced threat time: 3.2s - 3.8s so player has ample time to reload (0.7s) and aim
+        const threatTime = 3200 + Math.floor(Math.random() * 600);
 
         const newEnemy = {
           id: Date.now() + Math.random(),
@@ -159,7 +160,7 @@ export default function KidsGame() {
 
         return [...prev, newEnemy];
       });
-    }, 900);
+    }, 1500);
 
     return () => clearInterval(spawnInterval);
   }, [gameState]);
@@ -190,7 +191,7 @@ export default function KidsGame() {
           setTimeout(() => setScreenDamageFlash(false), 200);
 
           setPlayerHp(hp => {
-            const nextHp = hp - 25;
+            const nextHp = hp - 15; // 15 damage instead of 25, giving player more survivability
             if (nextHp <= 0) {
               finishGame(false);
               return 0;
