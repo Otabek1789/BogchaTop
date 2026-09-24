@@ -687,22 +687,255 @@
   margin-bottom: 22px;
 }
 
-/* Light Theme Adjustments */
+/* ========================================================
+   LIGHT THEME OVERRIDES FOR RUSH MID CS2 ARENA
+   ======================================================== */
+[data-theme="light"] .game-icon-wrap {
+  background: #f0f9ff !important;
+  border: 1px solid #bae6fd !important;
+}
+
+[data-theme="light"] .game-icon-wrap svg {
+  stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .rush-mid-badge {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border: 1px solid #d97706 !important;
+  color: #b45309 !important;
+}
+
+[data-theme="light"] .game-title {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .game-subtitle {
+  color: #64748b !important;
+}
+
 [data-theme="light"] .rush-scoreboard {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .rush-stat-label {
+  color: #64748b !important;
+  font-weight: 800 !important;
 }
 
 [data-theme="light"] .rush-stat-val {
-  color: #0f172a;
+  color: #0f172a !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="light"] .rush-stat-val.text-neon {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .rush-stat-box [style*="#fbbf24"] {
+  color: #d97706 !important;
+}
+
+[data-theme="light"] .rush-stat-box.weapon-box .rush-stat-val {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .ammo-num {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .ammo-max {
+  color: #64748b !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .btn-quick-reload {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .btn-quick-reload:hover:not(:disabled) {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #0284c7 !important;
+}
+
+[data-theme="light"] .hp-bar-wrapper {
+  background: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .hp-text {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
 }
 
 [data-theme="light"] .rush-arena {
-  background: 
-    radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 85%),
-    linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-  border-color: #38bdf8;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 15px 40px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* Arena Overlay & Start Modal Card in Light Theme */
+[data-theme="light"] .arena-overlay {
+  background: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+[data-theme="light"] .overlay-card {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), 0 0 35px rgba(2, 132, 199, 0.12) !important;
+}
+
+[data-theme="light"] .overlay-weapon-icon {
+  background: #f0f9ff !important;
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15) !important;
+}
+
+[data-theme="light"] .overlay-weapon-icon svg {
+  stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .overlay-title {
+  color: #0f172a !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="light"] .overlay-desc {
+  color: #475569 !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="light"] .overlay-desc strong {
+  color: #0284c7 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .game-tips-box {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+[data-theme="light"] .tip-item {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .tip-item span {
+  color: #1e293b !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .tip-badge {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* In-Game CS2 HUD & Killfeed in Light Theme */
+[data-theme="light"] .killfeed-row {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .kf-killer {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .kf-weapon {
+  color: #d97706 !important;
+}
+
+[data-theme="light"] .kf-victim {
+  color: #dc2626 !important;
+}
+
+[data-theme="light"] .reloading-overlay {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1.5px solid #0284c7 !important;
+  color: #0284c7 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Victory & Defeat in Light Theme */
+[data-theme="light"] .win-card {
+  background: #ffffff !important;
+  border: 2px solid #f59e0b !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18), 0 0 35px rgba(245, 158, 11, 0.2) !important;
+}
+
+[data-theme="light"] .win-title {
+  color: #d97706 !important;
+}
+
+[data-theme="light"] .win-score-line {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .win-score-line strong {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .xp-win-pill {
+  background: #e0f2fe !important;
+  border: 1px solid #7dd3fc !important;
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .promo-reveal-box {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .reveal-label {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .promo-code-pill {
+  background: #ffffff !important;
+  border: 2px dashed #059669 !important;
+}
+
+[data-theme="light"] .promo-code-pill strong {
+  color: #059669 !important;
+}
+
+[data-theme="light"] .btn-copy {
+  background: #059669 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .defeat-card {
+  background: #ffffff !important;
+  border: 2px solid #ef4444 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18), 0 0 35px rgba(239, 68, 68, 0.2) !important;
+}
+
+[data-theme="light"] .defeat-title {
+  color: #dc2626 !important;
+}
+
+[data-theme="light"] .defeat-desc {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .defeat-desc strong {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .hud-pill {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
 }
 
 @media (max-width: 768px) {
